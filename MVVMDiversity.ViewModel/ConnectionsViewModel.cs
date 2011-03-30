@@ -1,14 +1,11 @@
-﻿using GalaSoft.MvvmLight;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
-using System.Security;
 using MVVMDiversity.Interface;
 using MVVMDiversity.Messages;
 using MVVMDiversity.Model;
 using Microsoft.Practices.Unity;
 using System;
 using GalaSoft.MvvmLight.Messaging;
-using System.IO;
 using log4net;
 using GalaSoft.MvvmLight.Threading;
 

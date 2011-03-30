@@ -1,13 +1,12 @@
-﻿using GalaSoft.MvvmLight;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using MVVMDiversity.Messages;
 using MVVMDiversity.Model;
 using Microsoft.Practices.Unity;
 using MVVMDiversity.Interface;
 using log4net;
-using GalaSoft.MvvmLight.Threading;
 using System;
+using GalaSoft.MvvmLight.Threading;
 
 namespace MVVMDiversity.ViewModel
 {

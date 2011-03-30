@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Threading;
 using System.Resources;
 using System.Reflection;
-using GalaSoft.MvvmLight.Messaging;
+
 
 namespace WPFLocalization
 {

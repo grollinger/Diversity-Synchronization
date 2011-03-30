@@ -6,12 +6,12 @@ using GalaSoft.MvvmLight.Command;
 using System.Collections.Generic;
 using MVVMDiversity.Model;
 using System;
-using GalaSoft.MvvmLight.Threading;
 using MVVMDiversity.Messages;
 using log4net;
 using GalaSoft.MvvmLight.Messaging;
 using System.Collections;
 using System.Linq;
+using GalaSoft.MvvmLight.Threading;
 
 namespace MVVMDiversity.ViewModel
 {

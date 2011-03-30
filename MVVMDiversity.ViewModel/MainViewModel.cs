@@ -2,7 +2,7 @@
 using GalaSoft.MvvmLight.Messaging;
 using MVVMDiversity.Messages;
 using MVVMDiversity.Interface;
-using GalaSoft.MvvmLight.Threading;
+
 using MVVMDiversity.Model;
 using System.ComponentModel;
 using System.Windows.Input;

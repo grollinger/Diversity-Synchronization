@@ -1,17 +1,16 @@
-﻿using GalaSoft.MvvmLight;
-using MVVMDiversity.Model;
+﻿using MVVMDiversity.Model;
 using System.Collections.Generic;
 using MVVMDiversity.Interface;
 using Microsoft.Practices.Unity;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using log4net;
-using GalaSoft.MvvmLight.Threading;
 using UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable;
 using MVVMDiversity.Messages;
 using System.Collections.ObjectModel;
 using System.Collections;
 using System.Linq;
+using GalaSoft.MvvmLight.Threading;
 
 namespace MVVMDiversity.ViewModel
 {

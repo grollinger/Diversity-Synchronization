@@ -39,10 +39,10 @@
       <HintPath>..\Lib\DivMobi DatabaseConnector.dll</HintPath>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight">
-      <HintPath>..\MVVMLight\Binaries\WPF35SP1\GalaSoft.MvvmLight.dll</HintPath>
+      <HintPath>..\Lib\MVVMLight\Binaries\WPF35SP1\GalaSoft.MvvmLight.dll</HintPath>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight.Extras">
-      <HintPath>..\MVVMLight\Binaries\WPF35SP1\GalaSoft.MvvmLight.Extras.dll</HintPath>
+      <HintPath>..\Lib\MVVMLight\Binaries\WPF35SP1\GalaSoft.MvvmLight.Extras.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\Lib\log4net\log4net.dll</HintPath>

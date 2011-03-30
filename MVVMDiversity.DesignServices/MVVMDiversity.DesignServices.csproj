@@ -38,9 +38,8 @@
     <Reference Include="DivMobi DatabaseConnector">
       <HintPath>..\Lib\DivMobi DatabaseConnector.dll</HintPath>
     </Reference>
-    <Reference Include="GalaSoft.MvvmLight, Version=3.0.0.29216, Culture=neutral, PublicKeyToken=3e875cdb3903c512, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\MVVMLight\Binaries\WPF35SP1\GalaSoft.MvvmLight.dll</HintPath>
+    <Reference Include="GalaSoft.MvvmLight">
+      <HintPath>..\Lib\MVVMLight\Binaries\WPF35SP1\GalaSoft.MvvmLight.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

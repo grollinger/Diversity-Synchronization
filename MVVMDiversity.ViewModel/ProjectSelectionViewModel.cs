@@ -2,9 +2,10 @@
 using MVVMDiversity.Interface;
 using MVVMDiversity.Model;
 using MVVMDiversity.Messages;
-using GalaSoft.MvvmLight.Threading;
+
 using System;
 using System.Collections.Generic;
+using GalaSoft.MvvmLight.Threading;
 
 namespace MVVMDiversity.ViewModel
 {

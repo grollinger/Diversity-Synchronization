@@ -1,16 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
-using System;
-using System.Resources;
 using GalaSoft.MvvmLight.Messaging;
-using System.Globalization;
-using Microsoft.Practices.Unity;
 using System.Windows.Input;
-using GalaSoft.MvvmLight.Command;
 using MVVMDiversity.Messages;
 using MVVMDiversity.Interface;
-using System.ComponentModel;
-using MVVMDiversity.Model;
-using GalaSoft.MvvmLight.Threading;
 
 namespace MVVMDiversity.ViewModel
 {
