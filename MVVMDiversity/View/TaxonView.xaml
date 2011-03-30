@@ -1,0 +1,35 @@
+﻿<Window x:Class="MVVMDiversity.View.TaxonView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        DataContext="{Binding Taxon, Source={StaticResource Locator}}" Height="300" Width="400" SizeToContent="WidthAndHeight">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="{Loc Taxon_Header}" Grid.Row="0">
+            <Grid>
+                <ListBox Grid.Row="0" Grid.Column="0" Background="AntiqueWhite" ItemsSource="{Binding TaxonLists}" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate >
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="16"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox IsChecked="{Binding IsSelected}" Grid.Column="0" />
+                                <TextBlock Text="{Binding DisplayText}" Grid.Column="1" Background="Transparent"/>
+
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </GroupBox> 
+        <Button Grid.Row="1" Width="Auto"/>
+    </Grid>
+</Window>

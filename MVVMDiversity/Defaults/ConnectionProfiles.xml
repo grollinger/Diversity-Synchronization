@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfConnectionProfile 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<ConnectionProfile>
+		<Name>Test</Name>
+		<IPAddress>141.84.65.107</IPAddress>
+		<Port>5432</Port>
+		<InitialCatalog>DiversityCollection_BaseTest</InitialCatalog>
+		<TaxonNamesInitialCatalog>DiversityMobile</TaxonNamesInitialCatalog>
+	</ConnectionProfile>
+	<ConnectionProfile>
+		<Name>Collection</Name>
+		<IPAddress>141.84.65.107</IPAddress>
+		<Port>5432</Port>
+		<InitialCatalog>DiversityCollection</InitialCatalog>
+		<TaxonNamesInitialCatalog>DiversityMobile</TaxonNamesInitialCatalog>
+	</ConnectionProfile>
+	<ConnectionProfile>
+		<Name>Monitoring</Name>
+		<IPAddress>141.84.65.107</IPAddress>
+		<Port>5432</Port>
+		<InitialCatalog>DiversityCollection_Monitoring</InitialCatalog>
+		<TaxonNamesInitialCatalog>DiversityMobile</TaxonNamesInitialCatalog>
+	</ConnectionProfile>
+</ArrayOfConnectionProfile>

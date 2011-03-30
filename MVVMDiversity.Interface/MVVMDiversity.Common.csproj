@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0C7DA1CC-6977-45AC-8595-F538E41EE8B1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MVVMDiversity</RootNamespace>
+    <AssemblyName>MVVMDiversity.Common</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DivMobi Collection Data Layer">
+      <HintPath>..\Lib\DivMobi Collection Data Layer.dll</HintPath>
+    </Reference>
+    <Reference Include="DivMobi DatabaseConnector">
+      <HintPath>..\Lib\DivMobi DatabaseConnector.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight">
+      <HintPath>..\MVVMLight\Binaries\WPF35SP1\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras">
+      <HintPath>..\MVVMLight\Binaries\WPF35SP1\GalaSoft.MvvmLight.Extras.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Interface\ICloseableView.cs" />
+    <Compile Include="Interface\IConnectionProfilesService.cs" />
+    <Compile Include="Interface\IConnectionManagementService.cs" />
+    <Compile Include="Interface\IConnectionProvider.cs" />
+    <Compile Include="Interface\IDefinitionsService.cs" />
+    <Compile Include="Interface\IDialogViewModel.cs" />
+    <Compile Include="Interface\IFieldDataService.cs" />
+    <Compile Include="Interface\IMapService.cs" />
+    <Compile Include="Interface\IMapView.cs" />
+    <Compile Include="Interface\IPageViewModel.cs" />
+    <Compile Include="Interface\IProjectService.cs" />
+    <Compile Include="Interface\ISessionManager.cs" />
+    <Compile Include="Interface\ITaxonListService.cs" />
+    <Compile Include="Interface\IUserOptionsService.cs" />
+    <Compile Include="Interface\IUserProfileService.cs" />
+    <Compile Include="Messages\ConnectionStateChanged.cs" />
+    <Compile Include="Messages\CustomDialog.cs" />
+    <Compile Include="Messages\Dialog.cs" />
+    <Compile Include="Messages\ShowProgress.cs" />
+    <Compile Include="Messages\HideProgress.cs" />
+    <Compile Include="Messages\NavigateToPage.cs" />
+    <Compile Include="Messages\SettingsChanged.cs" />
+    <Compile Include="Messages\SyncStateChanged.cs" />
+    <Compile Include="Messages\SyncStepFinished.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MVVMDiversity.Model\MVVMDiversity.Model.csproj">
+      <Project>{CB102033-AC1A-44CD-AEBB-DB207CB18713}</Project>
+      <Name>MVVMDiversity.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

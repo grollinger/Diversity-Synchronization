@@ -1,0 +1,301 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<title>Pick coordinates</title>
+
+<style type="text/css">
+body, p {
+    background-color:white;
+    font-family:Verdana,Arial,Helvetica,sans-serif;
+    font-size:11px;
+    }
+    
+p {
+    margin:0px;
+    padding:3px;
+    background-color:white;
+    border:1px solid #808080;
+    }
+</style>
+
+
+
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA4QMXtwirx3gRC-CcF75v2xRHad0uD9bG0vMOfvfiCZEyGwlTvRRlhZ12Bfda5kTXe90MLeqQ72o_XA" type="text/javascript"></script>
+<script type="text/javascript">
+    var ZoomLevel = 13;
+    var LatStart = 48.16385096;
+    var LngStart = 11.50062829;
+    var swDevice;
+    var neDevice;
+    var deviceWidth;
+    var deviceHeight;
+    var rect;
+
+    var map;
+    var marker;
+
+    function load() {
+        if (GBrowserIsCompatible()) {
+            map = new GMap2(document.getElementById("map"));
+            map.addControl(new GLargeMapControl());
+            map.addControl(new GMapTypeControl());
+
+            GEvent.addListener(map, "moveend", function() {
+                setMarker();
+                
+                if (deviceWidth && deviceHeight) {
+                    showOverlay(deviceWidth, deviceHeight);
+                }
+                else {
+                    displayOverlay();
+                }
+            });
+
+            GEvent.addListener(map, "click", function(overlay, latlng) {
+                if (latlng) {
+                    map.setCenter(latlng);
+                }
+            });
+
+            GEvent.addListener(map, "zoomend", function(oldLevel, newLevel) {
+                if (newLevel) {
+                    ZoomLevel = newLevel;
+                }
+            });
+
+        map.setCenter(new GLatLng(LatStart, LngStart), ZoomLevel);
+
+        swDevice = map.getBounds().getSouthWest();
+        neDevice = map.getBounds().getNorthEast();
+        
+        setMarker();
+    }
+}
+
+function setMarker() {
+    map.clearOverlays();
+    document.getElementById("message").innerHTML = "";
+    
+    var crossIcon = new GIcon(G_DEFAULT_ICON);
+    crossIcon.image = "http://www.snsb.info/GoogleMaps/Pictures/red_cross.gif";
+    crossIcon.iconSize = new GSize(19, 19);
+    crossIcon.shadowSize = new GSize(0, 0);
+
+    // Set up our GMarkerOptions object
+    markerOptions = { icon: crossIcon, dragCrossMove: true };
+
+    var centerPix = map.fromLatLngToDivPixel(map.getCenter());
+    centerPix.y = centerPix.y + 19;
+
+    marker = new GMarker(map.fromDivPixelToLatLng(centerPix), markerOptions);
+    //marker = new GMarker(map.getCenter());
+
+    map.addOverlay(marker);
+    GEvent.addListener(marker, "click", function(overlay, latlng, overlaylatlng) {
+        var myHtml;
+        if (latlng) {
+            myHtml = "Latitude: " + latlng.lat() + "; Longitude: " + latlng.lng();
+        }
+        else if (overlaylatlng) {
+            myHtml = "Latitude: " + overlaylatlng.lat() + "; Longitude: " + overlaylatlng.lng();
+        }
+        else {
+            myHtml = "Latitude: " + map.getCenter().lat() + "; Longitude: " + map.getCenter().lng();
+        }
+        document.getElementById("message").innerHTML = myHtml;
+    });
+    
+}
+
+function loadGPS(latitude, longitude) {
+    LatStart = latitude;
+    LngStart = longitude;
+    map.setCenter(new GLatLng(LatStart, LngStart), ZoomLevel);
+    setMarker();
+}
+
+function loadImageWithParam(width, height) {
+    var mapType;
+
+    if (map.getCurrentMapType().getName(true) == "Sat") {
+        mapType = "satellite";
+    } else if (map.getCurrentMapType().getName(true) == "Hyb") {
+        mapType = "hybrid";
+    }
+    else {
+        mapType = "mobile";
+    }
+    
+    // Static Maps-API: create HTTP-Request URL
+    var url = "http://maps.google.com/staticmap?center=" + map.getCenter().toUrlValue() + "&zoom=" + ZoomLevel + "&size=" + width + "x" + height + "&maptype=" + mapType + "&format=png32&key=ABQIAAAA4QMXtwirx3gRC-CcF75v2xRHad0uD9bG0vMOfvfiCZEyGwlTvRRlhZ12Bfda5kTXe90MLeqQ72o_XA&sensor=false";
+
+    return url;
+}
+
+function loadImage() {
+    var mapType;
+
+    if (map.getCurrentMapType().getName(true) == "Sat") {
+        mapType = "satellite";
+    }
+    else if (map.getCurrentMapType().getName(true) == "Hyb") {
+        mapType = "hybrid";
+    }
+    else {
+        mapType = "mobile";
+    }
+
+    showOverlay(800, 800);
+    
+    // Static Maps-API: create HTTP-Request URL
+    var url = "http://maps.google.com/staticmap?center=" + map.getCenter().toUrlValue() + "&zoom=" + ZoomLevel + "&size=800x800&maptype=" + mapType + "&format=png32&markers=" + map.getCenter().toUrlValue() + "&key=ABQIAAAA4QMXtwirx3gRC-CcF75v2xRHad0uD9bG0vMOfvfiCZEyGwlTvRRlhZ12Bfda5kTXe90MLeqQ72o_XA&sensor=false";
+
+    return url;
+}
+
+function getLatitude() {
+    return map.getCenter().lat();
+}
+
+function getLongitude() {
+    return map.getCenter().lng();
+}
+
+function getSWLatitude() {
+    return swDevice.lat();
+}
+
+function getSWLongitude() {
+    return swDevice.lng();
+}
+
+function getNELatitude() {
+    return neDevice.lat();
+}
+
+function getNELongitude() {
+    return neDevice.lng();
+}
+
+function getZoomLevel() {
+    return ZoomLevel;
+}
+
+ // A Rectangle is a simple overlay that outlines a lat/lng bounds on the
+ // map. It has a border of the given weight and color and can optionally
+ // have a semi-transparent background color.
+ function Rectangle(bounds, opt_weight, opt_color) {
+     this.bounds_ = bounds;
+     this.weight_ = opt_weight || 2;
+     this.color_ = opt_color || "#FF0000";
+ }
+ 
+ Rectangle.prototype = new GOverlay();
+
+ // Creates the DIV representing this rectangle.
+ Rectangle.prototype.initialize = function(map) {
+     // Create the DIV representing our rectangle
+     var div = document.createElement("div");
+     div.style.border = this.weight_ + "px solid " + this.color_;
+     div.style.position = "absolute";
+
+     // Our rectangle is flat against the map, so we add our selves to the
+     // MAP_PANE pane, which is at the same z-index as the map itself (i.e.,
+     // below the marker shadows)
+     map.getPane(G_MAP_MAP_PANE).appendChild(div);
+
+     this.map_ = map;
+     this.div_ = div;
+ }
+
+ // Remove the main DIV from the map pane
+ Rectangle.prototype.remove = function() {
+     this.div_.parentNode.removeChild(this.div_);
+ }
+
+ // Copy our data to a new Rectangle
+ Rectangle.prototype.copy = function() {
+     return new Rectangle(this.bounds_, this.weight_, this.color_,
+                           this.backgroundColor_, this.opacity_);
+ }
+
+ // Redraw the rectangle based on the current projection and zoom level
+ Rectangle.prototype.redraw = function(force) {
+     // We only need to redraw if the coordinate system has changed
+     if (!force) return;
+
+     // Calculate the DIV coordinates of two opposite corners of our bounds to
+     // get the size and position of our rectangle
+     var c1 = this.map_.fromLatLngToDivPixel(this.bounds_.getSouthWest());
+     var c2 = this.map_.fromLatLngToDivPixel(this.bounds_.getNorthEast());
+
+     // Now position our DIV based on the DIV coordinates of our bounds
+     this.div_.style.width = Math.abs(c2.x - c1.x) + "px";
+     this.div_.style.height = Math.abs(c2.y - c1.y) + "px";
+     this.div_.style.left = (Math.min(c2.x, c1.x) - this.weight_) + "px";
+     this.div_.style.top = (Math.min(c2.y, c1.y) - this.weight_) + "px";
+ }
+
+
+ function showOverlay(width, height) {
+     if (GBrowserIsCompatible()) {
+         // Display a rectangle in the center of the map at about a quarter of
+         // the size of the main map
+         if (rect) {
+             rect.remove();
+         }
+         
+         var centerPix = map.fromLatLngToDivPixel(map.getCenter());
+
+         deviceWidth = width;
+         deviceHeight = height;
+
+         var halfWidth = Math.round(width / 2);
+         var halfHeight = Math.round(height / 2);
+
+         var southWestPix = new GPoint(centerPix.x - halfWidth, centerPix.y + halfHeight);
+         var northEastPix = new GPoint(centerPix.x + halfWidth, centerPix.y - halfHeight);
+
+         swDevice = map.fromDivPixelToLatLng(southWestPix);
+         neDevice = map.fromDivPixelToLatLng(northEastPix);
+
+         var rectBounds = new GLatLngBounds(
+            new GLatLng(swDevice.lat(),
+                        swDevice.lng()),
+            new GLatLng(neDevice.lat(),
+                        neDevice.lng()));
+         rect = new Rectangle(rectBounds);
+         map.addOverlay(rect);
+     }
+ }
+
+ function displayOverlay() {
+     if (swDevice && neDevice) {
+         if (rect) {
+             rect.remove();
+         }
+         var rectBounds = new GLatLngBounds(
+            new GLatLng(swDevice.lat(),
+                        swDevice.lng()),
+            new GLatLng(neDevice.lat(),
+                        neDevice.lng()));
+         rect = new Rectangle(rectBounds);
+         map.addOverlay(rect);
+     }
+ }
+</script>
+</head>
+
+<body onload="load()" onunload="GUnload()">
+<div id="map" style="width:800px;height:800px;position:absolute;top:0px;left:0px"></div>
+
+<div style="position:absolute;left:10px;top:350px">
+<p id="message"></p></div>
+</body>
+
+
+</html>

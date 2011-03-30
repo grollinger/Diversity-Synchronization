@@ -1,0 +1,517 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Actions_Clean" xml:space="preserve">
+    <value>Clean Data</value>
+  </data>
+  <data name="Actions_Description" xml:space="preserve">
+    <value>Choose actions to upload or download data.
+When you're finished, press the 'Save' button.</value>
+  </data>
+  <data name="Actions_Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="Actions_GeneralHeader" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="Actions_GoogleMaps" xml:space="preserve">
+    <value>Google Maps</value>
+  </data>
+  <data name="Actions_MapsHeader" xml:space="preserve">
+    <value>Maps</value>
+  </data>
+  <data name="Actions_NextText" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Actions_PreviousText" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Actions_PrimaryData" xml:space="preserve">
+    <value>Download Primary Data</value>
+  </data>
+  <data name="Actions_PropertyNames" xml:space="preserve">
+    <value>Get PropertyNames</value>
+  </data>
+  <data name="Actions_TaxonDefinitions" xml:space="preserve">
+    <value>Get Taxon Definitions</value>
+  </data>
+  <data name="Actions_Title" xml:space="preserve">
+    <value>3. Step: Execute actions</value>
+  </data>
+  <data name="Actions_UploadData" xml:space="preserve">
+    <value>Upload Data</value>
+  </data>
+  <data name="ConnectionsPage_Connect" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="ConnectionsPage_Connected" xml:space="preserve">
+    <value>Connected</value>
+  </data>
+  <data name="ConnectionsPage_DefinitionsCatalog" xml:space="preserve">
+    <value>Initial Taxonomic Catalog:</value>
+  </data>
+  <data name="ConnectionsPage_Description" xml:space="preserve">
+    <value>To synchronize data, it is necessary to login to the repository and the Mobile DB.
+Please fill in your Logindata and connect to the databases.</value>
+  </data>
+  <data name="ConnectionsPage_Disconnect" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
+  <data name="ConnectionsPage_Disconnected" xml:space="preserve">
+    <value>Disconnected</value>
+  </data>
+  <data name="ConnectionsPage_MobileHeader" xml:space="preserve">
+    <value>MobileDB-Connection</value>
+  </data>
+  <data name="ConnectionsPage_MobileLocation" xml:space="preserve">
+    <value>Location of MobileDB:</value>
+  </data>
+  <data name="ConnectionsPage_MobileTaxLocation" xml:space="preserve">
+    <value>Location of TaxonNamesDB:</value>
+  </data>
+  <data name="ConnectionsPage_NextText" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="ConnectionsPage_RepositoryCatalog" xml:space="preserve">
+    <value>Initial Catalog:</value>
+  </data>
+  <data name="ConnectionsPage_RepositoryHeader" xml:space="preserve">
+    <value>Repository-Connection</value>
+  </data>
+  <data name="ConnectionsPage_RepositoryName" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="ConnectionsPage_RepositoryPassword" xml:space="preserve">
+    <value>Password:</value>
+  </data>
+  <data name="ConnectionsPage_RepositoryUser" xml:space="preserve">
+    <value>Username:</value>
+  </data>
+  <data name="ConnectionsPage_Title" xml:space="preserve">
+    <value>1. Step: Establish connections</value>
+  </data>
+  <data name="Control_DateRange_From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="Control_DateRange_To" xml:space="preserve">
+    <value>Until</value>
+  </data>
+  <data name="MainWindow_Menu_Help" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="MainWindow_Menu_Program" xml:space="preserve">
+    <value>Program</value>
+  </data>
+  <data name="MainWindow_Menu_Program_Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="MainWindow_Menu_Program_Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="MainWindow_Title" xml:space="preserve">
+    <value>Diversity Mobile - SyncMobile Client</value>
+  </data>
+  <data name="Map_DeviceScreenSize" xml:space="preserve">
+    <value>Device Screen Size</value>
+  </data>
+  <data name="Map_FileHeader" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Map_FileName" xml:space="preserve">
+    <value>Filename</value>
+  </data>
+  <data name="Map_FromMap" xml:space="preserve">
+    <value>&lt;-- Map</value>
+  </data>
+  <data name="Map_Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="Map_Latitude" xml:space="preserve">
+    <value>Latitude</value>
+  </data>
+  <data name="Map_Longitude" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
+  <data name="Map_Next" xml:space="preserve">
+    <value>Save Map</value>
+  </data>
+  <data name="Map_Position" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="Map_Previous" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Map_Title" xml:space="preserve">
+    <value>Load Map</value>
+  </data>
+  <data name="Map_ToMap" xml:space="preserve">
+    <value>--&gt; Map</value>
+  </data>
+  <data name="Map_Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="Options_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Options_Connection_Header" xml:space="preserve">
+    <value>Repository Connection</value>
+  </data>
+  <data name="Options_DataCatalog" xml:space="preserve">
+    <value>Field Database</value>
+  </data>
+  <data name="Options_DBServer" xml:space="preserve">
+    <value>Database Server</value>
+  </data>
+  <data name="Options_Maps_Header" xml:space="preserve">
+    <value>Maps</value>
+  </data>
+  <data name="Options_Mobile_Header" xml:space="preserve">
+    <value>Mobile</value>
+  </data>
+  <data name="Options_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Options_TaxonCatalog" xml:space="preserve">
+    <value>Taxon Database</value>
+  </data>
+  <data name="Options_Title" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="ProjectSelection_Description" xml:space="preserve">
+    <value>Please choose the project you want to edit in the list below:</value>
+  </data>
+  <data name="ProjectSelection_NextText" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="ProjectSelection_PreviousText" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="ProjectSelection_ProjectsHeader" xml:space="preserve">
+    <value>Project-Selection</value>
+  </data>
+  <data name="ProjectSelection_SelectedDescription" xml:space="preserve">
+    <value>Project Description</value>
+  </data>
+  <data name="ProjectSelection_SelectedHeader" xml:space="preserve">
+    <value>Your Selection</value>
+  </data>
+  <data name="ProjectSelection_SelectedName" xml:space="preserve">
+    <value>Project Name</value>
+  </data>
+  <data name="ProjectSelection_Title" xml:space="preserve">
+    <value>2. Step: Choose your Project</value>
+  </data>
+  <data name="Restriction_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Restriction_EndDate" xml:space="preserve">
+    <value>End Date Range</value>
+  </data>
+  <data name="Restriction_LastIdent" xml:space="preserve">
+    <value>Last Identification</value>
+  </data>
+  <data name="Restriction_LogUpdated" xml:space="preserve">
+    <value>Log Updated</value>
+  </data>
+  <data name="Restriction_SeriesCode" xml:space="preserve">
+    <value>Series Code</value>
+  </data>
+  <data name="Restriction_StartDate" xml:space="preserve">
+    <value>Start Date Range</value>
+  </data>
+  <data name="Restriction_TaxGroup" xml:space="preserve">
+    <value>Taxonomic Group</value>
+  </data>
+  <data name="Restriction_UnitDesc" xml:space="preserve">
+    <value>Unit Description</value>
+  </data>
+  <data name="SearchType_CES" xml:space="preserve">
+    <value>Collection Event Series</value>
+  </data>
+  <data name="SearchType_IU" xml:space="preserve">
+    <value>Identification Unit</value>
+  </data>
+  <data name="SearchType_SP" xml:space="preserve">
+    <value>Sampling Plot</value>
+  </data>
+  <data name="SelectFD_ActualSelection" xml:space="preserve">
+    <value>Actual Selection</value>
+  </data>
+  <data name="SelectFD_AddToSelection" xml:space="preserve">
+    <value>--&gt;</value>
+  </data>
+  <data name="SelectFD_Criteria" xml:space="preserve">
+    <value>Search Criteria</value>
+  </data>
+  <data name="SelectFD_Description" xml:space="preserve">
+    <value>Be Patient.</value>
+  </data>
+  <data name="SelectFD_Next" xml:space="preserve">
+    <value>Create Selection</value>
+  </data>
+  <data name="SelectFD_Previous" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SelectFD_QueryDataBase" xml:space="preserve">
+    <value>Query Database</value>
+  </data>
+  <data name="SelectFD_RemoveFromSelection" xml:space="preserve">
+    <value>&lt;--</value>
+  </data>
+  <data name="SelectFD_QueryResult" xml:space="preserve">
+    <value>Query Result</value>
+  </data>
+  <data name="SelectFD_SearchHeader" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SelectFD_SelectAll" xml:space="preserve">
+    <value>Select All</value>
+  </data>
+  <data name="SelectFD_SelectSearchType" xml:space="preserve">
+    <value>Please select your SearchType</value>
+  </data>
+  <data name="SelectFD_Status_FillingResults" xml:space="preserve">
+    <value>Filling Result List</value>
+  </data>
+  <data name="SelectFD_Title" xml:space="preserve">
+    <value>Select Field Data for Download</value>
+  </data>
+  <data name="Selection_Next" xml:space="preserve">
+    <value>Synchronize</value>
+  </data>
+  <data name="Selection_Previous" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Selection_SelectionHeader" xml:space="preserve">
+    <value>Final Selection</value>
+  </data>
+  <data name="Selection_Title" xml:space="preserve">
+    <value>Confirm the Selection</value>
+  </data>
+  <data name="Splash_Line1" xml:space="preserve">
+    <value>Welcome to the SyncMobile Client</value>
+  </data>
+  <data name="Splash_Line2" xml:space="preserve">
+    <value>please wait while application is starting...</value>
+  </data>
+  <data name="Taxon_Description" xml:space="preserve">
+    <value>Choose which of the available Catalogs will be available on the phone</value>
+  </data>
+  <data name="Taxon_Header" xml:space="preserve">
+    <value>Taxon List Selection</value>
+  </data>
+  <data name="Taxon_Previous" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Taxon_StartDownload" xml:space="preserve">
+    <value>Download Taxon Data</value>
+  </data>
+  <data name="Taxon_Title" xml:space="preserve">
+    <value>Select Taxon data for download</value>
+  </data>
+  <data name="Validation_DateRangeRestriction_EndBeforeStart" xml:space="preserve">
+    <value>The start date of the range must be earlier than its end date.</value>
+  </data>
+  <data name="Validation_Options_FieldEmpty" xml:space="preserve">
+    <value>This Field May not be empty</value>
+  </data>
+  <data name="Validation_Options_FileNotFound" xml:space="preserve">
+    <value>Selected file does not exist.</value>
+  </data>
+  <data name="Validation_Options_UsernameEmpty" xml:space="preserve">
+    <value>You have to enter a Username if using SQL authentication.</value>
+  </data>
+  <data name="Validation_TextRestriction_SearchStringEmpty" xml:space="preserve">
+    <value>The search text may not be empty.</value>
+  </data>
+  <data name="ConnectionsPage_LoadingDefinitions" xml:space="preserve">
+    <value>Downloading necessary Definitions...</value>
+  </data>
+  <data name="Options_Browse" xml:space="preserve">
+    <value>Browse...</value>
+  </data>
+  <data name="Options_MobileDB" xml:space="preserve">
+    <value>Mobile Database</value>
+  </data>
+  <data name="Options_MobileTaxa" xml:space="preserve">
+    <value>Mobile Taxa</value>
+  </data>
+  <data name="YNDialog_No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="YNDialog_Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="ConnectionsPage_NonHomeDB_Content" xml:space="preserve">
+    <value>You are trying to connect to a repository that is different from then one associated with your mobile database. 
+Do you want to clean the mobile database now and associate it with the new repository?
+ATTENTION: All data in your mobile database will be LOST!</value>
+  </data>
+  <data name="ConnectionsPage_NonHomeDB_Title" xml:space="preserve">
+    <value>Non-HomeDB connection</value>
+  </data>
+  <data name="Map_Description" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Map_FileDescription" xml:space="preserve">
+    <value>File description</value>
+  </data>
+  <data name="Options_SqlAuth" xml:space="preserve">
+    <value>Use Sql Authentication</value>
+  </data>
+  <data name="Options_ShowPassword" xml:space="preserve">
+    <value>Show Password</value>
+  </data>
+  <data name="MainWindow_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Services_FieldData_Downloading" xml:space="preserve">
+    <value>Downloading Field Data</value>
+  </data>
+  <data name="Services_FieldData_Querying" xml:space="preserve">
+    <value>Querying Database</value>
+  </data>
+  <data name="Services_FieldData_Uploading" xml:space="preserve">
+    <value>Uploading Field Data</value>
+  </data>
+  <data name="Services_Definitions_LoadingProperties" xml:space="preserve">
+    <value>Loading necessary Properties, please wait.</value>
+  </data>
+  <data name="ConnectionsPage_ResumeSession_Description" xml:space="preserve">
+    <value>The Last Session wasn't closed properly. Do you want to reopen that session? Otherwise all unsaved changes you made will be lost!</value>
+  </data>
+  <data name="ConnectionsPage_ResumeSession_Title" xml:space="preserve">
+    <value>Resume last Session?</value>
+  </data>
+  <data name="ConnectionsPage_CreateWorkingCopies_Description" xml:space="preserve">
+    <value>Couldn't create database working copies. Please check the paths of your mobile databases and try again.</value>
+  </data>
+  <data name="ConnectionsPage_CreateWorkingCopies_Title" xml:space="preserve">
+    <value>Failure</value>
+  </data>
+  <data name="Options_Username" xml:space="preserve">
+    <value>User Name</value>
+  </data>
+  <data name="Services_Definitions_LoadingCollectionDefinitions" xml:space="preserve">
+    <value>Downloading necessary Collection Definitions, please wait.</value>
+  </data>
+  <data name="Actions_Cleaning_DB" xml:space="preserve">
+    <value>Cleaning Database</value>
+  </data>
+</root>

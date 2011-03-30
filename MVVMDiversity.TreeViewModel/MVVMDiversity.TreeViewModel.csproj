@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{ADB9CB60-7064-4143-A40A-87C77A3B483A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MVVMDiversity.ViewModel</RootNamespace>
+    <AssemblyName>MVVMDiversity.TreeViewModel</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DivMobi Collection Data Layer">
+      <HintPath>..\Lib\DivMobi Collection Data Layer.dll</HintPath>
+    </Reference>
+    <Reference Include="DivMobi DatabaseConnector">
+      <HintPath>..\Lib\DivMobi DatabaseConnector.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Interface\IISOViewModel.cs" />
+    <Compile Include="Interface\IISOViewModelStore.cs" />
+    <Compile Include="Interface\INodeViewModel.cs" />
+    <Compile Include="Interface\ITreeViewModel.cs" />
+    <Compile Include="ISOViewModel.IUAnalysisVM.cs" />
+    <Compile Include="ISOViewModel.CollectionEventSeriesVM.cs" />
+    <Compile Include="ISOViewModel.CollectionEventVM.cs" />
+    <Compile Include="ISOViewModel.CollectionSpecimenVM.cs" />
+    <Compile Include="ISOViewModel.IUGeoAnalysisVM.cs" />
+    <Compile Include="ISOViewModel.cs" />
+    <Compile Include="ISOViewModel.IdentificationUnitVM.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ISOViewModelContainer.cs" />
+    <Compile Include="TreeDisplayMode.cs" />
+    <Compile Include="ISOIcon.cs" />
+    <Compile Include="TreeViewModel.cs" />
+    <Compile Include="TreeViewModel.NodeViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ISOViewModel.DefaultVM.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="MVVMDiversity.View.ProjectSelectionView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        DataContext="{Binding ProjectSelection, Source={StaticResource Locator}}">
+
+    <Grid Height="466" Width="771">
+        <GroupBox Grid.Column="0" Grid.Row="0" FontWeight="Bold"
+                  Header="{Loc ProjectSelection_ProjectsHeader}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0" Grid.Column="0">
+                    <Grid.RowDefinitions>                        
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <ListBox Name="listBoxProjects" Grid.Row="0" Grid.Column="0" Background="AntiqueWhite" FontWeight="Normal" 
+                             ItemsSource="{Binding Projects}"  SelectedItem="{Binding Selection}" IsSynchronizedWithCurrentItem="True">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+                <GroupBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"
+                          DataContext="{Binding Projects/}"
+                          Header="{Loc ProjectSelection_SelectedHeader}">
+                    <GroupBox.Style>
+                        <Style TargetType="GroupBox">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </GroupBox.Style>
+                    <Grid>
+                        <Grid.RowDefinitions>                            
+                            <RowDefinition Height="26" />
+                            <RowDefinition Height="26" />
+                            <RowDefinition Height="26" />
+                            <RowDefinition Height="26" />
+                        </Grid.RowDefinitions>
+                        
+                        <Label Grid.Row="0" Grid.Column="0" FontWeight="Normal"
+                               Content="{Loc ProjectSelection_SelectedName}"/>
+                        <Label Grid.Row="1" Grid.Column="0" FontWeight="Normal" FontStyle="Italic"
+                               Content="{Binding Title}"/>
+
+                        <Label Grid.Row="2" Grid.Column="0" FontWeight="Normal"
+                               Content="{Loc ProjectSelection_SelectedDescription}"/>
+                        <Label Grid.Row="3" Grid.Column="0" FontWeight="Normal" FontStyle="Italic" 
+                               Content="{Binding Description}" />
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

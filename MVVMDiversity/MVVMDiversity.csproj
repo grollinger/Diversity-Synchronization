@@ -1,0 +1,376 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8AE5354E-8811-4E9E-BA7E-558970F66CA1}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MVVMDiversity</RootNamespace>
+    <AssemblyName>MVVMDiversity</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DivMobi Collection Data Layer">
+      <HintPath>..\Lib\DivMobi Collection Data Layer.dll</HintPath>
+    </Reference>
+    <Reference Include="DivMobi DatabaseConnector">
+      <HintPath>..\Lib\DivMobi DatabaseConnector.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight">
+      <HintPath>..\Lib\MVVMLight\Binaries\WPF35SP1\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Unity\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Interactivity">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WPF35SP1\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WPFToolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\WPF Toolkit\v3.5.50211.1\WPFToolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Properties\Resources1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\DateRangeControl.xaml.cs">
+      <DependentUpon>DateRangeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\ISOTreeView.xaml.cs">
+      <DependentUpon>ISOTreeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\NameValueControl.xaml.cs">
+      <DependentUpon>NameValueControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="View\Converters\IconToPathConverter.cs" />
+    <Compile Include="View\Converters\VMToVConverter.cs" />
+    <Compile Include="View\Dialogs\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialogs\MessageBoxWindow.xaml.cs">
+      <DependentUpon>MessageBoxWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialogs\YesNoWindow.xaml.cs">
+      <DependentUpon>YesNoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainWindow.xaml.cs" />
+    <Compile Include="StartWindow.xaml.cs">
+      <DependentUpon>StartWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\ActionsView.xaml.cs">
+      <DependentUpon>ActionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\InterfacingPasswordBox.xaml.cs">
+      <DependentUpon>InterfacingPasswordBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialogs\OptionsView.xaml.cs">
+      <DependentUpon>OptionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\MapView.xaml.cs">
+      <DependentUpon>MapView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\ProjectSelectionView.xaml.cs">
+      <DependentUpon>ProjectSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\SelectFieldDataView.xaml.cs">
+      <DependentUpon>SelectFieldDataView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\SelectionView.xaml.cs">
+      <DependentUpon>SelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialogs\TaxonView.xaml.cs">
+      <DependentUpon>TaxonView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="StartWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Controls\DateRangeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\ISOTreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\NameValueControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialogs\AboutView.xaml">
+      <SubType>Form</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialogs\MessageBoxWindow.xaml">
+      <SubType>Form</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialogs\YesNoWindow.xaml">
+      <SubType>Form</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\ActionsView.xaml">
+      <SubType>Form</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\ConnectionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\InterfacingPasswordBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Skins\MainSkin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\Pages\ConnectionsView.xaml.cs">
+      <DependentUpon>ConnectionsView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\Dialogs\OptionsView.xaml">
+      <SubType>Form</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\MapView.xaml">
+      <SubType>Form</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\ProjectSelectionView.xaml">
+      <SubType>Form</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\SelectFieldDataView.xaml">
+      <SubType>Form</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\SelectionView.xaml">
+      <SubType>Form</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialogs\TaxonView.xaml">
+      <SubType>Form</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\framewindow_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\startscreen_bg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\startscreen_developer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\startscreen_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DiversityWorkbench.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MVVMDiversity.DesignServices\MVVMDiversity.DesignServices.csproj">
+      <Project>{7048D304-DBF5-4BA4-AB6C-773D81A7B5EF}</Project>
+      <Name>MVVMDiversity.DesignServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MVVMDiversity.Interface\MVVMDiversity.Common.csproj">
+      <Project>{0C7DA1CC-6977-45AC-8595-F538E41EE8B1}</Project>
+      <Name>MVVMDiversity.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MVVMDiversity.Model\MVVMDiversity.Model.csproj">
+      <Project>{CB102033-AC1A-44CD-AEBB-DB207CB18713}</Project>
+      <Name>MVVMDiversity.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MVVMDiversity.Services\MVVMDiversity.Services.csproj">
+      <Project>{CDF824C7-6901-45FF-8826-068A12E914C6}</Project>
+      <Name>MVVMDiversity.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MVVMDiversity.TreeViewModel\MVVMDiversity.TreeViewModel.csproj">
+      <Project>{ADB9CB60-7064-4143-A40A-87C77A3B483A}</Project>
+      <Name>MVVMDiversity.TreeViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MVVMDiversity.ViewModel\MVVMDiversity.ViewModel.csproj">
+      <Project>{A9F5CE17-8385-44A4-94F9-9EF8DA7A6C97}</Project>
+      <Name>MVVMDiversity.ViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WPFLocalization\WPFLocalization.csproj">
+      <Project>{447B98DC-3053-488B-8BB0-21BDC4F27456}</Project>
+      <Name>WPFLocalization</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\Agent.bmp" />
+    <Resource Include="Images\Icons\AgentGrey.bmp" />
+    <Resource Include="Images\Icons\Alge.bmp" />
+    <Resource Include="Images\Icons\Analysis.bmp" />
+    <Resource Include="Images\Icons\AnalysisGrey.bmp" />
+    <Resource Include="Images\Icons\ArrowFirst.bmp" />
+    <Resource Include="Images\Icons\ArrowLast.bmp" />
+    <Resource Include="Images\Icons\ArrowNext.bmp" />
+    <Resource Include="Images\Icons\ArrowPrevious.bmp" />
+    <Resource Include="Images\Icons\Assel.bmp" />
+    <Resource Include="Images\Icons\Ast.bmp" />
+    <Resource Include="Images\Icons\AstGrey.bmp" />
+    <Resource Include="Images\Icons\Bacterium.BMP" />
+    <Resource Include="Images\Icons\Barcode.BMP" />
+    <Resource Include="Images\Icons\BarcodeGrey.BMP" />
+    <Resource Include="Images\Icons\BarcodeRed.bmp" />
+    <Resource Include="Images\Icons\Bird.BMP" />
+    <Resource Include="Images\Icons\Bryophyt.BMP" />
+    <Resource Include="Images\Icons\Camera.BMP" />
+    <Resource Include="Images\Icons\CameraGrey.BMP" />
+    <Resource Include="Images\Icons\Delete.bmp" />
+    <Resource Include="Images\Icons\Edit.bmp" />
+    <Resource Include="Images\Icons\Event.bmp" />
+    <Resource Include="Images\Icons\EventGrey.BMP" />
+    <Resource Include="Images\Icons\Fish.BMP" />
+    <Resource Include="Images\Icons\Fungus.BMP" />
+    <Resource Include="Images\Icons\Gall.BMP" />
+    <Resource Include="Images\Icons\GallGrey.BMP" />
+    <Resource Include="Images\Icons\GeoAnalysis.bmp" />
+    <Resource Include="Images\Icons\GeoAnalysisGrey.bmp" />
+    <Resource Include="Images\Icons\GPS.bmp" />
+    <Resource Include="Images\Icons\GPS.ico" />
+    <Resource Include="Images\Icons\GPS_N0.BMP" />
+    <Resource Include="Images\Icons\GPS_N3.BMP" />
+    <Resource Include="Images\Icons\GPS_N5.BMP" />
+    <Resource Include="Images\Icons\GPS_N7.BMP" />
+    <Resource Include="Images\Icons\Habitat.bmp" />
+    <Resource Include="Images\Icons\HabitatGrey.BMP" />
+    <Resource Include="Images\Icons\Insect.BMP" />
+    <Resource Include="Images\Icons\Leer.BMP" />
+    <Resource Include="Images\Icons\Lichen.BMP" />
+    <Resource Include="Images\Icons\Localisation.BMP" />
+    <Resource Include="Images\Icons\LocalisationGrey.BMP" />
+    <Resource Include="Images\Icons\Lupe.bmp" />
+    <Resource Include="Images\Icons\Mammal.BMP" />
+    <Resource Include="Images\Icons\Map.bmp" />
+    <Resource Include="Images\Icons\Mollusc.BMP" />
+    <Resource Include="Images\Icons\Myxomycete.BMP" />
+    <Resource Include="Images\Icons\Observation.bmp" />
+    <Resource Include="Images\Icons\Other.bmp" />
+    <Resource Include="Images\Icons\OtherGrey.bmp" />
+    <Resource Include="Images\Icons\Plant.bmp" />
+    <Resource Include="Images\Icons\PlantGrey.BMP" />
+    <Resource Include="Images\Icons\Series.bmp" />
+    <Resource Include="Images\Icons\SeriesGrey.BMP" />
+    <Resource Include="Images\Icons\Tree.BMP" />
+    <Resource Include="Images\Icons\TreeGrey.BMP" />
+    <Resource Include="Images\Icons\Virus.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Defaults\ConnectionProfiles.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Defaults\MobileDB.sdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Defaults\TaxonNames.sdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Maps\GoogleMap.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Maps\red_cross.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
