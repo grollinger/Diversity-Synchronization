@@ -28,23 +28,34 @@ namespace MVVMDiversity.View
 
             InnerPB.PasswordChanged += (sender, args) => 
             {
-                Password = InnerPB.Password;
+                if (Password != InnerPB.Password) 
+                    Password = InnerPB.Password;
             };
+
+            
+        }
+
+        public void setPassword(string pass)
+        {
+            if (InnerPB.Password != pass)
+                InnerPB.Password = pass;
         }
 
 
 
         public string Password
         {
-            get { return (string)GetValue(PasswordPropertyKey.DependencyProperty); }
-            private set { SetValue(PasswordPropertyKey, value); }
+            get { return (string)GetValue(PasswordProperty); }
+            set { SetValue(PasswordProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Password.  This enables animation, styling, binding, etc...
-        private static readonly DependencyPropertyKey PasswordPropertyKey =
-            DependencyProperty.RegisterReadOnly("Password", typeof(string), typeof(InterfacingPasswordBox), new UIPropertyMetadata(""));
+        public static readonly DependencyProperty PasswordProperty =
+            DependencyProperty.Register("Password", typeof(string), typeof(InterfacingPasswordBox), new UIPropertyMetadata(""));
 
-        public static DependencyProperty PasswordProperty { get { return PasswordPropertyKey.DependencyProperty; } }       
+
+
+              
             
     }
 }

@@ -24,7 +24,7 @@ namespace MVVMDiversity
             {
                 var ioc = new UnityContainer();
 
-                if (false)
+                if (true)
                 {
                     ioc.RegisterInstance<IMessenger>(Messenger.Default);
                     ioc.RegisterInstance<IUserOptionsService>(new DesignServices.UserOptions());

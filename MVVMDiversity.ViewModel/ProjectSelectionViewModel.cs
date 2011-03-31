@@ -1,4 +1,24 @@
-﻿using Microsoft.Practices.Unity;
+﻿//#######################################################################
+//Diversity Mobile Synchronization
+//Project Homepage:  http://www.diversitymobile.net
+//Copyright (C) 2011  Georg Rollinger
+//
+//This program is free software; you can redistribute it and/or modify
+//it under the terms of the GNU General Public License as published by
+//the Free Software Foundation; either version 2 of the License, or
+//(at your option) any later version.
+//
+//This program is distributed in the hope that it will be useful,
+//but WITHOUT ANY WARRANTY; without even the implied warranty of
+//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//GNU General Public License for more details.
+//
+//You should have received a copy of the GNU General Public License along
+//with this program; if not, write to the Free Software Foundation, Inc.,
+//51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//#######################################################################
+
+using Microsoft.Practices.Unity;
 using MVVMDiversity.Interface;
 using MVVMDiversity.Model;
 using MVVMDiversity.Messages;
@@ -114,7 +134,44 @@ namespace MVVMDiversity.ViewModel
             }
         }
 
-        public Project Selection { get; set; }
+        /// <summary>
+        /// The <see cref="Selection" /> property's name.
+        /// </summary>
+        public const string SelectionPropertyName = "Selection";
+
+        private Project _selection = null;
+
+        /// <summary>
+        /// Gets the Selection property.
+        /// TODO Update documentation:
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// </summary>
+        public Project Selection
+        {
+            get
+            {
+                return _selection;
+            }
+
+            set
+            {
+                if (_selection == value)
+                {
+                    return;
+                }
+
+                var oldValue = _selection;
+                _selection = value;                
+
+                // Verify Property Exists
+                VerifyPropertyName(SelectionPropertyName);
+
+                // Update bindings, no broadcast
+                RaisePropertyChanged(SelectionPropertyName);
+                RaiseCanNavigateNextChanged();
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the ProjectSelectionViewModel class.

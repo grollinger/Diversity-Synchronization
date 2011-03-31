@@ -470,7 +470,7 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Back ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Allows you to save maps that will later be available on your mobile device. ähnelt.
         /// </summary>
         internal static string Map_Description {
             get {

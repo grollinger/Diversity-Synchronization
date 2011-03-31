@@ -21,10 +21,11 @@ namespace MVVMDiversity.DesignServices
                 
             }
         }
-
+        int homedbIdx = 0;
+        string[] homeDBs = new string[2] { "Init", "NotInit" };
         public string HomeDB
         {
-            get { return "Init"; }
+            get { return homeDBs[homedbIdx = ++homedbIdx % 2]; }
         }
 
 

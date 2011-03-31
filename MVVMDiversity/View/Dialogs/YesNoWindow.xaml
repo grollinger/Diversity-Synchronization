@@ -4,18 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Width="{StaticResource DialogWidth}">
+        Width="{StaticResource DialogWidth}"
+        SizeToContent="Height"
+        >
 
-    <Grid>
+    <Grid Name="InnerGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15" />
-            <ColumnDefinition Width="300*" />
+            <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="15" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="10" />
             <RowDefinition Height="20" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="10" />
             <RowDefinition Height="2" />
             <RowDefinition Height="15" />
@@ -26,7 +28,7 @@
         <Rectangle Grid.RowSpan="8" Grid.ColumnSpan="3" Fill="{StaticResource FooterColorGradient}"/>
         
         <Label Grid.Row="1" Grid.Column="1" FontSize="16" FontWeight="Bold" Padding="0" Content="{LocBinding Caption}"/>
-        <TextBlock Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Text="{LocBinding Content}"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Text="{LocBinding Content}" />
         <Button Width="100" HorizontalAlignment="Left"  Grid.Row="6" Grid.Column="1" Content="{Loc YNDialog_Yes}" Click="Yes_Click"/>
         <Button Width="100" HorizontalAlignment="Right" Grid.Row="6" Grid.Column="1" Content="{Loc YNDialog_No}" Click="No_Click"/>
     </Grid>

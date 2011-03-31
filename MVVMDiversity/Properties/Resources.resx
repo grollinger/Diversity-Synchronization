@@ -467,7 +467,7 @@ ATTENTION: All data in your mobile database will be LOST!</value>
     <value>Non-HomeDB connection</value>
   </data>
   <data name="Map_Description" xml:space="preserve">
-    <value>Back</value>
+    <value>Allows you to save maps that will later be available on your mobile device.</value>
   </data>
   <data name="Map_FileDescription" xml:space="preserve">
     <value>File description</value>
