@@ -84,19 +84,8 @@ namespace MVVMDiversity.ViewModel
         public ISessionManager SessionMgr { get; set; }
 
         [Dependency]
-        public IUserOptionsService Settings { get; set; }
-
-        protected override bool CanNavigateBack
-        {
-            get { return true; }
-        }
-
-        protected override bool CanNavigateNext
-        {
-            get { return true; }
-        }
-
-        private static readonly string GetTaxonDefinitionsPropertyName = "GetTaxonDefinitions";
+        public IUserOptionsService Settings { get; set; }        
+        
         public ICommand GetTaxonDefinitions { get; private set; }       
 
         public ICommand GetPropertyNames { get; private set; }
@@ -319,6 +308,9 @@ namespace MVVMDiversity.ViewModel
         {
             NextPage = Page.Actions;
             PreviousPage = Page.ProjectSelection;
+            CanNavigateBack = true;
+            CanNavigateNext = true;
+
             updateFromSyncState();
 
             MessengerInstance.Register<ConnectionStateChanged>(this,
@@ -351,6 +343,7 @@ namespace MVVMDiversity.ViewModel
                 {
                     if (DefinitionsSvc != null)
                     {
+                        IsBusy = true;
                         var progress = DefinitionsSvc.loadProperties(
                             () =>
                             {
@@ -359,6 +352,7 @@ namespace MVVMDiversity.ViewModel
                                     {
                                         MessengerInstance.Send<HideProgress>(new HideProgress());
                                         MessengerInstance.Send<SyncStepFinished>(SyncState.PropertyNamesDownloaded);
+                                        IsBusy = false;
                                     }
                                     );
                                 
@@ -392,6 +386,7 @@ namespace MVVMDiversity.ViewModel
                         {
                             var projectID = ProfileSvc.ProjectID;
                             var userNo = ProfileSvc.UserNr;
+                            IsBusy = true;
 
                             var progress = FieldDataSvc.uploadData(userNo, projectID, 
                                 ()=>
@@ -400,6 +395,7 @@ namespace MVVMDiversity.ViewModel
                                         {
                                             MessengerInstance.Send<SyncStepFinished>(SyncState.FieldDataUploaded);
                                             MessengerInstance.Send<HideProgress>(new HideProgress());
+                                            IsBusy = false;
                                         });
                                 });
 

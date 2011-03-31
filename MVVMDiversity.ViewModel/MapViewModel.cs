@@ -42,15 +42,7 @@ namespace MVVMDiversity.ViewModel
         [Dependency]
         public IUserOptionsService Settings { get; set; }
 
-        protected override bool CanNavigateBack
-        {
-            get { return true; }
-        }
-
-        protected override bool CanNavigateNext
-        {
-            get { return false; }
-        }
+        
         /// <summary>
         /// Initializes a new instance of the MapViewModel class.
         /// </summary>
@@ -59,6 +51,8 @@ namespace MVVMDiversity.ViewModel
         {
             NextPage = Page.Actions;
             PreviousPage = Page.Actions;
+            CanNavigateBack = true;
+            CanNavigateNext = false;
         }
 
         protected override bool OnNavigateNext()

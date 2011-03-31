@@ -37,60 +37,34 @@ namespace MVVMDiversity.ViewModel
         [Dependency]
         public IFieldDataService FDSvc { get; set; }
 
+        [Dependency]
+        public IISOViewModelStore ISOStore { get; set; }
+
+
+        private IList<ISerializableObject> _completeSelection;
 
         public SelectionViewModel()
             : base("Selection_Next", "Selection_Previous", "Selection_Title","")
         {
             PreviousPage = Messages.Page.FieldData;
             NextPage = Messages.Page.Actions;
-
-            MessengerInstance.Register<GenericMessage<ICollection<ISerializableObject>>>(this, (msg) =>
+            CanNavigateNext = false;
+            CanNavigateBack = true;
+            
+            MessengerInstance.Register<Selection>(this, (msg) =>
             {
-                Selection = msg.Content;
-            });
-            MessengerInstance.Register<GenericMessage<ITreeViewModel>>(this, (msg) =>
-            {
-                SelectionTree = msg.Content;
-            });
-        }
-
-        /// <summary>
-        /// The <see cref="IsBusy" /> property's name.
-        /// </summary>
-        public const string IsBusyPropertyName = "IsBusy";
-
-        private bool _isBusy = false;
-
-        /// <summary>
-        /// Gets the IsBusy property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
-        /// </summary>
-        public bool IsBusy
-        {
-            get
-            {
-                return _isBusy;
-            }
-
-            set
-            {
-                if (_isBusy == value)
+                CanNavigateNext = false;
+                SelectionTree = new TreeViewModel(ISOStore);
+                foreach (var vm in msg.Content)
                 {
-                    return;
+                    SelectionTree.addGenerator(vm);
                 }
 
-                var oldValue = _isBusy;
-                _isBusy = value;               
-
-                // Verify Property Exists
-                VerifyPropertyName(IsBusyPropertyName);
-
-                // Update bindings, no broadcast
-                RaisePropertyChanged(IsBusyPropertyName);
-            }
+                _completeSelection = SelectionTree.buildSelection();
+                CanNavigateNext = true;
+            });
         }
+        
         protected override bool OnNavigateNext()
         {
             if (!IsBusy)
@@ -99,22 +73,31 @@ namespace MVVMDiversity.ViewModel
                 {
                     if (SelectionTree != null)
                     {
-                        var progress = FDSvc.downloadData(SelectionTree.buildSelection(),
-                            () =>
-                            {
-                                DispatcherHelper.CheckBeginInvokeOnUI(
+                        if (!IsBusy)
+                        {
+                            IsBusy = true;
+                            var progress = FDSvc.downloadData(_completeSelection,
                                 () =>
                                 {
-                                    MessengerInstance.Send<SyncStepFinished>(SyncState.FieldDataDownloaded);
-                                    MessengerInstance.Send<HideProgress>(new HideProgress());
-                                    NavigateNext.Execute(null);
+                                    DispatcherHelper.CheckBeginInvokeOnUI(
+                                    () =>
+                                    {
+                                        MessengerInstance.Send<SyncStepFinished>(SyncState.FieldDataDownloaded);
+                                        MessengerInstance.Send<HideProgress>(new HideProgress());
+                                        NavigateNext.Execute(null);
+                                    });
                                 });
-                            });
 
-                        MessengerInstance.Send<ShowProgress>(progress);
+                            MessengerInstance.Send<ShowProgress>(progress);
 
-                        //Cancel Navigation
-                        return true;
+                            //Cancel Navigation
+                            return true;
+                        }
+                        else
+                        {
+                            IsBusy = false;
+                            return base.OnNavigateNext();
+                        }
                     }
                 }
                 else
@@ -204,17 +187,6 @@ namespace MVVMDiversity.ViewModel
                 // Update bindings, no broadcast
                 RaisePropertyChanged(SelectionTreePropertyName);                            
             }
-        }
-
-
-        protected override bool CanNavigateNext
-        {
-            get { return true; }
-        }
-
-        protected override bool CanNavigateBack
-        {
-            get { return true; }
-        }
+        }        
     }
 }

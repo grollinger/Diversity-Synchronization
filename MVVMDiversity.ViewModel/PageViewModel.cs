@@ -50,9 +50,68 @@ namespace MVVMDiversity.ViewModel
 
         public string DescriptionTextID { get; private set; }
 
-        protected abstract bool CanNavigateNext { get; }
+        /// <summary>
+        /// The <see cref="CanNavigateNext" /> property's name.
+        /// </summary>
+        public const string CanNavigateNextPropertyName = "CanNavigateNext";
 
-        protected abstract bool CanNavigateBack { get; }
+        private bool _canNavNext = false;
+
+        /// <summary>
+        /// Gets the CanNavigateNext property.
+        /// TODO Update documentation:
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// </summary>
+        protected bool CanNavigateNext
+        {
+            get
+            {
+                return _canNavNext;
+            }
+
+            set
+            {
+                if (_canNavNext == value)
+                {
+                    return;
+                }
+                _canNavNext = value;
+               
+                RaiseCanNavigateNextChanged();
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="CanNavigateBack" /> property's name.
+        /// </summary>
+        public const string CanNavigateBackPropertyName = "CanNavigateBack";
+
+        private bool _canNavBack = false;
+
+        /// <summary>
+        /// Gets the CanNavigateBack property.
+        /// TODO Update documentation:
+        /// 
+        /// </summary>
+        protected bool CanNavigateBack
+        {
+            get
+            {
+                return _canNavBack;
+            }
+
+            set
+            {
+                if (_canNavBack == value)
+                {
+                    return;
+                }                
+                _canNavBack = value;
+
+                RaiseCanNavigateBackChanged();
+            }
+        }
 
         /// <summary>
         /// The <see cref="IsBusy" /> property's name.
@@ -62,10 +121,8 @@ namespace MVVMDiversity.ViewModel
         private bool _isBusy = false;
 
         /// <summary>
-        /// Gets the IsBusy property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// Should be Set by Extending classes to signal, that it is Busy
+        /// Prevents any navigation from the current Page
         /// </summary>
         public bool IsBusy
         {
@@ -90,6 +147,9 @@ namespace MVVMDiversity.ViewModel
 
                 // Update bindings, no broadcast
                 RaisePropertyChanged(IsBusyPropertyName);
+
+                RaiseCanNavigateBackChanged();
+                RaiseCanNavigateNextChanged();
             }
         }
 
@@ -111,13 +171,13 @@ namespace MVVMDiversity.ViewModel
 
         protected virtual bool OnNavigateBack() { return true; }
 
-        protected void RaiseCanNavigateNextChanged()
+        private void RaiseCanNavigateNextChanged()
         {
             if(_navigateNext != null)
                 _navigateNext.RaiseCanExecuteChanged();
         }
 
-        protected void RaiseCanNavigateBackChanged()
+        private void RaiseCanNavigateBackChanged()
         {
             if(_navigateBack != null)
                 _navigateBack.RaiseCanExecuteChanged();
@@ -141,7 +201,7 @@ namespace MVVMDiversity.ViewModel
             }, 
             () => 
             { 
-                return this.CanNavigateNext; 
+                return !IsBusy && this.CanNavigateNext; 
             });
             _navigateBack = new DelegateCommand(() =>
             {
@@ -149,7 +209,7 @@ namespace MVVMDiversity.ViewModel
                     MessengerInstance.Send<NavigateToPage>(new NavigateToPage(PreviousPage)); 
             }, () => 
             { 
-                return this.CanNavigateBack; 
+                return !IsBusy && this.CanNavigateBack; 
             });
         }
 

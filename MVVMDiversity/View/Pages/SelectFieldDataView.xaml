@@ -111,7 +111,8 @@
                     </Grid.RowDefinitions>
                     <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         <ListBox DockPanel.Dock="Top" ItemsSource="{Binding Selection}" Background="AntiqueWhite"  SelectionMode="Extended"
-                                 Name="selectionList">
+                                 Name="selectionList"
+                                 SelectionChanged="selectionList_SelectionChanged">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Name}"/>

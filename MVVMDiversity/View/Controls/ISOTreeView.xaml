@@ -19,16 +19,26 @@
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <Image Width="16" Height="16" Source="{Binding Icon, Converter={StaticResource IconToPath}}"/>
-                        <TextBlock Text="{Binding Name}"/>
+                        <TextBlock Text="{Binding Name}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsGenerator}" Value="true">
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>    
+                        </TextBlock>
                     </StackPanel>
-                    <ListView ItemsSource="{Binding Properties}" BorderThickness="0">
+                    <ListView ItemsSource="{Binding Properties}" BorderThickness="0" Margin="16,0,0,0">
                         <ListView.Style>
                             <Style>
-
+                            
                             </Style>
                         </ListView.Style>
                         <ListView.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate>                            
                                 <StackPanel Orientation="Horizontal">
                                     <Image Width="16" Height="16" Source="{Binding Icon, Converter={StaticResource IconToPath}}"/>
                                     <TextBlock Text="{Binding Name}"/>

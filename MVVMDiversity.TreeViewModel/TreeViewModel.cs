@@ -136,6 +136,7 @@ namespace MVVMDiversity.ViewModel
             {
                 var childNode = addOrRetrieveNode(familyLine.Pop());
                 currentNode.injectChild(childNode);
+                currentNode.IsExpanded = true;
                 currentNode = childNode;
             }
         }

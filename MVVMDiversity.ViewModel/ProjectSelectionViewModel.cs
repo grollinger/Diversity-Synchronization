@@ -83,17 +83,7 @@ namespace MVVMDiversity.ViewModel
         public IUserProfileService ProfileProvider { get; set; }
 
         [Dependency]
-        public IDefinitionsService DefinitionsProvider { get; set; }
-
-        protected override bool CanNavigateBack
-        {
-            get { return true; }
-        }
-
-        protected override bool CanNavigateNext
-        {
-            get { return Selection != null && !IsBusy; }
-        }
+        public IDefinitionsService DefinitionsProvider { get; set; }        
 
         /// <summary>
         /// The <see cref="Projects" /> property's name.
@@ -169,8 +159,14 @@ namespace MVVMDiversity.ViewModel
 
                 // Update bindings, no broadcast
                 RaisePropertyChanged(SelectionPropertyName);
-                RaiseCanNavigateNextChanged();
+                updateCanNavs();
             }
+        }
+
+        private void updateCanNavs()
+        {
+            CanNavigateNext = Selection != null;
+            CanNavigateBack = true;
         }
 
         /// <summary>

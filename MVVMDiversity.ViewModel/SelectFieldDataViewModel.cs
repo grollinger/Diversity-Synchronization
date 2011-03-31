@@ -75,9 +75,12 @@ namespace MVVMDiversity.ViewModel
 
         [Dependency]
         public IUserProfileService UserProfileSvc { get; set; }
-        #endregion
 
-        IISOViewModelStore _ISOVMStore = new ISOViewModelContainer();
+        [Dependency]
+        public IISOViewModelStore ISOStore { get; set; }
+        #endregion   
+     
+        BackgroundOperation _progress;
 
         /// <summary>
         /// Initializes a new instance of the SelectFieldDataViewModel class.
@@ -88,7 +91,10 @@ namespace MVVMDiversity.ViewModel
             NextPage = Messages.Page.FinalSelection;
             PreviousPage = Messages.Page.Actions;
 
-            _selectionTree = new TreeViewModel(_ISOVMStore);
+            CanNavigateBack = true;
+            CanNavigateNext = true;
+
+            
 
             QueryDatabase = new RelayCommand(() =>
             {
@@ -96,7 +102,8 @@ namespace MVVMDiversity.ViewModel
                 {
                     if (UserProfileSvc != null)
                     {
-                        var progress = FieldData.executeSearch(ConfiguredSearch, UserProfileSvc.ProjectID,
+                        IsBusy = true;
+                        _progress = FieldData.executeSearch(ConfiguredSearch, UserProfileSvc.ProjectID,
                             (result) =>
                             {
                                 List<IISOViewModel> selectionList = buildVMList(result);
@@ -106,14 +113,15 @@ namespace MVVMDiversity.ViewModel
 
                                         _queryResult = selectionList;                                     
 
-                                        QueryResultTree = new TreeViewModel(_ISOVMStore);
+                                        QueryResultTree = new TreeViewModel(ISOStore);
 
                                         queryResultChanged();
 
                                         MessengerInstance.Send<HideProgress>(new HideProgress());
+                                        IsBusy = false;
                                     });
                             });
-                        MessengerInstance.Send<ShowProgress>(progress);
+                        MessengerInstance.Send<ShowProgress>(_progress);
                     }
                     else
                         _Log.Error("UserProfileService N/A");
@@ -124,18 +132,21 @@ namespace MVVMDiversity.ViewModel
 
             AddToSelection = new RelayCommand<IList>((selection) =>
             {
+                if(SelectionTree == null)
+                    SelectionTree = new TreeViewModel(ISOStore);
+
                 if (_queryResult != null && selection != null)
                 {
                     var typedSelection = Enumerable.Cast<IISOViewModel>(selection);                   
 
                     foreach (var generator in typedSelection)
-                    {                        
-                        _selectionTree.addGenerator(generator);
-                        _selection.Add(generator);                        
+                    {
+                        if (!_selection.Contains(generator)) 
+                            _selection.Add(generator);                        
                     }
                     if (typedSelection.Count() > 0)
                     {
-                        selectionChanged();                       
+                        RaiseSelectionChanged();                       
                     }
                 }
 
@@ -148,13 +159,12 @@ namespace MVVMDiversity.ViewModel
                         var typedSelection = Enumerable.Cast<IISOViewModel>(selection);                        
 
                         foreach (var generator in typedSelection)
-                        {
-                            _selection.Remove(generator);
-                            _selectionTree.removeGenerator(generator);
+                        {                            
+                            _selection.Remove(generator);                            
                         }
                         if (selection.Count > 0)
                         {
-                            selectionChanged();                            
+                            RaiseSelectionChanged();                            
                         }
                     }
                 });
@@ -162,10 +172,31 @@ namespace MVVMDiversity.ViewModel
 
         private List<IISOViewModel> buildVMList(IList<ISerializableObject> result)
         {
-            var conversionQuery = from obj in result
-                                  select _ISOVMStore.addOrRetrieveVMForISO(obj);
+            
 
-            return new List<IISOViewModel>(conversionQuery);
+            List<IISOViewModel> list = new List<IISOViewModel>(result.Count());
+            ProgressInterval localProgress = null;
+            if (_progress != null)
+            {
+                _progress.ProgressDescriptionID = "SelectFD_Status_FillingResults";
+                _progress.Progress = 0;
+                _progress.IsProgressIndeterminate = false;
+                localProgress = new ProgressInterval(_progress,100f,result.Count());
+            }
+
+            var conversionQuery = from obj in result
+                                  select ISOStore.addOrRetrieveVMForISO(obj);
+
+            foreach(var line in conversionQuery)
+            {
+                list.Add(line);
+                if (localProgress != null)
+                    if (localProgress.IsCancelRequested)
+                        break;
+                    else
+                        localProgress.advance();
+            }
+            return list;
         }
 
         private void queryResultChanged()
@@ -177,7 +208,7 @@ namespace MVVMDiversity.ViewModel
             RaisePropertyChanged(QueryResultPropertyName);
         }
 
-        private void selectionChanged()
+        private void RaiseSelectionChanged()
         {
             VerifyPropertyName(SelectionPropertyName);
             RaisePropertyChanged(SelectionPropertyName);
@@ -320,7 +351,7 @@ namespace MVVMDiversity.ViewModel
         /// </summary>
         public const string SelectionPropertyName = "Selection";
 
-        private ICollection<IISOViewModel> _selection = new Collection<IISOViewModel>();
+        private Collection<IISOViewModel> _selection = new Collection<IISOViewModel>();
 
         /// <summary>
         /// Gets the Selection property.
@@ -342,7 +373,7 @@ namespace MVVMDiversity.ViewModel
         /// </summary>
         public const string SelectionTreePropertyName = "SelectionTree";
 
-        private ITreeViewModel _selectionTree;
+        private ITreeViewModel _selectionTree = null;
 
         /// <summary>
         /// Gets the SelectionTree property.
@@ -355,18 +386,25 @@ namespace MVVMDiversity.ViewModel
             get
             {
                 return _selectionTree;
-            }           
-        }
+            }
 
-        protected override bool CanNavigateNext
-        {
-            get { return true; }
-        }
+            private set
+            {
+                if (_selectionTree == value)
+                {
+                    return;
+                }
 
-        protected override bool CanNavigateBack
-        {
-            get { return true; }
-        }
+                var oldValue = _selectionTree;
+                _selectionTree = value;                
+
+                // Verify Property Exists
+                VerifyPropertyName(SelectionTreePropertyName);
+
+                // Update bindings, no broadcast
+                RaisePropertyChanged(SelectionTreePropertyName);                
+            }
+        }       
 
         #endregion
 
@@ -378,9 +416,17 @@ namespace MVVMDiversity.ViewModel
                 QueryResultTree.removeGenerator(i);
         }
 
+        public void SelectionChanged(IEnumerable<IISOViewModel> added, IEnumerable<IISOViewModel> removed)
+        {
+            foreach (var i in added)
+                SelectionTree.addGenerator(i);
+            foreach (var i in removed)
+                SelectionTree.removeGenerator(i);
+        }
+
         protected override bool OnNavigateNext()
         {
-            MessengerInstance.Send<ITreeViewModel>(_selectionTree);
+            MessengerInstance.Send<Messages.Selection>(_selection);
 
             return base.OnNavigateNext();
         }

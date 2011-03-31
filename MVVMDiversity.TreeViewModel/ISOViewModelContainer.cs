@@ -46,14 +46,19 @@ namespace MVVMDiversity.ViewModel
 
         public IISOViewModel addOrRetrieveVMForISO(ISerializableObject iso)
         {
-            IISOViewModel res = null;
-            if (!TryGetValue(iso.Rowguid, out res))
+            if (iso != null)
             {
-                res = ISOViewModel.fromISO(iso);
-                lock(this)
-                    Add(iso.Rowguid, res);
+                IISOViewModel res = null;
+                if (!TryGetValue(iso.Rowguid, out res))
+                {
+                    res = ISOViewModel.fromISO(iso);
+                    lock (this)
+                        Add(iso.Rowguid, res);
+                }
+                return res;
             }
-            return res;
+            else
+                return null;
         }
 
         

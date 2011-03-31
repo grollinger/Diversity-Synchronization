@@ -45,6 +45,21 @@ namespace MVVMDiversity.View
         private void SelectionSelectAll_Click(object sender, RoutedEventArgs e)
         {
             selectionList.SelectAll();
+        }
+
+        private void selectionList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (VM != null)
+            {
+                var selected = from object item in e.AddedItems
+                               where item is IISOViewModel
+                               select item as IISOViewModel;
+                var unselected = from object item in e.RemovedItems
+                                 where item is IISOViewModel
+                                 select item as IISOViewModel;
+
+                VM.SelectionChanged(selected, unselected);
+            }
         }        
     }
 }

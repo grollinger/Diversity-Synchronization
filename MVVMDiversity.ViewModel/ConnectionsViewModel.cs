@@ -118,9 +118,7 @@ namespace MVVMDiversity.ViewModel
                 VerifyPropertyName(IsRepositoryConnectedPropertyName);
 
                 // Update bindings, no broadcast
-                RaisePropertyChanged(IsRepositoryConnectedPropertyName);
-
-                RaiseCanNavigateNextChanged();
+                RaisePropertyChanged(IsRepositoryConnectedPropertyName);                
             }
         }
 
@@ -158,9 +156,7 @@ namespace MVVMDiversity.ViewModel
                 VerifyPropertyName(IsDefinitionsConnectedPropertyName);
 
                 // Update bindings, no broadcast
-                RaisePropertyChanged(IsDefinitionsConnectedPropertyName);
-
-                RaiseCanNavigateNextChanged();
+                RaisePropertyChanged(IsDefinitionsConnectedPropertyName);                
             }
         }
 
@@ -198,9 +194,7 @@ namespace MVVMDiversity.ViewModel
                 VerifyPropertyName(IsMobileConnectedPropertyName);
 
                 // Update bindings, no broadcast
-                RaisePropertyChanged(IsMobileConnectedPropertyName);
-
-                RaiseCanNavigateNextChanged();
+                RaisePropertyChanged(IsMobileConnectedPropertyName);                
             }
         }
 
@@ -238,9 +232,7 @@ namespace MVVMDiversity.ViewModel
                 VerifyPropertyName(IsMobileTaxaConnectedPropertyName);
 
                 // Update bindings, no broadcast
-                RaisePropertyChanged(IsMobileTaxaConnectedPropertyName);
-
-                RaiseCanNavigateNextChanged();
+                RaisePropertyChanged(IsMobileTaxaConnectedPropertyName);                
             }
         }
 
@@ -605,11 +597,7 @@ namespace MVVMDiversity.ViewModel
 
         public ICommand ConnectMobile { get; private set; }
         public ICommand DisConnectMobile { get; private set; }
-
-        protected override bool CanNavigateBack { get { return false; } }
-
-        protected override bool CanNavigateNext { get { return (IsDefinitionsConnected && IsRepositoryConnected && IsMobileConnected && IsMobileTaxaConnected); } }
-
+        
         #endregion
 
         private bool _repConnecting = false;
@@ -646,6 +634,8 @@ namespace MVVMDiversity.ViewModel
             this.UserOptions = userOptions;
             this.RepositoryConnecting = false;
             this._mobileConnecting = false;
+
+            CanNavigateBack = false;
 
             MessengerInstance.Register<ConnectionStateChanged>(this, (msg) => 
             {
@@ -834,7 +824,9 @@ namespace MVVMDiversity.ViewModel
             IsMobileConnected = stateHasFlag(state, ConnectionState.ConnectedToMobile);
             IsRepositoryConnected = stateHasFlag(state, ConnectionState.ConnectedToRepository);
             IsMobileTaxaConnected = stateHasFlag(state, ConnectionState.ConnectedToMobileTax);
-            
+
+
+            CanNavigateNext = (IsDefinitionsConnected && IsRepositoryConnected && IsMobileConnected && IsMobileTaxaConnected);
         }
 
         private bool loginInformationFilled()
