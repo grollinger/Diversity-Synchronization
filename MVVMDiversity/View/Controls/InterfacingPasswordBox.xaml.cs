@@ -35,10 +35,10 @@ namespace MVVMDiversity.View
             
         }
 
-        public void setPassword(string pass)
+        internal void updatePassword()
         {
-            if (InnerPB.Password != pass)
-                InnerPB.Password = pass;
+            if (InnerPB.Password != Password)
+                InnerPB.Password = Password;
         }
 
 
@@ -51,7 +51,13 @@ namespace MVVMDiversity.View
 
         // Using a DependencyProperty as the backing store for Password.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PasswordProperty =
-            DependencyProperty.Register("Password", typeof(string), typeof(InterfacingPasswordBox), new UIPropertyMetadata(""));
+            DependencyProperty.Register("Password", typeof(string), typeof(InterfacingPasswordBox), new FrameworkPropertyMetadata("",
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (sender, args)=>
+                {
+                    if (sender != null)
+                        (sender as InterfacingPasswordBox).updatePassword();
+                }));
 
 
 
