@@ -25,9 +25,9 @@ using System.Text;
 using MVVMDiversity.Model;
 using UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializer.Util;
 
-namespace MVVMDiversity.Services
+namespace MVVMDiversity.Model
 {
-    class ProgressInterval : IAdvanceProgress
+    public class ProgressInterval : IAdvanceProgress
     {
         BackgroundOperation _progress;
         float _deltaPerStep = 0f;

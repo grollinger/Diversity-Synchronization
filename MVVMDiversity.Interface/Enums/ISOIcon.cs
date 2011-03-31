@@ -24,7 +24,7 @@ using System.Collections.Generic;
 using System.Text;
 
 
-namespace MVVMDiversity.ViewModel
+namespace MVVMDiversity.Enums
 {
     public enum ISOIcon
     {

@@ -24,6 +24,7 @@ using System.Linq;
 using System.Text;
 using MVVMDiversity.Interface;
 using System.ComponentModel;
+using MVVMDiversity.Enums;
 
 namespace MVVMDiversity.ViewModel
 {

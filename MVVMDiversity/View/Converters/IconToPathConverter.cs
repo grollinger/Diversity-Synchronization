@@ -26,6 +26,7 @@ using System.Windows.Data;
 using MVVMDiversity.ViewModel;
 using System.Windows.Media;
 using System.Drawing;
+using MVVMDiversity.Enums;
 
 namespace MVVMDiversity.View.Converters
 {

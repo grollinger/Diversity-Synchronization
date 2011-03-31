@@ -9,9 +9,6 @@ namespace MVVMDiversity.WinFormsTreeView
 {
     public static class WinFormsISOTree
     {
-        public static TreeNode fromViewModel(ISOViewModel vm)
-        {
-            return null;
-        }
+        
     }
 }

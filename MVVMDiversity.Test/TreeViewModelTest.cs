@@ -8,6 +8,7 @@ using UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable;
 using Moq;
 using UBT.AI4.Bio.DivMobi.DataLayer.DataItems;
 using MVVMDiversity.Interface;
+using MVVMDiversity.Enums;
 
 namespace MVVMDiversity.Test
 {
@@ -40,9 +41,7 @@ namespace MVVMDiversity.Test
 
         private ISerializableObject _rootISO;
 
-        private IISOViewModelStore _store;
-
-        private IISOViewModel _childVM;
+        private IISOViewModelStore _store;        
 
         private Mock<ISerializableObject> rootISOMock;
         private Mock<IISOViewModel> rootVMMock;

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MVVMDiversity.ViewModel;
 using System.ComponentModel;
+using MVVMDiversity.Enums;
 
 namespace MVVMDiversity.Interface
 {

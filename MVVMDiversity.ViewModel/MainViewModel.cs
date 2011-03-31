@@ -238,25 +238,25 @@ namespace MVVMDiversity.ViewModel
             {
                 case Page.Connections:
                     return ViewModelLocator.ConnectionsStatic;
-                    break;
+                    
                 case Page.ProjectSelection:
                     return ViewModelLocator.ProjectSelectionStatic;
-                    break;
+                    
                 case Page.Actions:
                     return ViewModelLocator.ActionsStatic;
-                    break;
+                    
                 case Page.FieldData:
                     return ViewModelLocator.SelectFieldDataStatic;
-                    break;
+                    
                 case Page.FinalSelection:
                     return ViewModelLocator.SelectionStatic;
-                    break;
+                    
                 case Page.Map:
                     return ViewModelLocator.MapStatic;
                 
                 default:
                     return null;
-                    break;
+                    
             }
         }
 

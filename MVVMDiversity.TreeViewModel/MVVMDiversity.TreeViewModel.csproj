@@ -42,15 +42,10 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interface\IISOViewModel.cs" />
-    <Compile Include="Interface\IISOViewModelStore.cs" />
-    <Compile Include="Interface\INodeViewModel.cs" />
-    <Compile Include="Interface\ITreeViewModel.cs" />
     <Compile Include="ISOViewModel.IUAnalysisVM.cs" />
     <Compile Include="ISOViewModel.CollectionEventSeriesVM.cs" />
     <Compile Include="ISOViewModel.CollectionEventVM.cs" />
@@ -61,12 +56,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ISOViewModelContainer.cs" />
     <Compile Include="TreeDisplayMode.cs" />
-    <Compile Include="ISOIcon.cs" />
     <Compile Include="TreeViewModel.cs" />
     <Compile Include="TreeViewModel.NodeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ISOViewModel.DefaultVM.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MVVMDiversity.Interface\MVVMDiversity.Common.csproj">
+      <Project>{0C7DA1CC-6977-45AC-8595-F538E41EE8B1}</Project>
+      <Name>MVVMDiversity.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

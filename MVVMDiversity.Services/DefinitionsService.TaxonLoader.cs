@@ -35,9 +35,7 @@ namespace MVVMDiversity.Services
     {
         private class TaxonLoader
         {
-            private ILog _Log = log4net.LogManager.GetLogger(typeof(TaxonLoader));
-            private string taxonListsForUser; 
-                        
+            private ILog _Log = log4net.LogManager.GetLogger(typeof(TaxonLoader));                  
 
             private IDbConnection _source;
             private SqlCeConnection _destination;
@@ -398,76 +396,76 @@ namespace MVVMDiversity.Services
                 {
 	                case SqlDbType.BigInt:
                         return "bigint";
-                        break;
+                        
                     case SqlDbType.Binary:
                         return String.Format("binary({0})",size);
-                        break;
+                        
                     case SqlDbType.Bit:
                         return "bit";
-                        break;
+                        
                     case SqlDbType.Char:
                         return (over4k) ? "ntext" : String.Format("nchar({0})",size);
-                        break;
+                        
                     case SqlDbType.Date:
                         return "nchar(10)";
-                        break;
+                        
                     case SqlDbType.DateTime:
                         return "datetime";
-                        break;
+                        
                     case SqlDbType.DateTime2:
                         return "nvarchar(27)";
-                        break;
+                        
                     case SqlDbType.DateTimeOffset:
                         return "nvarchar(34)";
-                        break;
+                        
                     case SqlDbType.Decimal:
                         break;
                     case SqlDbType.Float:
                         return "float";
-                        break;
+                        
                     case SqlDbType.Image:
                         return "image";
-                        break;
+                        
                     case SqlDbType.Int:
                         return "int";
-                        break;
+                        
                     case SqlDbType.Money:
                         return "money";
-                        break;
+                        
                     case SqlDbType.NChar:
                         return String.Format("nchar({0})",size);
-                        break;
+                        
                     case SqlDbType.NText:
                         return "ntext";
-                        break;
+                        
                     case SqlDbType.NVarChar:
                         return String.Format("nvarchar({0})",size);
-                        break;
+                        
                     case SqlDbType.Real:
                         return "real";
-                        break;
+                        
                     case SqlDbType.SmallDateTime:
                         return "datetime";
-                        break;
+                        
                     case SqlDbType.SmallInt:
                         return "smallint";
-                        break;
+                        
                     case SqlDbType.SmallMoney:
                         return "money";
-                        break;
+                        
                     case SqlDbType.Structured:
                         break;
                     case SqlDbType.Text:
                         return "ntext";
-                        break;
+                        
                     case SqlDbType.Time:
                         return "nvarchar(16)";
-                        break;
+                        
                     case SqlDbType.Timestamp:
                         break;
                     case SqlDbType.TinyInt:
                         return "tinyint";
-                        break;
+                        
                     case SqlDbType.Udt:
                         break;
                     case SqlDbType.UniqueIdentifier:
@@ -480,7 +478,7 @@ namespace MVVMDiversity.Services
                         break;
                     case SqlDbType.Xml:
                         return "ntext";
-                        break;
+                        
                     default:
                         break;
                 }

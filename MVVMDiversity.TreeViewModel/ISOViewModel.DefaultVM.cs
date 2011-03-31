@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable;
+using MVVMDiversity.Enums;
 
 namespace MVVMDiversity.ViewModel
 {

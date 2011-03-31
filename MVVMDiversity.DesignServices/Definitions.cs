@@ -47,8 +47,6 @@ namespace MVVMDiversity.DesignServices
             timer.Start();
 
             return p;
-        }
-
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        }       
     }
 }

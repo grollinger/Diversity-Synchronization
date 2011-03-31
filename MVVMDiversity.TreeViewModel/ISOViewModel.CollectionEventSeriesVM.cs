@@ -24,6 +24,7 @@ using System.Linq;
 using System.Text;
 using UBT.AI4.Bio.DivMobi.DataLayer.DataItems;
 using UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable;
+using MVVMDiversity.Enums;
 
 namespace MVVMDiversity.ViewModel
 {

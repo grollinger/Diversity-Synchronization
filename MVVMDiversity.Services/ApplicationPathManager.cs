@@ -96,34 +96,34 @@ namespace MVVMDiversity.Services
             {
                 case ApplicationFolder.ApplicationData:
                     return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + APP_FOLDER;
-                    break;
+                    
                 case ApplicationFolder.Settings:
                     return String.Format("{0}\\{1}", getFolderPath(ApplicationFolder.ApplicationData), SETTINGS_FOLDER);
-                    break;
+                    
                 case ApplicationFolder.Application:
                     return AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\'); ;
-                    break;
+                    
                 case ApplicationFolder.Language:
                     return String.Format("{0}\\{1}", getFolderPath(ApplicationFolder.Application), LANGUAGE_FOLDER);
-                    break;
+                    
                 case ApplicationFolder.Sessions:
                     return String.Format("{0}\\{1}", getFolderPath(ApplicationFolder.ApplicationData), TRANSACTION_FOLDER);
-                    break;                
+                                    
                 case ApplicationFolder.Pictures:
                     return String.Format("{0}\\{1}", getFolderPath(ApplicationFolder.Settings), PICTURES_FOLDER);
-                    break;
+                    
                 case ApplicationFolder.Defaults:
                     return String.Format("{0}\\{1}", getFolderPath(ApplicationFolder.Application), DEFAULTS_FOLDER);
-                    break;
+                    
                 case ApplicationFolder.Maps:
                     return String.Format("{0}\\{1}", getFolderPath(ApplicationFolder.Settings), MAPS_FOLDER);
-                    break;
+                    
                 case ApplicationFolder.Icons:
                     return String.Format("{0}\\{1}", getFolderPath(ApplicationFolder.Application), ICONS_FOLDER);
-                    break;
+                    
                 default:
                     throw new ArgumentException("Unknown FolderType!");
-                    break;
+                    
             }
         }
         #endregion

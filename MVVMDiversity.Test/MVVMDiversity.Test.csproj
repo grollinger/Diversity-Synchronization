@@ -58,6 +58,10 @@
     <Compile Include="TreeViewModel_ISOHierarchie_Test.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MVVMDiversity.Interface\MVVMDiversity.Common.csproj">
+      <Project>{0C7DA1CC-6977-45AC-8595-F538E41EE8B1}</Project>
+      <Name>MVVMDiversity.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MVVMDiversity.TreeViewModel\MVVMDiversity.TreeViewModel.csproj">
       <Project>{ADB9CB60-7064-4143-A40A-87C77A3B483A}</Project>
       <Name>MVVMDiversity.TreeViewModel</Name>

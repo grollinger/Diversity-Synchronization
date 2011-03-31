@@ -51,6 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\ApplicationFile.cs" />
+    <Compile Include="Enums\ApplicationFolder.cs" />
+    <Compile Include="Enums\ConnectionState.cs" />
+    <Compile Include="Enums\ISOIcon.cs" />
+    <Compile Include="Enums\SessionState.cs" />
+    <Compile Include="Enums\SyncState.cs" />
     <Compile Include="Interface\ICloseableView.cs" />
     <Compile Include="Interface\IConnectionProfilesService.cs" />
     <Compile Include="Interface\IConnectionManagementService.cs" />
@@ -58,17 +64,22 @@
     <Compile Include="Interface\IDefinitionsService.cs" />
     <Compile Include="Interface\IDialogViewModel.cs" />
     <Compile Include="Interface\IFieldDataService.cs" />
+    <Compile Include="Interface\IISOViewModel.cs" />
+    <Compile Include="Interface\IISOViewModelStore.cs" />
     <Compile Include="Interface\IMapService.cs" />
     <Compile Include="Interface\IMapView.cs" />
+    <Compile Include="Interface\INodeViewModel.cs" />
     <Compile Include="Interface\IPageViewModel.cs" />
     <Compile Include="Interface\IProjectService.cs" />
     <Compile Include="Interface\ISessionManager.cs" />
     <Compile Include="Interface\ITaxonListService.cs" />
+    <Compile Include="Interface\ITreeViewModel.cs" />
     <Compile Include="Interface\IUserOptionsService.cs" />
     <Compile Include="Interface\IUserProfileService.cs" />
     <Compile Include="Messages\ConnectionStateChanged.cs" />
     <Compile Include="Messages\CustomDialog.cs" />
     <Compile Include="Messages\Dialog.cs" />
+    <Compile Include="Messages\Selection.cs" />
     <Compile Include="Messages\ShowProgress.cs" />
     <Compile Include="Messages\HideProgress.cs" />
     <Compile Include="Messages\NavigateToPage.cs" />

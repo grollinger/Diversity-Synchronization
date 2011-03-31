@@ -127,7 +127,7 @@ namespace MVVMDiversity.Services
                     }
                 }
 
-                double absProgress = 0;
+                
                 float progressPerType = 100f / _defTypes.Count;
                 progress.IsProgressIndeterminate = false;
                 foreach (Type t in _defTypes)

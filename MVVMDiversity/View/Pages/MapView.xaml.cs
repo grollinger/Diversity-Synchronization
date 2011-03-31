@@ -29,7 +29,7 @@ namespace MVVMDiversity.View.Pages
         }
 
 
-        MapsCOMInterface _comInterface;
+        
         /// <summary>
         /// Initializes a new instance of the MapView class.
         /// </summary>
