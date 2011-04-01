@@ -50,22 +50,24 @@ namespace MVVMDiversity.ViewModel
         {
             if (obj != null)
             {
+                if (obj is CollectionAgent)
+                    return new AgentVM(obj as CollectionAgent);
+                if (obj is CollectionEventLocalisation)
+                    return new EventLocalisationVM(obj as CollectionEventLocalisation);
+                if (obj is CollectionEventProperty)
+                    return new EventPropertyVM(obj as CollectionEventProperty);
                 if (obj is CollectionEventSeries)
                     return new EventSeriesVM(obj as CollectionEventSeries);
                 if (obj is CollectionEvent)
-                    return new CollectionEventVM(obj as CollectionEvent);
-                if (obj is CollectionSpecimen)
-                    return new CollectionSpecimenVM(obj as CollectionSpecimen);
+                    return new EventVM(obj as CollectionEvent);
                 if (obj is IdentificationUnitAnalysis)
                     return new IUAnalysisVM(obj as IdentificationUnitAnalysis);
                 if (obj is IdentificationUnitGeoAnalysis)
                     return new IUGeoAnalysisVM(obj as IdentificationUnitGeoAnalysis);
-
-
-
                 if (obj is IdentificationUnit)
                     return new IdentificationUnitVM(obj as IdentificationUnit);
-
+                if (obj is CollectionSpecimen)
+                    return new SpecimenVM(obj as CollectionSpecimen);
 
                 return new DefaultVM(obj);
 
@@ -105,5 +107,35 @@ namespace MVVMDiversity.ViewModel
         protected abstract string getName();
 
         protected abstract ISOIcon getIcon();
+
+        protected static string formatAltitude(double alt)
+        {
+            return string.Format("{0} mNN", alt.ToString("F"));
+        }
+
+        protected static string formatLocalisation(double latitude, double longitude)
+        {
+            return string.Format("({0}{1};{2}{3})",
+                           formatAsDegrees(latitude),
+                           (latitude >= 0) ? "N" : "S",
+                           formatAsDegrees(longitude),
+                           (longitude >= 0) ? "E" : "W");
+        }
+
+        protected static string formatAsDegrees(double decimalAngle)
+        {
+            int deg = (int)decimalAngle;
+            decimalAngle -= deg;
+            decimalAngle *= 60;
+            int min = (int)decimalAngle;
+            decimalAngle -= min;
+            decimalAngle *= 60;
+            int sec = (int)decimalAngle;
+
+            return string.Format("{0}° {1}' {2}''",
+                deg,
+                min,
+                sec);
+        }
     }
 }

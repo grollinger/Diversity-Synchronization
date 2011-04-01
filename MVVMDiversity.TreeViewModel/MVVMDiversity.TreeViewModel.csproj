@@ -46,10 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ISOViewModel.EventPropertyVM.cs" />
     <Compile Include="ISOViewModel.IUAnalysisVM.cs" />
-    <Compile Include="ISOViewModel.CollectionEventSeriesVM.cs" />
-    <Compile Include="ISOViewModel.CollectionEventVM.cs" />
-    <Compile Include="ISOViewModel.CollectionSpecimenVM.cs" />
+    <Compile Include="ISOViewModel.EventSeriesVM.cs" />
+    <Compile Include="ISOViewModel.EventVM.cs" />
+    <Compile Include="ISOViewModel.SpecimenVM.cs" />
     <Compile Include="ISOViewModel.IUGeoAnalysisVM.cs" />
     <Compile Include="ISOViewModel.cs" />
     <Compile Include="ISOViewModel.IdentificationUnitVM.cs" />
@@ -67,6 +68,12 @@
       <Project>{0C7DA1CC-6977-45AC-8595-F538E41EE8B1}</Project>
       <Name>MVVMDiversity.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ISOViewModel.AgentVM.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ISOViewModel.EventLocalisationVM.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

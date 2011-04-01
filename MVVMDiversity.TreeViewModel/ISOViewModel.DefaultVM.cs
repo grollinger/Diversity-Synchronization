@@ -38,7 +38,7 @@ namespace MVVMDiversity.ViewModel
             }
 
 
-            public override UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable.ISerializableObject Parent
+            public override ISerializableObject Parent
             {
                 get 
                 { 
@@ -47,7 +47,7 @@ namespace MVVMDiversity.ViewModel
                 }
             }            
 
-            public override IEnumerable<UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable.ISerializableObject> Children
+            public override IEnumerable<ISerializableObject> Children
             {
                 get { return null; }
             }

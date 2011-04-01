@@ -22,57 +22,69 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable;
 using UBT.AI4.Bio.DivMobi.DataLayer.DataItems;
+using UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable;
 using MVVMDiversity.Enums;
 
 namespace MVVMDiversity.ViewModel
 {
     public partial class ISOViewModel
     {
-        private class IUAnalysisVM : ISOViewModel
+        private class EventSeriesVM : ISOViewModel
         {
-            public IUAnalysisVM(IdentificationUnitAnalysis an)
-                :base (an)
-            {                    
-            }
 
-            private IdentificationUnitAnalysis IUA { get { return ISO as IdentificationUnitAnalysis; } }
+            public EventSeriesVM(CollectionEventSeries ces)
+                : base(ces) { }
 
+            
+
+            private CollectionEventSeries CES { get { return ISO as CollectionEventSeries; } }
+            
             public override ISerializableObject Parent
             {
                 get 
                 {
-                    if (IUA != null)
-                        return IUA.IdentificationUnit;
-                    else
-                        return null;
+                    return null;
                 }
-            }
+            }           
+
+            public override IEnumerable<ISerializableObject> Children
+            {
+                get
+                {
+                    if (CES != null)
+                    {
+                        foreach (var ev in CES.CollectionEvents)
+                            yield return ev;
+                    }
+                }
+            }           
 
             public override IEnumerable<ISerializableObject> Properties
             {
-                get { return null; }
+                get 
+                {
+                    return null;
+                }
             }
 
             protected override string getName()
             {
-                if (IUA != null)
-                    return string.Format("{0}{1}: {2}",
-                        IUA.AnalysisResult ?? "",
-                        (IUA.Analysis != null) ? IUA.Analysis.MeasurementUnit ?? "" : "",
-                        (IUA.Analysis != null) ? IUA.Analysis.DisplayText ?? "" : "");
-                return "No IU Analysis";
+                if (CES != null)
+                {
+                    return string.Format("{0}, {1} {2}",
+                        CES.SeriesCode,
+                        CES.Description,
+                        (CES.DateStart != null) ? CES.DateStart.Value.ToString("dd.MM.yyyy HH:mm") : "[No Date]");
+                }
+                else
+                    return "No Event Series";
+
             }
 
             protected override ISOIcon getIcon()
             {
-                return ISOIcon.Analysis;
-            }
-
-            public override IEnumerable<ISerializableObject> Children
-            {
-                get { return null; }
+                return ISOIcon.EventSeries;
             }
         }
     }

@@ -22,57 +22,80 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable;
 using UBT.AI4.Bio.DivMobi.DataLayer.DataItems;
 using MVVMDiversity.Enums;
+using UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable;
 
 namespace MVVMDiversity.ViewModel
 {
     public partial class ISOViewModel
     {
-        private class IUAnalysisVM : ISOViewModel
+        private class EventVM : ISOViewModel
         {
-            public IUAnalysisVM(IdentificationUnitAnalysis an)
-                :base (an)
-            {                    
+            
+            public EventVM(CollectionEvent ev)
+                :base(ev)
+            {
+                
             }
 
-            private IdentificationUnitAnalysis IUA { get { return ISO as IdentificationUnitAnalysis; } }
+            public CollectionEvent EV { get { return ISO as CollectionEvent; } }
+
+            private static string getName(CollectionEvent spec)
+            {
+                throw new NotImplementedException();
+            }
 
             public override ISerializableObject Parent
             {
-                get 
+                get
                 {
-                    if (IUA != null)
-                        return IUA.IdentificationUnit;
+                    if (EV != null)
+                        return EV.CollectionEventSeries;
                     else
                         return null;
+                }
+            }          
+
+            public override IEnumerable<ISerializableObject> Children
+            {
+                get 
+                {
+                    if (EV != null)
+                        foreach (var spec in EV.CollectionSpecimen)
+                            yield return spec;
                 }
             }
 
             public override IEnumerable<ISerializableObject> Properties
             {
-                get { return null; }
+                get
+                {
+                    if (EV != null)
+                    {
+                        foreach (var prop in EV.CollectionEventProperties)
+                            yield return prop;
+                        foreach (var loc in EV.CollectionEventLocalisation)
+                            yield return loc;
+                    }
+                }
             }
 
             protected override string getName()
             {
-                if (IUA != null)
-                    return string.Format("{0}{1}: {2}",
-                        IUA.AnalysisResult ?? "",
-                        (IUA.Analysis != null) ? IUA.Analysis.MeasurementUnit ?? "" : "",
-                        (IUA.Analysis != null) ? IUA.Analysis.DisplayText ?? "" : "");
-                return "No IU Analysis";
+                if (ISO != null)
+                {
+                    return string.Format("{0}{1}",
+                        !string.IsNullOrEmpty(EV.LocalityDescription) ? EV.LocalityDescription + ", " : "",
+                        (EV.CollectionDate != null) ? EV.CollectionDate.ToShortDateString() : string.Empty);
+                }
+                else
+                    return "No CollectionEvent";
             }
 
             protected override ISOIcon getIcon()
             {
-                return ISOIcon.Analysis;
-            }
-
-            public override IEnumerable<ISerializableObject> Children
-            {
-                get { return null; }
+                return ISOIcon.Event;
             }
         }
     }

@@ -50,7 +50,7 @@ namespace MVVMDiversity.ViewModel
                 }
             }
 
-            public override IEnumerable<UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable.ISerializableObject> Properties
+            public override IEnumerable<ISerializableObject> Properties
             {
                 get { return null; }
             }
@@ -61,11 +61,7 @@ namespace MVVMDiversity.ViewModel
                 {                    
                     if (IUGA.GeoLatitude != null && IUGA.GeoLongitude != null)
                     {
-                        return string.Format("{0}{1} {2}{3}",
-                            dec2degree(IUGA.GeoLatitude ?? 0d),
-                            (IUGA.GeoLatitude >= 0) ? "N" : "S",
-                            dec2degree(IUGA.GeoLongitude ?? 0d),
-                            (IUGA.GeoLongitude >= 0) ? "E" : "W");               
+                        return formatLocalisation((double)IUGA.GeoLatitude, (double)IUGA.GeoLongitude);         
                     }
                     else
                     {
@@ -75,28 +71,14 @@ namespace MVVMDiversity.ViewModel
                 return "NO IU GeoAnalysis";
             }
 
-            public static string dec2degree(double dec)
-            {
-                int deg = (int)dec;
-                dec -= deg;
-                dec *= 60;
-                int min = (int)dec;
-                dec -= min;
-                dec *= 60;
-                int sec = (int)dec;
-
-                return string.Format("{0}° {1}' {2}''",
-                    deg,
-                    min,
-                    sec);                         
-            }
+            
 
             protected override ISOIcon getIcon()
             {
                 return ISOIcon.GeoAnalysis;
             }
 
-            public override IEnumerable<UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable.ISerializableObject> Children
+            public override IEnumerable<ISerializableObject> Children
             {
                 get { return null; }
             }

@@ -22,57 +22,72 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable;
 using UBT.AI4.Bio.DivMobi.DataLayer.DataItems;
 using MVVMDiversity.Enums;
+using UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable;
 
 namespace MVVMDiversity.ViewModel
 {
     public partial class ISOViewModel
     {
-        private class IUAnalysisVM : ISOViewModel
+        private class SpecimenVM : ISOViewModel
         {
-            public IUAnalysisVM(IdentificationUnitAnalysis an)
-                :base (an)
-            {                    
+            
+            public SpecimenVM(CollectionSpecimen spec)
+                :base(spec)
+            {
+                
             }
 
-            private IdentificationUnitAnalysis IUA { get { return ISO as IdentificationUnitAnalysis; } }
+            private CollectionSpecimen SPEC { get { return ISO as CollectionSpecimen; } }
+
 
             public override ISerializableObject Parent
             {
                 get 
                 {
-                    if (IUA != null)
-                        return IUA.IdentificationUnit;
+                    if (SPEC != null)
+                        return SPEC.CollectionEvent;
                     else
                         return null;
+                }
+            }           
+
+            public override IEnumerable<ISerializableObject> Children
+            {
+                get 
+                {
+                    if (SPEC != null)
+                        foreach (var iu in SPEC.IdentificationUnits)
+                            yield return iu;
                 }
             }
 
             public override IEnumerable<ISerializableObject> Properties
             {
-                get { return null; }
+                get
+                {
+                    if (SPEC != null)
+                        yield return SPEC.CollectionAgent.First();
+                }
             }
 
             protected override string getName()
             {
-                if (IUA != null)
-                    return string.Format("{0}{1}: {2}",
-                        IUA.AnalysisResult ?? "",
-                        (IUA.Analysis != null) ? IUA.Analysis.MeasurementUnit ?? "" : "",
-                        (IUA.Analysis != null) ? IUA.Analysis.DisplayText ?? "" : "");
-                return "No IU Analysis";
+                if (ISO != null)
+                {
+                    if (!string.IsNullOrEmpty(SPEC.AccessionNumber))
+                        return SPEC.AccessionNumber;
+                    else
+                        return string.Format("Specimen [{0}]",SPEC.CollectionSpecimenID);
+                }
+                else
+                    return "No CollectionSpecimen";
             }
 
             protected override ISOIcon getIcon()
             {
-                return ISOIcon.Analysis;
-            }
-
-            public override IEnumerable<ISerializableObject> Children
-            {
-                get { return null; }
+                return ISOIcon.Specimen;
             }
         }
     }

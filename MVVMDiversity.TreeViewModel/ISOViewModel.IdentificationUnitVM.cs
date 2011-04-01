@@ -26,6 +26,7 @@ using UBT.AI4.Bio.DivMobi.DataLayer.DataItems;
 using UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable;
 using UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializer.Collections;
 using MVVMDiversity.Enums;
+using System.Diagnostics;
 
 namespace MVVMDiversity.ViewModel
 {
@@ -41,19 +42,6 @@ namespace MVVMDiversity.ViewModel
             }
 
             private IdentificationUnit IU { get { return ISO as IdentificationUnit; } }      
-
-            private static ISOIcon getIcon(IdentificationUnit iu)
-            {
-                ISOIcon ico = ISOIcon.Unknown;               
-
-                if (iu.TaxonomicGroup != null)
-                {
-                    
-                }
-                return ico;
-            }
-
-
 
             public override ISerializableObject Parent
             {
@@ -112,13 +100,32 @@ namespace MVVMDiversity.ViewModel
                 ISOIcon ico = ISOIcon.Unknown;
                 if (IU != null)
                 {
-                    try
+                    if (IU.TaxonomicGroup != null && IU.TaxonomicGroup.ToLower() == "plant")
                     {
-                        ico = (ISOIcon)Enum.Parse(typeof(ISOIcon), IU.TaxonomicGroup ?? "", true);
+                        ico = ISOIcon.Plant;
+                        if (IU.UnitDescription != null)
+                        {
+                            ico = tryParseIconString(IU.UnitDescription);
+                        }
                     }
-                    catch (Exception)
-                    {
-                    }
+                    else                       
+                        ico = tryParseIconString(IU.TaxonomicGroup);
+                }
+                return ico;
+            }
+
+            private ISOIcon tryParseIconString(string iconString)
+            {
+                ISOIcon ico = ISOIcon.Unknown;
+                try
+                {
+                    ico = (ISOIcon)Enum.Parse(typeof(ISOIcon), IU.TaxonomicGroup ?? "", true);
+                }
+                catch (Exception ex)
+                {
+#if DEBUG
+                    Debug.WriteLine(string.Format("Missing Icon: [{0}]",ex)); 
+#endif
                 }
                 return ico;
             }
