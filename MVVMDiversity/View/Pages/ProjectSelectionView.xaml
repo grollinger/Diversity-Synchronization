@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
+        d:DesignHeight="400" d:DesignWidth="850" 
         DataContext="{Binding ProjectSelection, Source={StaticResource Locator}}">
 
-    <Grid Height="466" Width="771">
+    <Grid>
         <GroupBox Grid.Column="0" Grid.Row="0" FontWeight="Bold"
                   Header="{Loc ProjectSelection_ProjectsHeader}">
             <Grid>

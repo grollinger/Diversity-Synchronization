@@ -52,7 +52,7 @@ namespace MVVMDiversity.View
         // Using a DependencyProperty as the backing store for Password.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PasswordProperty =
             DependencyProperty.Register("Password", typeof(string), typeof(InterfacingPasswordBox), new FrameworkPropertyMetadata("",
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,//Bloody important, this is!
                 (sender, args)=>
                 {
                     if (sender != null)
