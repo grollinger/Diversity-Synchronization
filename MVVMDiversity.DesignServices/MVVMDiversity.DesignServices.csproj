@@ -54,7 +54,6 @@
     <Compile Include="Connections.cs" />
     <Compile Include="Definitions.cs" />
     <Compile Include="FieldData.cs" />
-    <Compile Include="ISOVMStore.cs" />
     <Compile Include="Profile.cs" />
     <Compile Include="Projects.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
