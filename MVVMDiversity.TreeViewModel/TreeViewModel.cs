@@ -40,24 +40,51 @@ namespace MVVMDiversity.ViewModel
             } 
         }
 
+        private bool _truncate = false;
+        public bool TruncateDataItems
+        {
+            get
+            {
+                return _truncate;
+            }
+            set
+            {
+                if (_truncate != value)
+                {
+                    _truncate = value;
+
+                    if (_truncate)
+                        foreach (var root in _roots)
+                            trimBranchContaining(root);
+                    else
+                        foreach (var gen in _generators)
+                            gen.expandIfNecessary();
+
+                    raiseTruncateChanged();
+                }
+            }
+        }
+
+       
         
         private IISOViewModelStore _store;
 
         private Dictionary<Guid,NodeViewModel> _nodes = new Dictionary<Guid,NodeViewModel>();
 
-        private HashSet<IISOViewModel> _generators;
+        private HashSet<NodeViewModel> _generators;
 
 
         public TreeViewModel(IISOViewModelStore store)
         {
             _roots = new List<NodeViewModel>();
             _store = store;
-            _generators = new HashSet<IISOViewModel>();
+            _generators = new HashSet<NodeViewModel>();
         }
 
         public void addGenerator(IISOViewModel vm)
         {            
             var genNode = addOrRetrieveNode(vm);
+            _generators.Add(genNode);
             genNode.IsGenerator = true;
 
             addParents(vm);            
@@ -68,6 +95,7 @@ namespace MVVMDiversity.ViewModel
             NodeViewModel node = null;
             if (_nodes.TryGetValue(vm.Rowguid, out node))
             {
+                _generators.Remove(node);
                 node.IsGenerator = false;
                 if(!node.isNecessary())
                     trimBranchContaining(node);
@@ -89,7 +117,7 @@ namespace MVVMDiversity.ViewModel
         private void recursiveAddToSelection(NodeViewModel node)
         {
             //If this is a Generator, we can add all the ISOs below
-            if (node.IsGenerator)
+            if (node.IsGenerator && !TruncateDataItems)
                 recursiveAddToSelection(node.VM);
             else // we need to add only the injected ones
             {                
@@ -156,6 +184,7 @@ namespace MVVMDiversity.ViewModel
         private void trimBranchContaining(NodeViewModel node)
         {
             NodeViewModel root = findRoot(node.VM);
+            root.removeSuperfluousChildren();
             if (!root.isNecessary())
                 removeRoot(root);
         }
@@ -182,7 +211,7 @@ namespace MVVMDiversity.ViewModel
             if (!_roots.Contains(root))
             {
                 _roots.Add(root);
-                rootsChanged();
+                raiseRootsChanged();
             }
         }
         private void removeRoot(NodeViewModel root)
@@ -190,18 +219,28 @@ namespace MVVMDiversity.ViewModel
             if (_roots.Contains(root))
             {
                 _roots.Remove(root);
-                rootsChanged();
+                raiseRootsChanged();
             }
         }
 
 
-        private void rootsChanged()
+        private void raiseRootsChanged()
         {
             if(PropertyChanged != null)
                 PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs("Roots"));
 
         }
 
+        private void raiseTruncateChanged()
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs("TruncateDataItems"));
+        }
+
+
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+
+        
     }
 }

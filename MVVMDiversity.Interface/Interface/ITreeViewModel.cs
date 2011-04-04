@@ -11,6 +11,7 @@ namespace MVVMDiversity.Interface
     {
         IEnumerable<INodeViewModel> Roots {get;}
 
+        bool TruncateDataItems { get; set; }
         
         void addGenerator(IISOViewModel vm);
         void removeGenerator(IISOViewModel vm);

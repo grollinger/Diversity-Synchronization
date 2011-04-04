@@ -578,6 +578,15 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Map successfully saved! ähnelt.
+        /// </summary>
+        internal static string Map_Saved {
+            get {
+                return ResourceManager.GetString("Map_Saved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Load Map ähnelt.
         /// </summary>
         internal static string Map_Title {
@@ -601,6 +610,15 @@ namespace MVVMDiversity.Properties {
         internal static string Map_Width {
             get {
                 return ResourceManager.GetString("Map_Width", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die OK ähnelt.
+        /// </summary>
+        internal static string MessageBox_OK {
+            get {
+                return ResourceManager.GetString("MessageBox_OK", resourceCulture);
             }
         }
         
@@ -650,6 +668,15 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Field Data ähnelt.
+        /// </summary>
+        internal static string Options_FieldData {
+            get {
+                return ResourceManager.GetString("Options_FieldData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Maps ähnelt.
         /// </summary>
         internal static string Options_Maps_Header {
@@ -695,6 +722,24 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Screen Height ähnelt.
+        /// </summary>
+        internal static string Options_ScreenHeight {
+            get {
+                return ResourceManager.GetString("Options_ScreenHeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Screen Width ähnelt.
+        /// </summary>
+        internal static string Options_ScreenWidth {
+            get {
+                return ResourceManager.GetString("Options_ScreenWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Show Password ähnelt.
         /// </summary>
         internal static string Options_ShowPassword {
@@ -727,6 +772,24 @@ namespace MVVMDiversity.Properties {
         internal static string Options_Title {
             get {
                 return ResourceManager.GetString("Options_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Truncate Data Items ähnelt.
+        /// </summary>
+        internal static string Options_TruncateDataItems {
+            get {
+                return ResourceManager.GetString("Options_TruncateDataItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Use Device Dimensions ähnelt.
+        /// </summary>
+        internal static string Options_UseDeviceDimensions {
+            get {
+                return ResourceManager.GetString("Options_UseDeviceDimensions", resourceCulture);
             }
         }
         

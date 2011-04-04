@@ -642,7 +642,7 @@ namespace MVVMDiversity.ViewModel
                 this.RepositoryConnecting = false;
                 updateFromConnectionState(msg.Content);                
             });
-            MessengerInstance.Register<SettingsChanged>(this, (msg) => { updateFromSettings(msg.Content); });
+            MessengerInstance.Register<Settings>(this, (msg) => { updateFromSettings(msg.Content); });
             
             _connectRepository = new DelegateCommand(
                 () =>

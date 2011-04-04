@@ -80,10 +80,11 @@
     <Compile Include="Messages\CustomDialog.cs" />
     <Compile Include="Messages\Dialog.cs" />
     <Compile Include="Messages\Selection.cs" />
+    <Compile Include="Messages\SettingsRequest.cs" />
     <Compile Include="Messages\ShowProgress.cs" />
     <Compile Include="Messages\HideProgress.cs" />
     <Compile Include="Messages\NavigateToPage.cs" />
-    <Compile Include="Messages\SettingsChanged.cs" />
+    <Compile Include="Messages\Settings.cs" />
     <Compile Include="Messages\SyncStateChanged.cs" />
     <Compile Include="Messages\SyncStepFinished.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

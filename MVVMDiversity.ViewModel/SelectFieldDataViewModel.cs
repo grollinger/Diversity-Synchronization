@@ -78,9 +78,12 @@ namespace MVVMDiversity.ViewModel
 
         [Dependency]
         public IISOViewModelStore ISOStore { get; set; }
+       
         #endregion   
      
         BackgroundOperation _progress;
+
+        bool _truncateDataItems = false;
 
         /// <summary>
         /// Initializes a new instance of the SelectFieldDataViewModel class.
@@ -92,9 +95,7 @@ namespace MVVMDiversity.ViewModel
             PreviousPage = Messages.Page.Actions;
 
             CanNavigateBack = true;
-            CanNavigateNext = true;
-
-            
+            CanNavigateNext = true;            
 
             QueryDatabase = new RelayCommand(() =>
             {
@@ -168,6 +169,17 @@ namespace MVVMDiversity.ViewModel
                         }
                     }
                 });
+
+            MessengerInstance.Register<Settings>(this, (msg) => updateFromSettings(msg.Content));
+            MessengerInstance.Send<SettingsRequest>(new SettingsRequest());
+        }
+
+        private void updateFromSettings(DiversityUserOptions diversityUserOptions)
+        {
+            if (QueryResultTree != null)
+                QueryResultTree.TruncateDataItems = diversityUserOptions.TruncateDataItems;
+            if (SelectionTree != null)
+                SelectionTree.TruncateDataItems = diversityUserOptions.TruncateDataItems;
         }
 
         private List<IISOViewModel> buildVMList(IList<ISerializableObject> result)

@@ -134,6 +134,48 @@ namespace MVVMDiversity.Test
             Assert.Empty(tree.buildSelection());
         }
 
+        [Fact]
+        public void setting_truncate_should_only_clear_the_children()
+        {
+            child.IsExpanded = true;
+            tree.TruncateDataItems = true;
+            Assert.Equal(1, tree.Roots.Count());
+            Assert.Contains(root, tree.Roots);
+
+            Assert.Equal(1, root.Children.Count());
+            Assert.Contains(child, root.Children);
+
+            Assert.Empty(child.Children);
+        }
+
+        [Fact]
+        public void setting_truncate_should_truncate_selection()
+        {
+            child.IsExpanded = true;
+            tree.TruncateDataItems = true;
+            var sel = tree.buildSelection();
+
+            Assert.Equal(2, sel.Count());
+            Assert.Contains(rootMock.Object, sel);
+            Assert.Contains(childMock.Object, sel);
+        }
+
+        [Fact]
+        public void resetting_truncate_should_restore_expanded_children()
+        {
+            child.IsExpanded = true;
+            tree.TruncateDataItems = true;
+            tree.TruncateDataItems = false;
+
+            Assert.Equal(1, tree.Roots.Count());
+            Assert.Contains(root, tree.Roots);
+
+            Assert.Equal(1, root.Children.Count());
+            Assert.Contains(child, root.Children);
+
+            Assert.NotEmpty(child.Children);
+        }
+
         
         
     }

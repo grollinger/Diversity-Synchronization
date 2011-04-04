@@ -514,4 +514,25 @@ ATTENTION: All data in your mobile database will be LOST!</value>
   <data name="Actions_Cleaning_DB" xml:space="preserve">
     <value>Cleaning Database</value>
   </data>
+  <data name="Options_ScreenHeight" xml:space="preserve">
+    <value>Screen Height</value>
+  </data>
+  <data name="Options_ScreenWidth" xml:space="preserve">
+    <value>Screen Width</value>
+  </data>
+  <data name="Options_UseDeviceDimensions" xml:space="preserve">
+    <value>Use Device Dimensions</value>
+  </data>
+  <data name="Options_FieldData" xml:space="preserve">
+    <value>Field Data</value>
+  </data>
+  <data name="Options_TruncateDataItems" xml:space="preserve">
+    <value>Truncate Data Items</value>
+  </data>
+  <data name="Map_Saved" xml:space="preserve">
+    <value>Map successfully saved!</value>
+  </data>
+  <data name="MessageBox_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
 </root>

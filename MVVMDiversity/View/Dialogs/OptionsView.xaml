@@ -7,6 +7,7 @@
         Width="{StaticResource DialogWidth}"
         Height="300"
         Title="{Loc Options_Title}"
+        WindowStartupLocation="CenterOwner"
         DataContext="{Binding Options, Source={StaticResource Locator}}">
 
     
@@ -86,8 +87,28 @@
                 </Grid>
             </TabItem>
             <TabItem Header="{Loc Options_Maps_Header}">
-                
-                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+
+                    <CheckBox Grid.Row="0" Grid.ColumnSpan="2" IsChecked="{Binding Options.UseDeviceDimensions}" Content="{Loc Options_UseDeviceDimensions}"/>
+
+                    <Label Grid.Row="1" Grid.Column="0" Content="{Loc Options_ScreenHeight}" IsEnabled="{Binding Options.UseDeviceDimensions}"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Options.ScreenHeight}" IsEnabled="{Binding Options.UseDeviceDimensions}"/>
+
+                    <Label Grid.Row="2" Grid.Column="0" Content="{Loc Options_ScreenWidth}" IsEnabled="{Binding Options.UseDeviceDimensions}"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Options.ScreenWidth}" IsEnabled="{Binding Options.UseDeviceDimensions}"/>
+                </Grid>                
+            </TabItem>
+            <TabItem Header="{Loc Options_FieldData}">
+                <CheckBox Margin="8" Content="{Loc Options_TruncateDataItems}" IsChecked="{Binding Options.TruncateDataItems}"/>
             </TabItem>
         </TabControl>
         

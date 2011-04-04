@@ -92,6 +92,12 @@ namespace MVVMDiversity.Model
 
         public bool UseDeviceDimensions { get; set; }
 
+        public int ScreenHeight { get; set; }
+
+        public int ScreenWidth { get; set; }
+
+        public bool TruncateDataItems { get; set; }
+
         #endregion
        
         #region IDataErrorInfo

@@ -155,9 +155,8 @@ namespace MVVMDiversity.ViewModel
                     _isGen = value;
 
                     propagateGenerator();
-                    expandIfNecessary();
-                    expandIfNecessary();
-                                     
+                    removeSuperfluousChildren();
+                    expandIfNecessary();                            
 
                     // Update bindings, no broadcast
                     RaisePropertyChanged(IsGeneratorPropertyName);
@@ -213,6 +212,7 @@ namespace MVVMDiversity.ViewModel
                     {
                         _belowGen = value;
                         propagateGenerator();
+                        removeSuperfluousChildren();
                         expandIfNecessary();
 
                     }
@@ -224,7 +224,7 @@ namespace MVVMDiversity.ViewModel
             internal IISOViewModel VM { get { return _vm; } }
             #endregion
 
-            private void expandIfNecessary()
+            internal void expandIfNecessary()
             {
                 if (IsExpanded)
                     performExpansion();
@@ -232,7 +232,7 @@ namespace MVVMDiversity.ViewModel
 
             private void propagateGenerator()
             {
-                var shouldExpand = BelowOrIsGenerator();
+                var shouldExpand = BelowOrIsGenerator() && !_owner.TruncateDataItems;
 
                 foreach (var childNode in _childNodes)
                 {
@@ -251,17 +251,18 @@ namespace MVVMDiversity.ViewModel
                     return true;
                 else
                 {
-                    removeSuperfluousChildren();
+                    
                     return _childNodes.Count > 0;
                 }
             
             }           
 
-            private void removeSuperfluousChildren()
+            internal void removeSuperfluousChildren()
             {
                 IList<NodeViewModel> survivors = new List<NodeViewModel>();
                 foreach (var child in _childNodes)
                 {
+                    child.removeSuperfluousChildren();
                     if (child.isNecessary())
                     {
                         survivors.Add(child);
@@ -282,7 +283,7 @@ namespace MVVMDiversity.ViewModel
             protected void performExpansion()
             {
                 bool childrenChanged = false;
-                if (BelowOrIsGenerator())
+                if (BelowOrIsGenerator() && !_owner.TruncateDataItems)
                 {
                     foreach (var iso in _vm.Children)
                     {

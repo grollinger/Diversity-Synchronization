@@ -36,11 +36,29 @@ namespace MVVMDiversity.Services
 {
     public class UserOptionsService : IUserOptionsService
     {
-
+        IMessenger _msngr;
         [Dependency]
-        public IMessenger MessengerInstance { get; set; }
-
-
+        public IMessenger MessengerInstance 
+        {
+            get
+            {
+                return _msngr;
+            }
+            set
+            {
+                if (_msngr != value)
+                {
+                    _msngr = value;
+                    if (_msngr != null)
+                        _msngr.Register<SettingsRequest>(this,
+                            (msg) =>
+                            {
+                                updateSubscribers();
+                            });
+                }
+            }                    
+        }
+        
         private string _optionsPath;
 
         private XmlSerializer _serializer;
@@ -88,8 +106,7 @@ namespace MVVMDiversity.Services
 
             _options = o;
 
-            if (MessengerInstance != null)
-                MessengerInstance.Send<SettingsChanged>(_options);
+            updateSubscribers();
 
             var openMode = File.Exists(_optionsPath) ? FileMode.Truncate : FileMode.Create;
             try
@@ -103,6 +120,12 @@ namespace MVVMDiversity.Services
             {
                 _Log.ErrorFormat("Couldn't save UserOptions: [{0}]", ex);
             }
+        }
+
+        private void updateSubscribers()
+        {
+            if (MessengerInstance != null)
+                MessengerInstance.Send<Settings>(getOptions());
         }
     }
 }

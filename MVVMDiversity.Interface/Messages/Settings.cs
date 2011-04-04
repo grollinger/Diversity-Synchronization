@@ -7,17 +7,17 @@ using MVVMDiversity.Model;
 
 namespace MVVMDiversity.Messages
 {
-    public class SettingsChanged : GenericMessage<DiversityUserOptions>
+    public class Settings : GenericMessage<DiversityUserOptions>
     {
-        public SettingsChanged(DiversityUserOptions newOptions)
+        public Settings(DiversityUserOptions newOptions)
             : base (newOptions)
         {
 
         }
 
-        public static implicit operator SettingsChanged(DiversityUserOptions o)
+        public static implicit operator Settings(DiversityUserOptions o)
         {
-            return new SettingsChanged(o);
+            return new Settings(o);
         }
     }
 }
