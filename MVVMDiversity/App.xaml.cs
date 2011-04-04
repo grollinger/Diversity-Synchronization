@@ -23,12 +23,13 @@ namespace MVVMDiversity
             get
             {
                 var ioc = new UnityContainer();
+                ioc.RegisterInstance<IMessenger>(Messenger.Default);
                 ioc.RegisterInstance<IISOViewModelStore>(new ISOViewModelContainer());
+                ioc.RegisterInstance<IMapService>(ioc.Resolve<MapService>());
 
-                if (false)
-                {
-                    ioc.RegisterInstance<IMessenger>(Messenger.Default);
-                    ioc.RegisterInstance<IUserOptionsService>(new DesignServices.UserOptions());
+                if (true)
+                {                    
+                    ioc.RegisterInstance<IUserOptionsService>(ioc.Resolve<DesignServices.UserOptions>());
                     ioc.RegisterInstance<IConnectionProfilesService>(new DesignServices.ConnectionProfiles());
                     var conn = new DesignServices.Connections();
                     ioc.RegisterInstance<IConnectionManagementService>(conn);
@@ -41,12 +42,11 @@ namespace MVVMDiversity
 
                     ioc.RegisterInstance<ISessionManager>(new DesignServices.Sessions());
 
-                    ioc.RegisterInstance<ITaxonListService>(new DesignServices.TaxonLists());
+                    ioc.RegisterInstance<ITaxonListService>(new DesignServices.TaxonLists());                  
 
                 }
                 else
-                {
-                    ioc.RegisterInstance<IMessenger>(Messenger.Default);
+                {                    
                     ioc.RegisterInstance<IUserOptionsService>(ioc.Resolve<UserOptionsService>());
                     ioc.RegisterInstance<IConnectionProfilesService>(ioc.Resolve<ConnectionProfileProvider>());
                     var connections = ioc.Resolve<ConnectionManager>();
@@ -58,6 +58,7 @@ namespace MVVMDiversity
                     ioc.RegisterInstance<IFieldDataService>(ioc.Resolve<FieldDataService>());
                     ioc.RegisterInstance<ITaxonListService>(ioc.Resolve<TaxonListService>());
                     ioc.RegisterInstance<ISessionManager>(ioc.Resolve<SessionManager>());
+                    
 
                 }
                 return new ViewModelLocator(ioc);

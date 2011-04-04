@@ -79,6 +79,7 @@ namespace MVVMDiversity.ViewModel
             CreateConnections();
             CreateProjectSelection();
             CreateActions();
+            CreateMap();
         }
 
         /// <summary>
@@ -366,54 +367,25 @@ namespace MVVMDiversity.ViewModel
         /// <summary>
         /// Gets the Map property.
         /// </summary>
-        public static MapViewModel MapStatic
-        {
-            get
-            {
-                if (_mapVM == null)
-                {
-                    CreateMap();
-                }
+        public static MapViewModel getMapVMforView(IMapView view)
+        {            
+            CreateMap();
+          
+            _mapVM.View = view;
 
-                return _mapVM;
-            }
+            return _mapVM;            
         }
 
-        /// <summary>
-        /// Gets the Map property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public MapViewModel Map
-        {
-            get
-            {
-                return MapStatic;
-            }
-        }
-
-        /// <summary>
-        /// Provides a deterministic way to delete the Map property.
-        /// </summary>
-        public static void ClearMap()
-        {
-            _mapVM.Cleanup();
-            _mapVM = null;
-        }
-
-        /// <summary>
-        /// Provides a deterministic way to create the Map property.
-        /// </summary>
-        public static void CreateMap()
+        private static void CreateMap()
         {
             if (_mapVM == null)
-            {
                 _mapVM = _iocContainer.Resolve<MapViewModel>();
-            }
         }
 
-
+        public static PageViewModel MapStatic { get {
+            CreateMap();
+            return _mapVM; } }
+        
         private static TaxonViewModel _taxonVM;
 
         /// <summary>
@@ -516,7 +488,9 @@ namespace MVVMDiversity.ViewModel
             {
                 _selection = _iocContainer.Resolve<SelectionViewModel>();
             }
-        }  
+        }
 
+
+        
     }
 }

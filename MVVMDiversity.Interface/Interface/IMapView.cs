@@ -8,8 +8,8 @@ namespace MVVMDiversity.Interface
 {
     public interface IMapView
     {
+        void showOverlay(int height, int width);
         MapInfo getMapInfo();
-        string getMapURL(int height, int width);
-        string getMapURL();
+        string getMapURL(int height, int width);        
     }
 }

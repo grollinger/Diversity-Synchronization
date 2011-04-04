@@ -43,8 +43,10 @@ namespace MVVMDiversity.View.Pages
             Stream source = Application.GetContentStream(uri).Stream;
             webbrowserMap.NavigateToStream(source);
             
-            webbrowserMap.ObjectForScripting = new MapsCOMInterface(this);
-            
+            //webbrowserMap.ObjectForScripting = new MapsCOMInterface(this);
+
+
+            DataContext = ViewModelLocator.getMapVMforView(this);          
         }
 
 
@@ -213,54 +215,21 @@ namespace MVVMDiversity.View.Pages
 
         #region Helper Methods        
 
-        private void getCurrentPosition()
-        {
-            //Current centered Latitude and Longitude for GPS WGS84 
-            if (webbrowserMap.Document != null)
-            {
-                Object temp;
-                temp = webbrowserMap.InvokeScript("getLatitude");
-                this.textBoxLatitude.Text = temp.ToString();
-
-
-                temp = webbrowserMap.InvokeScript("getLongitude");
-                this.textBoxLongitude.Text = temp.ToString();
-
-            }
-        }
-
-        
-
-        //private Bitmap zoomImage(Bitmap image)
+        //private void getCurrentPosition()
         //{
-        //    if (image != null)
+        //    //Current centered Latitude and Longitude for GPS WGS84 
+        //    if (webbrowserMap.Document != null)
         //    {
-        //        int imgWidth = image.Size.Width;
-        //        int imgHeight = image.Size.Height;
+        //        Object temp;
+        //        temp = webbrowserMap.InvokeScript("getLatitude");
+        //        this.textBoxLatitude.Text = temp.ToString();
 
-        //        double imgRate = imgWidth / imgHeight;
 
-        //        if (imgWidth > this.pictureBoxMap.Width || imgHeight > this.pictureBoxMap.Height)
-        //        {
-        //            if (imgWidth > imgHeight)
-        //            {
-        //                imgWidth = this.pictureBoxMap.Width;
-        //                imgHeight = (int)(imgWidth / imgRate);
-        //            }
-        //            else
-        //            {
-        //                imgHeight = this.pictureBoxMap.Height;
-        //                imgWidth = (int)(imgHeight * imgRate);
-        //            }
-        //        }
-        //        return new Bitmap(image, new Size(imgWidth, imgHeight));
+        //        temp = webbrowserMap.InvokeScript("getLongitude");
+        //        this.textBoxLongitude.Text = temp.ToString();
+
         //    }
-        //    return null;
-        //}
-
-
-        
-           
+        //}           
 
         #endregion
 
@@ -301,9 +270,12 @@ namespace MVVMDiversity.View.Pages
         }
 
 
-        public string getMapURL()
+        
+
+        public void showOverlay(int height, int width)
         {
-            throw new NotImplementedException();
+            var param = new Object[]{width,height};
+            webbrowserMap.InvokeScript("showOverlay",param);
         }
     }
 }

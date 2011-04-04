@@ -110,13 +110,13 @@ namespace MVVMDiversity.Services
                     return String.Format("{0}\\{1}", getFolderPath(ApplicationFolder.ApplicationData), TRANSACTION_FOLDER);
                                     
                 case ApplicationFolder.Pictures:
-                    return String.Format("{0}\\{1}", getFolderPath(ApplicationFolder.Settings), PICTURES_FOLDER);
+                    return String.Format("{0}\\{1}", getFolderPath(ApplicationFolder.ApplicationData), PICTURES_FOLDER);
                     
                 case ApplicationFolder.Defaults:
                     return String.Format("{0}\\{1}", getFolderPath(ApplicationFolder.Application), DEFAULTS_FOLDER);
                     
                 case ApplicationFolder.Maps:
-                    return String.Format("{0}\\{1}", getFolderPath(ApplicationFolder.Settings), MAPS_FOLDER);
+                    return String.Format("{0}\\{1}", getFolderPath(ApplicationFolder.ApplicationData), MAPS_FOLDER);
                     
                 case ApplicationFolder.Icons:
                     return String.Format("{0}\\{1}", getFolderPath(ApplicationFolder.Application), ICONS_FOLDER);

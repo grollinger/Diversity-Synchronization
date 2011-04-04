@@ -28,24 +28,45 @@ using System.Xml;
 using System.Net;
 using Microsoft.Practices.Unity;
 using MVVMDiversity.Model;
+using log4net;
 
 namespace MVVMDiversity.Services
 {
     public class MapService : IMapService
     {
+        private const string IMAGE_EXT = ".png";
+        private const string META_EXT = ".xml";
+
+        ILog _Log = LogManager.GetLogger(typeof(MapService));
+
         MapInfo _mapMetadata;
-        void method(string file)
+
+        public void saveMap(MapInfo metadata, string url, Action<MapInfo> finishedCallback)
+        {
+            lock (this)
+            {
+                _mapMetadata = metadata;
+                var local = localPath();
+                if(downloadFile(url, local + IMAGE_EXT) > 0)
+                    writeSettingsToXML(local + META_EXT);
+            }
+            if (finishedCallback != null)
+                finishedCallback(metadata);
+        }
+
+
+
+        private string localPath()
         {
             StringBuilder builder = new StringBuilder();
             builder.Append(ApplicationPathManager.getFolderPath(ApplicationFolder.Maps));
             builder.Append(@"\");
-            builder.Append(file);
-            builder.Append(".png");
+            builder.Append(_mapMetadata.Name);
 
-            String localFileName = builder.ToString();
+            return builder.ToString();
         }
 
-        private int DownloadFile(String remoteFilename, String localFilename)
+        private int downloadFile(String remoteFilename, String localFilename)
         {
             //Function will return the number of bytes processed
             //to the caller. Initialize to 0 here.
@@ -99,7 +120,7 @@ namespace MVVMDiversity.Services
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                _Log.ErrorFormat("Error while downloading file: [{0}]", e);
             }
             finally
             {
@@ -184,7 +205,7 @@ namespace MVVMDiversity.Services
             {
                 DirectoryInfo dirInfo = new DirectoryInfo(directory);
 
-                FileInfo[] fileInfo = dirInfo.GetFiles(fileName + ".xml");
+                FileInfo[] fileInfo = dirInfo.GetFiles(fileName + META_EXT);
 
                 if (fileInfo.Length > 0)
                 {
@@ -234,5 +255,7 @@ namespace MVVMDiversity.Services
                 }
             }
         }
+
+        
     }
 }

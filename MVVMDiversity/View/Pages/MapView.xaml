@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        DataContext="{Binding Map, Source={StaticResource Locator}}" d:DesignHeight="599" d:DesignWidth="856">
+        d:DesignHeight="599" d:DesignWidth="856">
 
     <UserControl.Resources>
         <!--The tool tip for the TextBox to display the validation error message.-->
@@ -47,14 +47,16 @@
                         <RowDefinition Height="25" />
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Grid.Column="0" Content="{Loc Map_Longitude}"/>
-                    <TextBox Name="textBoxLongitude" VerticalAlignment="Top" Grid.Row="0"  Grid.Column="1" />
+                    <TextBox Text="{Binding Longitude}" VerticalAlignment="Top" Grid.Row="0"  Grid.Column="1" />
                     <Label Grid.Row="1" Grid.Column="0" Content="{Loc Map_Latitude}"/>
-                    <TextBox Name="textBoxLatitude" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" />
-                    <Button Grid.Row="3" Grid.Column="1" Width="100" HorizontalAlignment="Right" Content="{Loc Map_FromMap}"/>
-                    <Button Grid.Row="5" Grid.Column="1" Width="100" HorizontalAlignment="Right" Content="{Loc Map_ToMap}"/>
+                    <TextBox Text="{Binding Latitude}" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" />
+                    <Button Grid.Row="3" Grid.Column="1" Width="100" HorizontalAlignment="Right" Content="{Loc Map_FromMap}"
+                            Command="{Binding FromMap}"/>
+                    <!--Button Grid.Row="5" Grid.Column="1" Width="100" HorizontalAlignment="Right" Content="{Loc Map_ToMap}"
+                            Command="{Binding ToMap}"/-->
                 </Grid>
             </GroupBox>
-            <GroupBox Header="{Loc Map_DeviceScreenSize}" Name="groupBoxDeviceSizes">
+            <GroupBox Header="{Loc Map_DeviceScreenSize}" IsEnabled="{Binding UseDeviceSize}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="26"/>
@@ -65,9 +67,9 @@
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Row="0" Grid.Column="0" Content="{Loc Map_Height}"/>
-                    <TextBox Name="textDeviceHeight" Grid.Row="0" Grid.Column="1" Text="{Binding DeviceHeight, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource textBoxInError}"/>
+                    <TextBlock Text="{Binding DeviceHeight}" Grid.Row="0" Grid.Column="1" />
                     <Label Grid.Row="1" Grid.Column="0" Content="{Loc Map_Width}"/>
-                    <TextBox Name="textDeviceWidth" Grid.Row="1" Grid.Column="1" Text="{Binding DeviceWidth, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource textBoxInError}"/>
+                    <TextBlock Text="{Binding DeviceWidth}" Grid.Row="1" Grid.Column="1"/>
                 </Grid>
             </GroupBox>
             <GroupBox Grid.Row="8" Header="{Loc Map_FileHeader}" VerticalAlignment="Bottom" Grid.Column="1" Grid.ColumnSpan="3">
@@ -75,22 +77,20 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="26"/>
                         <RowDefinition Height="26"/>
-                        <RowDefinition Height="26"/>
+                        <RowDefinition Height="26"/>                        
                         
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Name="labelFile" Grid.Row="0" Grid.Column="0" Content="{Loc Map_FileName}"/>
-                    <TextBox Name="textBoxFile" Grid.Row="0" Grid.Column="1" Background="AntiqueWhite" Text="{Binding MapInfo.Name, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource textBoxInError}"/>
-                    <Label Name="labelDescription" Grid.Row="1" Grid.Column="0" Content="{Loc Map_FileDescription}"/>
-                    <TextBox Name="textBoxDescription" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Background="AntiqueWhite" Text="{Binding MapInfo.Description}" />
-                    
+                    <Label Grid.Row="0" Grid.Column="0" Content="{Loc Map_FileName}"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding MapName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="{Loc Map_FileDescription}"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Text="{Binding MapDescription, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />                    
                 </Grid>
             </GroupBox>
         </StackPanel>
-        <WebBrowser Grid.Row="1" Name="webbrowserMap" Grid.Column="3" AllowDrop="False" MinHeight="200" MinWidth="200" Height="Auto" Width="Auto" />
-        <Image Grid.Row="1" Name="imageMap" Stretch="Fill" Grid.Column="3" Visibility="Collapsed" />
+        <WebBrowser Grid.Row="1" Name="webbrowserMap" Grid.Column="3" AllowDrop="False" MinHeight="200" MinWidth="200" Height="Auto" Width="Auto" />        
     </Grid>
 </UserControl>
