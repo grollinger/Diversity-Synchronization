@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Width="{StaticResource DialogWidth}"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
         Closing="Window_Closing">
 
     <Grid>
@@ -28,7 +30,7 @@
        
         <Label Grid.Row="1" Grid.Column="1" FontSize="16" FontWeight="Bold" Padding="0" Content="{LocBinding Caption}"/>
         <TextBlock Name="textPageDescription" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Text="{LocBinding Content}"/>
-        <Button Width="100" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center" Click="OK_Click"/>
+        <Button Width="100" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center" Content="{Loc MessageBox_OK}" Click="OK_Click"/>
 
     </Grid>
 </Window>

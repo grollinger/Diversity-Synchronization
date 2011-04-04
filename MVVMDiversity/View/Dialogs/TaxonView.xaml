@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Width="{StaticResource DialogWidth}"
+        WindowStartupLocation="CenterOwner"
         DataContext="{Binding Taxon, Source={StaticResource Locator}}" Height="300" 
         Title="{Loc Taxon_Header}">
 

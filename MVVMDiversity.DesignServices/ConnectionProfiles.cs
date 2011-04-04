@@ -15,7 +15,7 @@ namespace MVVMDiversity.DesignServices
             {
                 new ConnectionProfile()
                 {
-                    InitialCatalog = "Init_Catalog",
+                    InitialCatalog = "Init",
                     TaxonNamesInitialCatalog = "Taxon_Init",
                     Name = "Test",
                     Port = "8080",

@@ -103,6 +103,7 @@
             <GroupBox Header="{Loc SelectFD_ActualSelection}" x:Name="groupBoxSelection" Grid.Column="4">
                 <Grid>
                     <Grid.RowDefinitions>
+
                         <RowDefinition Height="2*" />
                         <RowDefinition Height="10" />
                         <RowDefinition Height="25" />
@@ -120,7 +121,7 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </ScrollViewer>
-                    <Button Grid.Row="2" Command="{Binding SelectionSelectAll}" Content="{Loc SelectFD_SelectAll}" Click="SelectionSelectAll_Click" />
+                    <Button Grid.Row="2" Content="{Loc SelectFD_SelectAll}" Click="SelectionSelectAll_Click" />
                     <controls:ISOTreeView Grid.Row="4" ItemsSource="{Binding SelectionTree.Roots}"/>
                 </Grid>
             </GroupBox>
