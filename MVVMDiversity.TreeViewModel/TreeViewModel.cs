@@ -130,8 +130,11 @@ namespace MVVMDiversity.ViewModel
 
         private void addPropertiesToSelection(IISOViewModel vm)
         {
-            foreach (var property in vm.Properties)
-                _selection.Add(property);
+            if (vm.Properties != null)
+            {
+                foreach (var property in vm.Properties)
+                    _selection.Add(property);
+            }
         }
 
         private void recursiveAddToSelection(IISOViewModel vm)
