@@ -1100,6 +1100,24 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Truncate Data Items ähnelt.
+        /// </summary>
+        internal static string SelectFD_Truncate {
+            get {
+                return ResourceManager.GetString("SelectFD_Truncate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Excludes the child items of the ones you selected from the download. ähnelt.
+        /// </summary>
+        internal static string SelectFD_Truncate_ToolTip {
+            get {
+                return ResourceManager.GetString("SelectFD_Truncate_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Synchronize ähnelt.
         /// </summary>
         internal static string Selection_Next {
@@ -1249,6 +1267,15 @@ namespace MVVMDiversity.Properties {
         internal static string Validation_DateRangeRestriction_EndBeforeStart {
             get {
                 return ResourceManager.GetString("Validation_DateRangeRestriction_EndBeforeStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Must be between 100 and 800 ähnelt.
+        /// </summary>
+        internal static string Validation_Options_FieldDimensionOutOfRange {
+            get {
+                return ResourceManager.GetString("Validation_Options_FieldDimensionOutOfRange", resourceCulture);
             }
         }
         

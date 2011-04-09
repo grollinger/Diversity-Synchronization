@@ -57,7 +57,7 @@
                     <CheckBox Grid.Row="6" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="5" Content="{Loc Options_ShowPassword}" IsChecked="{Binding Options.PasswordVisible}" />
 
                     <Label Grid.Row="7" Grid.Column="0" Content="{Loc Options_Username}" IsEnabled="{Binding Options.UseSqlAuthentification}"/>
-                    <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Options.Username}" IsEnabled="{Binding Options.UseSqlAuthentification}"/>
+                    <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Options.Username, ValidatesOnDataErrors=True}" IsEnabled="{Binding Options.UseSqlAuthentification}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="{Loc Options_Mobile_Header}">
@@ -101,10 +101,10 @@
                     <CheckBox Grid.Row="0" Grid.ColumnSpan="2" IsChecked="{Binding Options.UseDeviceDimensions}" Content="{Loc Options_UseDeviceDimensions}"/>
 
                     <Label Grid.Row="1" Grid.Column="0" Content="{Loc Options_ScreenHeight}" IsEnabled="{Binding Options.UseDeviceDimensions}"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Options.ScreenHeight}" IsEnabled="{Binding Options.UseDeviceDimensions}"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Options.ScreenHeight, ValidatesOnDataErrors=True}" IsEnabled="{Binding Options.UseDeviceDimensions}"/>
 
                     <Label Grid.Row="2" Grid.Column="0" Content="{Loc Options_ScreenWidth}" IsEnabled="{Binding Options.UseDeviceDimensions}"/>
-                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Options.ScreenWidth}" IsEnabled="{Binding Options.UseDeviceDimensions}"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Options.ScreenWidth, ValidatesOnDataErrors=True}" IsEnabled="{Binding Options.UseDeviceDimensions}"/>
                 </Grid>                
             </TabItem>
             <TabItem Header="{Loc Options_FieldData}">
@@ -115,7 +115,7 @@
         <Rectangle Grid.Row="1" Style="{StaticResource HorizontalBorderStyle}"/>
 		<DockPanel Grid.Row="2" LastChildFill="False" Background="{StaticResource FooterColorGradient}">
             <Button Content="{Loc Options_Cancel}" Style="{StaticResource ButtonDefaultStyle}" Click="Cancel_Click" DockPanel.Dock="Left" Margin="8"/>
-            <Button Content="{Loc Options_Save}" Style="{StaticResource ButtonDefaultStyle}" Click="Save_Click" DockPanel.Dock="Right" Margin="8"/>
+            <Button Content="{Loc Options_Save}" Style="{StaticResource ButtonDefaultStyle}" Click="Save_Click" DockPanel.Dock="Right" Margin="8" />
 		</DockPanel>
         
     

@@ -71,12 +71,15 @@ namespace MVVMDiversity.Model
             }
         }
 
+        private const string UsernamePropertyName = "Username";
+
+
         public string Username { get; set; }
 
         public ConnectionProfile CurrentConnection { get; set; }
 
 
-        private static readonly string PathsName = "Paths";
+        private const string PathsName = "Paths";
         public DBPaths Paths
         { 
             get { return _paths; }
@@ -88,11 +91,48 @@ namespace MVVMDiversity.Model
                     RaisePropertyChanged(PathsName);
                 }
             }
-        }          
+        }
 
-        public bool UseDeviceDimensions { get; set; }
+        /// <summary>
+        /// The <see cref="UseDeviceDimensions" /> property's name.
+        /// </summary>
+        private const string UseDeviceDimensionsPropertyName = "UseDeviceDimensions";
+
+        private bool _useDevDim = false;
+
+        /// <summary>
+        /// Gets the UseDeviceDimensions property.
+        /// TODO Update documentation:
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// </summary>
+        public bool UseDeviceDimensions
+        {
+            get
+            {
+                return _useDevDim;
+            }
+
+            set
+            {
+                if (_useDevDim == value)
+                {
+                    return;
+                }
+
+                var oldValue = _useDevDim;
+                _useDevDim = value;                  
+
+                // Update bindings, no broadcast
+                RaisePropertyChanged(UseDeviceDimensionsPropertyName);               
+            }
+        }
+
+        private const string ScreenHeightPropertyName = "ScreenHeight";
 
         public int ScreenHeight { get; set; }
+
+        private const string ScreenWidthPropertyName = "ScreenWidth";
 
         public int ScreenWidth { get; set; }
 
@@ -107,11 +147,35 @@ namespace MVVMDiversity.Model
         {
             get 
             {
+                _err = this[UsernamePropertyName];
+
+                _err = _err ?? this[PathsName];
+                _err = _err ?? this[ScreenHeightPropertyName];
+                _err = _err ?? this[ScreenWidthPropertyName];
+                
+
+                return _err;
+            }
+        }
+
+     
+
+        public string this[string columnName]
+        { 
+            get 
+            {
                 _err = null;
 
-                checkUsername();
-                if(UseSqlAuthentification)
+                if (columnName == UsernamePropertyName)
+                    checkUsername();
+                else if (columnName == PathsName)
                     checkPaths();
+                else if (columnName == ScreenHeightPropertyName)
+                    checkScreenDimension(ScreenHeight);
+                else if (columnName == ScreenWidthPropertyName)
+                    checkScreenDimension(ScreenWidth);
+                
+                
 
                 return _err;
             }
@@ -128,21 +192,12 @@ namespace MVVMDiversity.Model
             }
         }
 
-        public string this[string columnName]
-        { 
-            get 
-            {
-                _err = null;
+        private void checkScreenDimension(int dim)
+        {
+            if (UseDeviceDimensions)
+                if (dim > 800 || dim < 100)
+                    _err = "Validation_Options_FieldDimensionOutOfRange";
 
-                if (columnName == "Username")
-                    checkUsername();
-                else if (columnName == PathsName)
-                    checkPaths();
-                
-                
-
-                return _err;
-            }
         }
 
         private void checkUsername()
