@@ -27,7 +27,7 @@ namespace MVVMDiversity
                 ioc.RegisterInstance<IISOViewModelStore>(new ISOViewModelContainer());
                 ioc.RegisterInstance<IMapService>(ioc.Resolve<MapService>());
 
-                if (true)
+                if (false)
                 {                    
                     ioc.RegisterInstance<IUserOptionsService>(ioc.Resolve<DesignServices.UserOptions>());
                     ioc.RegisterInstance<IConnectionProfilesService>(new DesignServices.ConnectionProfiles());
@@ -54,7 +54,10 @@ namespace MVVMDiversity
                     ioc.RegisterInstance<IConnectionProvider>(connections);
                     ioc.RegisterInstance<IProjectService>(ioc.Resolve<ProjectProvider>());
                     ioc.RegisterInstance<IUserProfileService>(ioc.Resolve<UserProfileProvider>());
-                    ioc.RegisterInstance<IDefinitionsService>(ioc.Resolve<DefinitionsService>());
+
+                    ioc.RegisterInstance<IDefinitionsService>(new DesignServices.Definitions());
+
+                    //ioc.RegisterInstance<IDefinitionsService>(ioc.Resolve<DefinitionsService>());
                     ioc.RegisterInstance<IFieldDataService>(ioc.Resolve<FieldDataService>());
                     ioc.RegisterInstance<ITaxonListService>(ioc.Resolve<TaxonListService>());
                     ioc.RegisterInstance<ISessionManager>(ioc.Resolve<SessionManager>());

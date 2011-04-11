@@ -84,12 +84,6 @@ namespace MVVMDiversity.Services
             }, null);
 
             return p;
-        }
-
-
-
-
-        
-        
+        }   
     }
 }

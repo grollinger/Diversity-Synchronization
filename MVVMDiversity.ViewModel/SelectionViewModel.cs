@@ -27,6 +27,7 @@ using log4net;
 using MVVMDiversity.Messages;
 using MVVMDiversity.Model;
 using GalaSoft.MvvmLight.Threading;
+using System;
 
 namespace MVVMDiversity.ViewModel
 {
@@ -49,19 +50,27 @@ namespace MVVMDiversity.ViewModel
             PreviousPage = Messages.Page.FieldData;
             NextPage = Messages.Page.Actions;
             CanNavigateNext = false;
-            CanNavigateBack = true;
+            CanNavigateBack = false;
             
             MessengerInstance.Register<Selection>(this, (msg) =>
             {
                 CanNavigateNext = false;
-                SelectionTree = new TreeViewModel(ISOStore);
+                CanNavigateBack = false;
+                SelectionTree = new AsyncTreeViewModel(ISOStore);
                 foreach (var vm in msg.Content)
                 {
                     SelectionTree.addGenerator(vm);
                 }
 
-                _completeSelection = SelectionTree.buildSelection();
-                CanNavigateNext = true;
+                new Action(() =>
+                    {
+                        _completeSelection = SelectionTree.buildSelection();
+                        DispatcherHelper.CheckBeginInvokeOnUI(()=>
+                            {
+                                CanNavigateBack = true;
+                                CanNavigateNext = true;
+                            });
+                    }).BeginInvoke(null, null);
             });
         }
         
@@ -112,45 +121,7 @@ namespace MVVMDiversity.ViewModel
             }
 
             return base.OnNavigateNext();
-        }
-
-
-        /// <summary>
-        /// The <see cref="Selection" /> property's name.
-        /// </summary>
-        public const string SelectionPropertyName = "Selection";
-
-        private ICollection<ISerializableObject> _selection = null;
-
-        /// <summary>
-        /// Gets the Selection property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
-        /// </summary>
-        public ICollection<ISerializableObject> Selection
-        {
-            get
-            {
-                return _selection;
-            }
-
-            private set
-            {
-                if (_selection == value)
-                {
-                    return;
-                }
-                
-                _selection = value;                     
-
-                // Verify Property Exists
-                VerifyPropertyName(SelectionPropertyName);
-
-                // Update bindings, no broadcast
-                RaisePropertyChanged(SelectionPropertyName);
-            }
-        }
+        }        
 
         /// <summary>
         /// The <see cref="SelectionTree" /> property's name.

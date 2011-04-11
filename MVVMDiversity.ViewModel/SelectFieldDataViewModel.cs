@@ -31,6 +31,7 @@ using System.Collections.ObjectModel;
 using System.Collections;
 using System.Linq;
 using GalaSoft.MvvmLight.Threading;
+using System;
 
 namespace MVVMDiversity.ViewModel
 {
@@ -112,7 +113,7 @@ namespace MVVMDiversity.ViewModel
 
                                         _queryResult = selectionList;                                     
 
-                                        QueryResultTree = new TreeViewModel(ISOStore);
+                                        QueryResultTree = new AsyncTreeViewModel(ISOStore);
 
                                         queryResultChanged();
 
@@ -132,7 +133,7 @@ namespace MVVMDiversity.ViewModel
             AddToSelection = new RelayCommand<IList>((selection) =>
             {
                 if(SelectionTree == null)
-                    SelectionTree = new TreeViewModel(ISOStore);
+                    SelectionTree = new AsyncTreeViewModel(ISOStore);
 
                 if (_queryResult != null && selection != null)
                 {
