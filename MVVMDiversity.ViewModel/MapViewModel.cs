@@ -371,8 +371,8 @@ namespace MVVMDiversity.ViewModel
             if (View != null)
             {
                 var mapInfo = View.getMapInfo();
-                mapInfo.Name = _mapInfo.Name;
-                mapInfo.Description = _mapInfo.Description;
+                mapInfo.Name = MapName;
+                mapInfo.Description = MapDescription;
 
                 _mapInfo = mapInfo;
 

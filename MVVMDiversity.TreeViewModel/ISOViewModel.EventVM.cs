@@ -80,9 +80,10 @@ namespace MVVMDiversity.ViewModel
             {
                 if (ISO != null)
                 {
-                    return string.Format("{0}{1}",
+                    return string.Format("{0}{1} [{2}]",
                         !string.IsNullOrEmpty(EV.LocalityDescription) ? EV.LocalityDescription + ", " : "",
-                        (EV.CollectionDate != null) ? EV.CollectionDate.ToShortDateString() : string.Empty);
+                        (EV.CollectionDate != null) ? EV.CollectionDate.ToShortDateString() : string.Empty,
+                        (EV.CollectorsEventNumber!=null) ? EV.CollectorsEventNumber : string.Empty);
                 }
                 else
                     return "No CollectionEvent";

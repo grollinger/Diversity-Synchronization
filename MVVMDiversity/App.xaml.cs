@@ -27,7 +27,7 @@ namespace MVVMDiversity
                 ioc.RegisterInstance<IISOViewModelStore>(new ISOViewModelContainer());
                 ioc.RegisterInstance<IMapService>(ioc.Resolve<MapService>());
 
-                if (true)
+                if (false)
                 {                    
                     ioc.RegisterInstance<IUserOptionsService>(ioc.Resolve<DesignServices.UserOptions>());
                     ioc.RegisterInstance<IConnectionProfilesService>(new DesignServices.ConnectionProfiles());
