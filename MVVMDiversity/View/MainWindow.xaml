@@ -5,7 +5,8 @@
     xmlns:c="clr-namespace:MVVMDiversity.View.Converters"
     MinWidth="700" MinHeight="600" Height="700" Width="900" WindowStartupLocation="CenterScreen"  Icon="../Images/DiversityWorkbench.ico" 
     DataContext="{Binding Main, Source={StaticResource Locator}}" 
-    Title="{Loc MainWindow_Title}">
+    Title="{Loc MainWindow_Title}"
+    Closing="Window_Closing">
     <Window.Resources>
         <Style x:Key="HideIfDisabledStyle" TargetType="FrameworkElement">
             <Style.Triggers>

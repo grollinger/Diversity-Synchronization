@@ -177,6 +177,7 @@ namespace MVVMDiversity.ViewModel
         {
             PreviousPage = Page.Connections;
             NextPage = Page.Actions;
+            updateCanNavs();
 
             if (IsInDesignMode)
             {

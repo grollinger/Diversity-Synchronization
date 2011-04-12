@@ -49,12 +49,14 @@ namespace MVVMDiversity.ViewModel
             PreviousPage = Messages.Page.FieldData;
             NextPage = Messages.Page.Actions;
             CanNavigateNext = false;
-            CanNavigateBack = true;
+            CanNavigateBack = false;
             
             MessengerInstance.Register<Selection>(this, (msg) =>
             {
                 CanNavigateNext = false;
+                CanNavigateBack = false;
                 SelectionTree = new TreeViewModel(ISOStore);
+
                 foreach (var vm in msg.Content)
                 {
                     SelectionTree.addGenerator(vm);
@@ -62,6 +64,7 @@ namespace MVVMDiversity.ViewModel
 
                 _completeSelection = SelectionTree.buildSelection();
                 CanNavigateNext = true;
+                CanNavigateBack = true;
             });
         }
         
@@ -112,45 +115,7 @@ namespace MVVMDiversity.ViewModel
             }
 
             return base.OnNavigateNext();
-        }
-
-
-        /// <summary>
-        /// The <see cref="Selection" /> property's name.
-        /// </summary>
-        public const string SelectionPropertyName = "Selection";
-
-        private ICollection<ISerializableObject> _selection = null;
-
-        /// <summary>
-        /// Gets the Selection property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
-        /// </summary>
-        public ICollection<ISerializableObject> Selection
-        {
-            get
-            {
-                return _selection;
-            }
-
-            private set
-            {
-                if (_selection == value)
-                {
-                    return;
-                }
-                
-                _selection = value;                     
-
-                // Verify Property Exists
-                VerifyPropertyName(SelectionPropertyName);
-
-                // Update bindings, no broadcast
-                RaisePropertyChanged(SelectionPropertyName);
-            }
-        }
+        }        
 
         /// <summary>
         /// The <see cref="SelectionTree" /> property's name.

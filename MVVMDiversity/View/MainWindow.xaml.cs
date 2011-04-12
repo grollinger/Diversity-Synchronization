@@ -72,7 +72,12 @@ namespace MVVMDiversity.View
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            this.Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Messenger.Default.Send<ApplicationClosing>(new ApplicationClosing());
         }
 
         

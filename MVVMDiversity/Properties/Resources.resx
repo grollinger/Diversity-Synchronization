@@ -544,4 +544,21 @@ ATTENTION: All data in your mobile database will be LOST!</value>
   <data name="SelectFD_Truncate_ToolTip" xml:space="preserve">
     <value>Excludes the child items of the ones you selected from the download.</value>
   </data>
+  <data name="Actions_Error_Advice" xml:space="preserve">
+    <value>If this persists, please consult the Log for further details</value>
+  </data>
+  <data name="Actions_Error_PropertyNamesHeader" xml:space="preserve">
+    <value>Failed to get Property Names</value>
+  </data>
+  <data name="Actions_Error_UploadHeader" xml:space="preserve">
+    <value>Failed to Upload data!</value>
+  </data>
+  <data name="Actions_ReallyClean_Message" xml:space="preserve">
+    <value>You are about to clean your mobile Databases.
+All data that has not been uploaded to the remote Database will be LOST!
+Do you really want to proceed?</value>
+  </data>
+  <data name="Services_Definitions_LoadingTaxa" xml:space="preserve">
+    <value>Downloading Taxon Lists</value>
+  </data>
 </root>

@@ -51,9 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\Action.cs" />
     <Compile Include="Enums\ApplicationFile.cs" />
     <Compile Include="Enums\ApplicationFolder.cs" />
     <Compile Include="Enums\ConnectionState.cs" />
+    <Compile Include="Enums\Data.cs" />
     <Compile Include="Enums\ISOIcon.cs" />
     <Compile Include="Enums\SessionState.cs" />
     <Compile Include="Enums\SyncState.cs" />
@@ -76,9 +78,11 @@
     <Compile Include="Interface\ITreeViewModel.cs" />
     <Compile Include="Interface\IUserOptionsService.cs" />
     <Compile Include="Interface\IUserProfileService.cs" />
+    <Compile Include="Messages\ApplicationClosing.cs" />
     <Compile Include="Messages\ConnectionStateChanged.cs" />
     <Compile Include="Messages\CustomDialog.cs" />
     <Compile Include="Messages\Dialog.cs" />
+    <Compile Include="Messages\ExecuteAction.cs" />
     <Compile Include="Messages\Selection.cs" />
     <Compile Include="Messages\SettingsRequest.cs" />
     <Compile Include="Messages\ShowProgress.cs" />

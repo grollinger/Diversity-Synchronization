@@ -35,27 +35,7 @@ namespace MVVMDiversity.ViewModel
                 : base(iso)
             {
                
-            }
-
-
-            public override ISerializableObject Parent
-            {
-                get 
-                { 
-                    //Really bad idea to 'return this' here
-                    return null; 
-                }
             }            
-
-            public override IEnumerable<ISerializableObject> Children
-            {
-                get { return null; }
-            }
-
-            public override IEnumerable<ISerializableObject> Properties
-            {
-                get { return null; }
-            }
 
             protected override string getName()
             {

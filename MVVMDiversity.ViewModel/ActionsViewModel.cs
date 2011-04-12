@@ -44,11 +44,16 @@ namespace MVVMDiversity.ViewModel
     /// </summary>
     public class ActionsViewModel : PageViewModel
     {
-        private ILog _Log = LogManager.GetLogger(typeof(ActionsViewModel));
+        private ILog            _Log    = LogManager.GetLogger(typeof(ActionsViewModel));
+
+        private ConnectionState _cState = ConnectionState.None;
+        private SyncState       _sState = SyncState.None;
 
         private const ConnectionState DEFINITIONS = ConnectionState.ConnectedToMobileTax | ConnectionState.ConnectedToRepTax;
         private const ConnectionState REPOSITORY = ConnectionState.ConnectedToMobile | ConnectionState.ConnectedToRepository;
 
+
+        #region Dependencies
         IConnectionManagementService _cm;
         [Dependency]
         public IConnectionManagementService CM 
@@ -84,8 +89,12 @@ namespace MVVMDiversity.ViewModel
         public ISessionManager SessionMgr { get; set; }
 
         [Dependency]
-        public IUserOptionsService Settings { get; set; }        
-        
+        public IUserOptionsService Settings { get; set; }
+
+        #endregion
+
+        #region Properties
+
         public ICommand GetTaxonDefinitions { get; private set; }       
 
         public ICommand GetPropertyNames { get; private set; }
@@ -97,8 +106,7 @@ namespace MVVMDiversity.ViewModel
         public ICommand CleanDatabase { get; private set; }
 
         public ICommand OpenMaps { get; private set; }
-
-        #region SyncState Properties
+        
         /// <summary>
         /// The <see cref="AreTaxaDownloaded" /> property's name.
         /// </summary>
@@ -298,8 +306,7 @@ namespace MVVMDiversity.ViewModel
 
 
 
-        private ConnectionState _cState = ConnectionState.None;
-        private SyncState _sState = SyncState.None;
+        
         /// <summary>
         /// Initializes a new instance of the ActionsViewModel class.
         /// </summary>
@@ -327,6 +334,22 @@ namespace MVVMDiversity.ViewModel
                     updateFromSyncState();
                 });
 
+            MessengerInstance.Register<ApplicationClosing>(this,
+                (msg) =>
+                {
+                    OnNavigateNext();
+                });
+
+            MessengerInstance.Register<ExecuteAction>(this,
+                (msg) =>
+                {
+                    if (msg.Content == Enums.Action.CleanDB)
+                        executeCleanDB();
+                });
+            
+
+        
+
 
             GetTaxonDefinitions = new RelayCommand(
                 () =>
@@ -344,20 +367,23 @@ namespace MVVMDiversity.ViewModel
                     if (DefinitionsSvc != null)
                     {
                         IsBusy = true;
-                        var progress = DefinitionsSvc.loadProperties(
+                        CurrentOperation = DefinitionsSvc.loadProperties(
                             () =>
                             {
                                 DispatcherHelper.CheckBeginInvokeOnUI(
                                     () =>
                                     {
                                         MessengerInstance.Send<HideProgress>(new HideProgress());
-                                        MessengerInstance.Send<SyncStepFinished>(SyncState.PropertyNamesDownloaded);
+                                        if (!operationFailed(CurrentOperation))
+                                            MessengerInstance.Send<SyncStepFinished>(SyncState.PropertyNamesDownloaded);
+                                        else
+                                            showMessageBox("Actions_Error_PropertyNamesHeader", "Actions_Error_Advice", null); //TODO?
                                         IsBusy = false;
                                     }
                                     );
                                 
                             });
-                        MessengerInstance.Send<ShowProgress>(progress);
+                        showProgress();
                     }
                     else
                         _Log.Error("DefinitionsService N/A");
@@ -388,18 +414,21 @@ namespace MVVMDiversity.ViewModel
                             var userNo = ProfileSvc.UserNr;
                             IsBusy = true;
 
-                            var progress = FieldDataSvc.uploadData(userNo, projectID, 
+                            CurrentOperation = FieldDataSvc.uploadData(userNo, projectID, 
                                 ()=>
                                 {
                                     DispatcherHelper.CheckBeginInvokeOnUI(() =>
                                         {
-                                            MessengerInstance.Send<SyncStepFinished>(SyncState.FieldDataUploaded);
+                                            if (!operationFailed(CurrentOperation))
+                                                MessengerInstance.Send<SyncStepFinished>(SyncState.FieldDataUploaded);
+                                            else
+                                                showMessageBox("Actions_Error_UploadHeader", "Actions_Error_Advice", null);
                                             MessengerInstance.Send<HideProgress>(new HideProgress());
                                             IsBusy = false;
                                         });
                                 });
 
-                            MessengerInstance.Send<ShowProgress>(progress);
+                            showProgress();
                             
                         }
                         else
@@ -416,63 +445,11 @@ namespace MVVMDiversity.ViewModel
             CleanDatabase = new RelayCommand(
                 () =>
                 {
-                    if (SessionMgr != null)
+                    showYesNoBox("Actions_Clean","Actions_ReallyClean_Message",System.Windows.MessageBoxResult.No,(res) => 
                     {
-                        if (CM != null)
-                        {
-                            if (ProfileSvc != null)
-                            {
-                                if (Settings != null)
-                                {
-                                    var process = BackgroundOperation.newUninterruptable();
-                                    process.IsProgressIndeterminate = true;
-                                    process.ProgressDescriptionID = "Actions_Cleaning_DB";
-                                    MessengerInstance.Send<ShowProgress>(process);
-
-                                    new Action(() =>
-                                    {
-                                        var project = ProfileSvc.ProjectID;
-
-                                        var paths = Settings.getOptions().Paths;
-
-
-                                        if (CM.truncateSyncTable())
-                                        {
-                                            CM.disconnectFromMobileDB();
-                                            var workingPaths = SessionMgr.createCleanWorkingCopies(paths);
-                                            CM.connectToMobileDB(workingPaths);
-                                        }
-                                        else
-                                            _Log.Info("Could not truncate Sync Table, aborting clean.");
-
-
-                                        if (ProfileSvc.ProjectID != project)
-                                            ProfileSvc.ProjectID = project;
-
-                                        
-                                    }).BeginInvoke((res) =>
-                                        {
-                                            DispatcherHelper.CheckBeginInvokeOnUI(() => 
-                                                {
-                                                    MessengerInstance.Send<HideProgress>(new HideProgress());
-                                                    MessengerInstance.Send<NavigateToPage>(Page.Connections);                                                        
-                                                });
-                                        }, null);
-
-
-
-                                }
-                                else
-                                    _Log.Error("Settings N/A");
-                            }
-                            else
-                                _Log.Error("ProfileService N/A");
-                        }
-                        else
-                            _Log.Error("ConnectionManager N/A");
-                    }
-                    else
-                        _Log.Error("Session Manager N/A");
+                        if(res == System.Windows.MessageBoxResult.Yes)
+                            executeCleanDB();
+                    });
                 },
                 () =>
                 {
@@ -483,6 +460,77 @@ namespace MVVMDiversity.ViewModel
                 {
                     MessengerInstance.Send<NavigateToPage>(Page.Map);
                 });
+        }
+
+        protected override bool OnNavigateNext()
+        {
+            if (SessionMgr != null)
+                SessionMgr.endSession();
+            else
+                _Log.Error("Session Manager N/A");
+
+            return base.OnNavigateNext();
+        }
+
+        private void executeCleanDB()
+        {
+            if (SessionMgr != null)
+            {
+                if (CM != null)
+                {
+                    if (ProfileSvc != null)
+                    {
+                        if (Settings != null)
+                        {
+                            CurrentOperation = BackgroundOperation.newUninterruptable();
+                            CurrentOperation.IsProgressIndeterminate = true;
+                            CurrentOperation.ProgressDescriptionID = "Actions_Cleaning_DB";
+                            showProgress();
+
+                            new Action(() =>
+                            {
+                                var project = ProfileSvc.ProjectID;
+
+                                var paths = Settings.getOptions().Paths;
+
+
+                                if (CM.truncateSyncTable())
+                                {
+                                    CM.disconnectFromMobileDB();
+                                    var workingPaths = SessionMgr.createCleanWorkingCopies(paths);
+                                    CM.connectToMobileDB(workingPaths);
+                                }
+                                else
+                                    _Log.Info("Could not truncate Sync Table, aborting clean.");
+
+
+                                if (ProfileSvc.ProjectID != project)
+                                    ProfileSvc.ProjectID = project;
+
+
+                            }).BeginInvoke((res) =>
+                            {
+                                DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                                {
+                                    hideProgress();
+                                    MessengerInstance.Send<NavigateToPage>(Page.Connections);
+                                });
+                            }, null);
+
+
+
+                        }
+                        else
+                            _Log.Error("Settings N/A");
+                    }
+                    else
+                        _Log.Error("ProfileService N/A");
+                }
+                else
+                    _Log.Error("ConnectionManager N/A");
+            }
+            else
+                _Log.Error("Session Manager N/A");
         }
 
         private void updateFromSyncState()

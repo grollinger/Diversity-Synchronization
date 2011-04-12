@@ -49,7 +49,7 @@ namespace MVVMDiversity.ViewModel
                     if (SPEC != null)
                         return SPEC.CollectionEvent;
                     else
-                        return null;
+                        return base.Parent;
                 }
             }           
 
@@ -67,7 +67,7 @@ namespace MVVMDiversity.ViewModel
             {
                 get
                 {
-                    if (SPEC != null)
+                    if (SPEC != null && SPEC.CollectionAgent.Count()>0)
                         yield return SPEC.CollectionAgent.First();
                 }
             }

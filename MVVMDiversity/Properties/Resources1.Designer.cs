@@ -98,6 +98,33 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die If this persists, please consult the Log for further details ähnelt.
+        /// </summary>
+        internal static string Actions_Error_Advice {
+            get {
+                return ResourceManager.GetString("Actions_Error_Advice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Failed to get Property Names ähnelt.
+        /// </summary>
+        internal static string Actions_Error_PropertyNamesHeader {
+            get {
+                return ResourceManager.GetString("Actions_Error_PropertyNamesHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Failed to Upload data! ähnelt.
+        /// </summary>
+        internal static string Actions_Error_UploadHeader {
+            get {
+                return ResourceManager.GetString("Actions_Error_UploadHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die General ähnelt.
         /// </summary>
         internal static string Actions_GeneralHeader {
@@ -157,6 +184,17 @@ namespace MVVMDiversity.Properties {
         internal static string Actions_PropertyNames {
             get {
                 return ResourceManager.GetString("Actions_PropertyNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die You are about to clean your mobile Databases.
+        ///All data that has not been uploaded to the remote Database will be LOST!
+        ///Do you really want to proceed? ähnelt.
+        /// </summary>
+        internal static string Actions_ReallyClean_Message {
+            get {
+                return ResourceManager.GetString("Actions_ReallyClean_Message", resourceCulture);
             }
         }
         
@@ -1168,6 +1206,15 @@ namespace MVVMDiversity.Properties {
         internal static string Services_Definitions_LoadingProperties {
             get {
                 return ResourceManager.GetString("Services_Definitions_LoadingProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Downloading Taxon Lists ähnelt.
+        /// </summary>
+        internal static string Services_Definitions_LoadingTaxa {
+            get {
+                return ResourceManager.GetString("Services_Definitions_LoadingTaxa", resourceCulture);
             }
         }
         

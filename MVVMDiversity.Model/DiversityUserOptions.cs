@@ -76,7 +76,40 @@ namespace MVVMDiversity.Model
 
         public string Username { get; set; }
 
-        public ConnectionProfile CurrentConnection { get; set; }
+        /// <summary>
+        /// The <see cref="CurrentConnection" /> property's name.
+        /// </summary>
+        public const string CurrentConnectionPropertyName = "CurrentConnection";
+
+        private ConnectionProfile _connection = null;
+
+        /// <summary>
+        /// Gets the CurrentConnection property.
+        /// TODO Update documentation:
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// </summary>
+        public ConnectionProfile CurrentConnection
+        {
+            get
+            {
+                return _connection;
+            }
+
+            set
+            {
+                if (_connection == value)
+                {
+                    return;
+                }
+
+                
+                _connection = value;  
+                
+                // Update bindings, no broadcast
+                RaisePropertyChanged(CurrentConnectionPropertyName);
+            }
+        }
 
 
         private const string PathsName = "Paths";

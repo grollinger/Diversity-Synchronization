@@ -50,6 +50,8 @@ namespace MVVMDiversity.ViewModel
 
         private ILog _Log = LogManager.GetLogger(typeof(MainViewModel));
 
+        #region Properties
+
         public ICommand CancelOperation { get; private set; }
 
         PageViewModel _currentVM;
@@ -194,7 +196,8 @@ namespace MVVMDiversity.ViewModel
           
             }
         }
-        
+        #endregion
+
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>

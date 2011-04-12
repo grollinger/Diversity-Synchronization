@@ -39,12 +39,7 @@ namespace MVVMDiversity.ViewModel
                 
             }
 
-            public CollectionEvent EV { get { return ISO as CollectionEvent; } }
-
-            private static string getName(CollectionEvent spec)
-            {
-                throw new NotImplementedException();
-            }
+            public CollectionEvent EV { get { return ISO as CollectionEvent; } }            
 
             public override ISerializableObject Parent
             {

@@ -182,8 +182,8 @@ namespace MVVMDiversity.Services
 
                 foreach (var taxonList in _selectedTaxa)
                 {
-                    
 
+                    _progress.ProgressOutput = taxonList.DisplayText;
                     copyTable(taxonList.DataSource);                
                 }
             }

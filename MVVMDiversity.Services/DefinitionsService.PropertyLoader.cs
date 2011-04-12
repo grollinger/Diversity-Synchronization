@@ -56,6 +56,7 @@ namespace MVVMDiversity.Services
                 _progress = progress;
                 _progress.ProgressDescriptionID = "Services_Definitions_LoadingProperties";
 
+
                 if (_owner.Connections != null)
                 {
                     var definitions = _owner.Connections.Definitions;
@@ -139,6 +140,7 @@ namespace MVVMDiversity.Services
                 catch (Exception e)
                 {
                     _Log.ErrorFormat("Exception reading Properties: [{0}]", e);
+                    _progress.OperationState = BackgroundOperation.State.Failed;
                     return;
                 }
                 finally
@@ -147,10 +149,11 @@ namespace MVVMDiversity.Services
                 }
 
                 
-                _connMobileDefinitions.Open();
+                
                 IDbTransaction trans = null;
                 try
                 {
+                    _connMobileDefinitions.Open();
                     trans = _connMobileDefinitions.BeginTransaction();                   
 
 
@@ -178,6 +181,7 @@ namespace MVVMDiversity.Services
                         
                     }
                     trans.Commit();
+                    
                 }
                 catch (Exception ex)
                 {
@@ -185,6 +189,7 @@ namespace MVVMDiversity.Services
                         trans.Rollback();
 
                     _Log.ErrorFormat("Exception writing Properties to mobile DB: [{0}]", ex);
+                    _progress.OperationState = BackgroundOperation.State.Failed;
                     return;
                 }
                 finally
