@@ -81,9 +81,7 @@ namespace MVVMDiversity.ViewModel
        
         #endregion   
      
-        BackgroundOperation _progress;
-
-        bool _truncateDataItems = false;
+        BackgroundOperation _progress;      
 
         /// <summary>
         /// Initializes a new instance of the SelectFieldDataViewModel class.
@@ -176,10 +174,7 @@ namespace MVVMDiversity.ViewModel
 
         private void updateFromSettings(DiversityUserOptions diversityUserOptions)
         {
-            if (QueryResultTree != null)
-                QueryResultTree.TruncateDataItems = diversityUserOptions.TruncateDataItems;
-            if (SelectionTree != null)
-                SelectionTree.TruncateDataItems = diversityUserOptions.TruncateDataItems;
+            TruncateDataItems = diversityUserOptions.TruncateDataItems;
         }
 
         private List<IISOViewModel> buildVMList(IList<ISerializableObject> result)
@@ -416,7 +411,50 @@ namespace MVVMDiversity.ViewModel
                 // Update bindings, no broadcast
                 RaisePropertyChanged(SelectionTreePropertyName);                
             }
-        }       
+        }
+
+        /// <summary>
+        /// The <see cref="TruncateDataItems" /> property's name.
+        /// </summary>
+        public const string TruncateDataItemsPropertyName = "TruncateDataItems";
+
+        private bool _truncate = false;
+
+        /// <summary>
+        /// Gets the TruncateDataItems property.
+        /// TODO Update documentation:
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// </summary>
+        public bool TruncateDataItems
+        {
+            get
+            {
+                return _truncate;
+            }
+
+            set
+            {
+                if (_truncate == value)
+                {
+                    return;
+                }
+
+                
+                _truncate = value;               
+
+                // Verify Property Exists
+                VerifyPropertyName(TruncateDataItemsPropertyName);
+
+                // Update bindings, no broadcast
+                RaisePropertyChanged(TruncateDataItemsPropertyName);
+                
+                if (QueryResultTree != null)
+                    QueryResultTree.TruncateDataItems = _truncate;
+                if (SelectionTree != null)
+                    SelectionTree.TruncateDataItems = _truncate;
+            }
+        }
 
         #endregion
 

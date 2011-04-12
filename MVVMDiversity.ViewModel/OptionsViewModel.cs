@@ -26,6 +26,8 @@ using MVVMDiversity.Model;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using System.ComponentModel;
+using System.Linq;
+
 
 namespace MVVMDiversity.ViewModel
 {
@@ -75,10 +77,7 @@ namespace MVVMDiversity.ViewModel
                 _uos = value;
                 updateProfiles();
             }
-        }
-
-        //[Dependency]
-        public ICloseableView AssociatedView { get; set; }  
+        }      
         
         /// <summary>
         /// Gets the SaveOptions property.
@@ -287,9 +286,14 @@ namespace MVVMDiversity.ViewModel
                     Options = new DiversityUserOptions();
             }
 
-            if (ConnectionProfiles != null && currentProfile != null && ConnectionProfiles.Contains(currentProfile))
+            if (ConnectionProfiles != null && currentProfile != null )
             {
-                SelectedProfile = ConnectionProfiles.IndexOf(currentProfile);
+                var selectedIndices = from profile in ConnectionProfiles
+                                    where profile.CompareTo(currentProfile) == 0
+                                    select ConnectionProfiles.IndexOf(profile);
+
+                if (selectedIndices.Count() > 0)
+                    SelectedProfile = selectedIndices.First();
             }
         }
     }

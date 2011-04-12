@@ -535,4 +535,13 @@ ATTENTION: All data in your mobile database will be LOST!</value>
   <data name="MessageBox_OK" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="Validation_Options_FieldDimensionOutOfRange" xml:space="preserve">
+    <value>Must be between 100 and 800</value>
+  </data>
+  <data name="SelectFD_Truncate" xml:space="preserve">
+    <value>Truncate Data Items</value>
+  </data>
+  <data name="SelectFD_Truncate_ToolTip" xml:space="preserve">
+    <value>Excludes the child items of the ones you selected from the download.</value>
+  </data>
 </root>

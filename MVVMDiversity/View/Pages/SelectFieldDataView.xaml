@@ -40,9 +40,12 @@
                 </ListBox>
                 <Label Grid.Row="3" Grid.Column="0" Content="{Loc SelectFD_Criteria}"/>
                 <ScrollViewer x:Name="scrollViewerSearchFields" Grid.Row="4" Grid.Column="0">
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox IsChecked="{Binding TruncateDataItems}" Content="{Loc SelectFD_Truncate}" ToolTip="{Loc SelectFD_Truncate_ToolTip}"/>
                     <ListBox ItemsSource="{Binding ConfiguredSearch.Restrictions}">
                         
                     </ListBox>
+                    </StackPanel>
                 </ScrollViewer>
                 <Button Grid.Row="6" Grid.Column="0" Content="{Loc SelectFD_QueryDataBase}"
                         Command="{Binding QueryDatabase}"/>
