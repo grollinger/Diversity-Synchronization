@@ -228,7 +228,7 @@ namespace MVVMDiversity.Services
 
         public void endSession()
         {
-            bool success = true;
+            bool success = true;//TODO Cleanup
             if (State == SessionState.Dirty || State == SessionState.Cleaned)
             {
                 _Log.Info("Saving Session!");
