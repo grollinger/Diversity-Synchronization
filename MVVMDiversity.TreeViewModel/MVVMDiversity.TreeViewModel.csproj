@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncTreeViewModel.cs" />
     <Compile Include="ISOViewModel.EventPropertyVM.cs" />
     <Compile Include="ISOViewModel.IUAnalysisVM.cs" />
     <Compile Include="ISOViewModel.EventSeriesVM.cs" />

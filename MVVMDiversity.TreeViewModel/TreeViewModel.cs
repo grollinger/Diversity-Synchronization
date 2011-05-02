@@ -81,7 +81,7 @@ namespace MVVMDiversity.ViewModel
             _generators = new HashSet<NodeViewModel>();
         }
 
-        public void addGenerator(IISOViewModel vm)
+        public virtual void addGenerator(IISOViewModel vm)
         {            
             var genNode = addOrRetrieveNode(vm);
             _generators.Add(genNode);
@@ -90,7 +90,7 @@ namespace MVVMDiversity.ViewModel
             addParents(vm);            
         }
 
-        public void removeGenerator(IISOViewModel vm)
+        public virtual void removeGenerator(IISOViewModel vm)
         {
             NodeViewModel node = null;
             if (_nodes.TryGetValue(vm.Rowguid, out node))
@@ -104,7 +104,7 @@ namespace MVVMDiversity.ViewModel
 
         ICollection<ISerializableObject> _selection;
 
-        public IList<ISerializableObject> buildSelection()
+        public virtual IList<ISerializableObject> buildSelection()
         {
             _selection = new Collection<ISerializableObject>(); 
             foreach (var root in _roots)

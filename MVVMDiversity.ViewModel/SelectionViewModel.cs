@@ -27,6 +27,7 @@ using log4net;
 using MVVMDiversity.Messages;
 using MVVMDiversity.Model;
 using GalaSoft.MvvmLight.Threading;
+using System;
 
 namespace MVVMDiversity.ViewModel
 {
@@ -55,16 +56,21 @@ namespace MVVMDiversity.ViewModel
             {
                 CanNavigateNext = false;
                 CanNavigateBack = false;
-                SelectionTree = new TreeViewModel(ISOStore);
-
+                SelectionTree = new AsyncTreeViewModel(ISOStore);
                 foreach (var vm in msg.Content)
                 {
                     SelectionTree.addGenerator(vm);
                 }
 
-                _completeSelection = SelectionTree.buildSelection();
-                CanNavigateNext = true;
-                CanNavigateBack = true;
+                new Action(() =>
+                    {
+                        _completeSelection = SelectionTree.buildSelection();
+                        DispatcherHelper.CheckBeginInvokeOnUI(()=>
+                            {
+                                CanNavigateBack = true;
+                                CanNavigateNext = true;
+                            });
+                    }).BeginInvoke(null, null);
             });
         }
         
