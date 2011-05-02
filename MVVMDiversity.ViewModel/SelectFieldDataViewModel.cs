@@ -94,7 +94,7 @@ namespace MVVMDiversity.ViewModel
             PreviousPage = Messages.Page.Actions;
 
             CanNavigateBack = true;
-            CanNavigateNext = true;            
+            CanNavigateNext = true;
 
             QueryDatabase = new RelayCommand(() =>
             {
@@ -109,9 +109,9 @@ namespace MVVMDiversity.ViewModel
                                 List<IISOViewModel> selectionList = buildVMList(result);
                                 DispatcherHelper.CheckBeginInvokeOnUI(
                                     () =>
-                                    {      
+                                    {
 
-                                        _queryResult = selectionList;                                     
+                                        _queryResult = selectionList;
 
                                         QueryResultTree = new AsyncTreeViewModel(ISOStore);
 
@@ -128,7 +128,8 @@ namespace MVVMDiversity.ViewModel
                 }
                 else
                     _Log.Error("FieldDataService N/A");
-            });
+            },
+            () => ConfiguredSearch != null);
 
             AddToSelection = new RelayCommand<IList>((selection) =>
             {

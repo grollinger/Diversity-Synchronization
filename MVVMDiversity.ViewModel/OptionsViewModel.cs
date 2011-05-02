@@ -189,7 +189,7 @@ namespace MVVMDiversity.ViewModel
         /// </summary>
         public const string SelectedProfilePropertyName = "SelectedProfile";
 
-        private int _selectedP = 1;
+        private int _selectedP = 0;
 
         /// <summary>
         /// Gets the SelectedProfile property.
@@ -210,9 +210,11 @@ namespace MVVMDiversity.ViewModel
                 {
                     return;
                 }
-
-                var oldValue = _selectedP;
+                
                 _selectedP = value;
+
+                if (Options != null)
+                    Options.CurrentConnection = ConnectionProfiles[SelectedProfile];
                        
                 // Verify Property Exists
                 VerifyPropertyName(SelectedProfilePropertyName);

@@ -46,14 +46,9 @@ namespace MVVMDiversity.ViewModel
                     if (IUGA != null)
                         return IUGA.IdentificationUnit;
                     else
-                        return null;
+                        return base.Parent;
                 }
-            }
-
-            public override IEnumerable<ISerializableObject> Properties
-            {
-                get { return null; }
-            }
+            }           
 
             protected override string getName()
             {

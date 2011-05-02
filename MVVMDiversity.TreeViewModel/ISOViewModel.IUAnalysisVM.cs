@@ -46,14 +46,9 @@ namespace MVVMDiversity.ViewModel
                     if (IUA != null)
                         return IUA.IdentificationUnit;
                     else
-                        return null;
+                        return base.Parent;
                 }
-            }
-
-            public override IEnumerable<ISerializableObject> Properties
-            {
-                get { return null; }
-            }
+            }            
 
             protected override string getName()
             {

@@ -36,7 +36,7 @@
                         <RowDefinition Height="25" />
                     </Grid.RowDefinitions>
 
-                    <ComboBox Grid.Row="0" Grid.ColumnSpan="2" ItemsSource="{Binding ConnectionProfiles}" SelectedIndex="{Binding SelectedProfile}" DisplayMemberPath="Name"/>
+                    <ComboBox Grid.Row="0" Grid.ColumnSpan="2" ItemsSource="{Binding ConnectionProfiles}" SelectedIndex="{Binding SelectedProfile}" DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True"/>
 
                     <Label Grid.Row="2" Grid.Column="0" Content="{Loc Options_DBServer}"/>
                     <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">

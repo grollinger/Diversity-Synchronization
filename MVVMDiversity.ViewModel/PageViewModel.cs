@@ -23,6 +23,9 @@ using GalaSoft.MvvmLight.Messaging;
 using System.Windows.Input;
 using MVVMDiversity.Messages;
 using MVVMDiversity.Interface;
+using MVVMDiversity.Model;
+using System;
+using System.Windows;
 
 namespace MVVMDiversity.ViewModel
 {
@@ -153,6 +156,7 @@ namespace MVVMDiversity.ViewModel
             }
         }
 
+        protected BackgroundOperation CurrentOperation { get; set; }
         #endregion
 
 
@@ -213,9 +217,42 @@ namespace MVVMDiversity.ViewModel
             });
         }
 
-        
+        protected void showProgress()
+        {
+            MessengerInstance.Send<ShowProgress>(CurrentOperation);
+        }
 
+        protected void hideProgress()
+        {
+            MessengerInstance.Send<HideProgress>(new HideProgress());
+        }
 
+        protected bool operationFailed(BackgroundOperation o)
+        {
+            return (o.OperationState == BackgroundOperation.State.Failed);
+        }
+
+        protected void showMessageBox(string caption, string content, Action<MessageBoxResult> callback)
+        {
+            MessengerInstance.Send<DialogMessage>(
+                new DialogMessage(content, callback)
+                {
+                    Button = MessageBoxButton.OK,
+                    Caption = caption,
+                    DefaultResult = MessageBoxResult.Cancel
+                });
+        }
+
+        protected void showYesNoBox(string caption, string content, MessageBoxResult defaultResult, Action<MessageBoxResult> callback)
+        {
+            MessengerInstance.Send<DialogMessage>(
+                new DialogMessage(content, callback)
+                {
+                    Button = MessageBoxButton.YesNo,
+                    Caption = caption,
+                    DefaultResult = defaultResult
+                });
+        }
         
     }
 }

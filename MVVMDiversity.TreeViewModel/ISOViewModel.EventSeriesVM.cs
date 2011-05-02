@@ -38,15 +38,7 @@ namespace MVVMDiversity.ViewModel
 
             
 
-            private CollectionEventSeries CES { get { return ISO as CollectionEventSeries; } }
-            
-            public override ISerializableObject Parent
-            {
-                get 
-                {
-                    return null;
-                }
-            }           
+            private CollectionEventSeries CES { get { return ISO as CollectionEventSeries; } }                 
 
             public override IEnumerable<ISerializableObject> Children
             {
@@ -58,15 +50,7 @@ namespace MVVMDiversity.ViewModel
                             yield return ev;
                     }
                 }
-            }           
-
-            public override IEnumerable<ISerializableObject> Properties
-            {
-                get 
-                {
-                    return null;
-                }
-            }
+            }          
 
             protected override string getName()
             {

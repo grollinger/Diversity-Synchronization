@@ -38,22 +38,7 @@ namespace MVVMDiversity.ViewModel
 
             }
 
-            private CollectionEventLocalisation LOC { get { return ISO as CollectionEventLocalisation; } }
-
-            public override ISerializableObject Parent
-            {
-                get { return null; }
-            }
-
-            public override IEnumerable<ISerializableObject> Properties
-            {
-                get { return null; }
-            }
-
-            public override IEnumerable<ISerializableObject> Children
-            {
-                get { return null; }
-            }
+            private CollectionEventLocalisation LOC { get { return ISO as CollectionEventLocalisation; } }            
 
             protected override string getName()
             {

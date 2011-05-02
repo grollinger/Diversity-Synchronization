@@ -89,19 +89,19 @@ namespace MVVMDiversity.ViewModel
             private set;
         }
 
-        public abstract ISerializableObject Parent
+        public virtual ISerializableObject Parent
         {
-            get;
+            get { return null; }
         } 
 
-        public abstract IEnumerable<ISerializableObject> Properties
+        public virtual IEnumerable<ISerializableObject> Properties
         {
-            get;
+            get { return Enumerable.Empty<ISerializableObject>(); }
         }
 
-        public abstract IEnumerable<ISerializableObject> Children
+        public virtual IEnumerable<ISerializableObject> Children
         {
-            get;
+            get { return Enumerable.Empty<ISerializableObject>(); }
         }
 
         protected abstract string getName();

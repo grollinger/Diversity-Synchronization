@@ -39,23 +39,7 @@ namespace MVVMDiversity.ViewModel
 
 	        }
 
-            private CollectionEventProperty PROP { get { return ISO as CollectionEventProperty; } }
-
-
-            public override ISerializableObject Parent
-            {
-                get { return null; }
-            }
-
-            public override IEnumerable<ISerializableObject> Properties
-            {
-                get { return null; }
-            }
-
-            public override IEnumerable<ISerializableObject> Children
-            {
-                get { return null; }
-            }
+            private CollectionEventProperty PROP { get { return ISO as CollectionEventProperty; } }            
 
             protected override string getName()
             {

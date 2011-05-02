@@ -37,22 +37,7 @@ namespace MVVMDiversity.ViewModel
 
             }
 
-            private CollectionAgent Agent { get { return ISO as CollectionAgent; } }
-
-            public override ISerializableObject Parent
-            {
-                get { return null; }
-            }
-
-            public override IEnumerable<ISerializableObject> Properties
-            {
-                get { return null; }
-            }
-
-            public override IEnumerable<ISerializableObject> Children
-            {
-                get { return null; }
-            }
+            private CollectionAgent Agent { get { return ISO as CollectionAgent; } }            
 
             protected override string getName()
             {

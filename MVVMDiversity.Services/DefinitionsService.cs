@@ -66,6 +66,7 @@ namespace MVVMDiversity.Services
         public BackgroundOperation loadTaxonLists(IEnumerable<Model.TaxonList> taxa, Action finishedCallback)
         {
             var progress = BackgroundOperation.newUninterruptable();
+            progress.ProgressDescriptionID = "Services_Definitions_LoadingTaxa";
             new Action(()=>
             {
                 _taxLoader.startTaxonDownload(taxa,progress);

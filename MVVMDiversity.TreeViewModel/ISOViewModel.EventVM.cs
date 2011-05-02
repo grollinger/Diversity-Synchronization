@@ -39,12 +39,7 @@ namespace MVVMDiversity.ViewModel
                 
             }
 
-            public CollectionEvent EV { get { return ISO as CollectionEvent; } }
-
-            private static string getName(CollectionEvent spec)
-            {
-                throw new NotImplementedException();
-            }
+            public CollectionEvent EV { get { return ISO as CollectionEvent; } }            
 
             public override ISerializableObject Parent
             {
@@ -85,9 +80,10 @@ namespace MVVMDiversity.ViewModel
             {
                 if (ISO != null)
                 {
-                    return string.Format("{0}{1}",
+                    return string.Format("{0}{1} [{2}]",
                         !string.IsNullOrEmpty(EV.LocalityDescription) ? EV.LocalityDescription + ", " : "",
-                        (EV.CollectionDate != null) ? EV.CollectionDate.ToShortDateString() : string.Empty);
+                        (EV.CollectionDate != null) ? EV.CollectionDate.ToShortDateString() : string.Empty,
+                        (EV.CollectorsEventNumber!=null) ? EV.CollectorsEventNumber : string.Empty);
                 }
                 else
                     return "No CollectionEvent";

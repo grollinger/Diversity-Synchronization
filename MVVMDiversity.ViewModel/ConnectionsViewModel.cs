@@ -46,6 +46,8 @@ namespace MVVMDiversity.ViewModel
     public class ConnectionsViewModel : PageViewModel
     {
 
+        private ILog _Log = LogManager.GetLogger(typeof(ConnectionsViewModel));
+
         #region Dependencies
         [Dependency]
         public IUserOptionsService UserOptions { get; set; }
@@ -80,7 +82,7 @@ namespace MVVMDiversity.ViewModel
         }
         #endregion
 
-        private ILog _Log = LogManager.GetLogger(typeof(ConnectionsViewModel));
+        
 
         #region Properties
 
@@ -715,10 +717,7 @@ namespace MVVMDiversity.ViewModel
             else
                 _Log.Info("Couldn't update ConnectionState: ConnectionManager N/A");
 
-            if (UserOptions != null)
-                updateFromSettings(UserOptions.getOptions());   
-            else
-                _Log.Info("Couldn't update Settings: UserOptions N/A");
+            MessengerInstance.Send<SettingsRequest>(new SettingsRequest());
                
         }
 
@@ -727,27 +726,20 @@ namespace MVVMDiversity.ViewModel
             DispatcherHelper.CheckBeginInvokeOnUI(
                 () =>
                 {
-                    MessengerInstance.Send<DialogMessage>(
-                        new DialogMessage("ConnectionsPage_CreateWorkingCopies_Description", null) { Caption = "ConnectionsPage_CreateWorkingCopies_Title" }
-                        );
+                    showMessageBox("ConnectionsPage_CreateWorkingCopies_Title", "ConnectionsPage_CreateWorkingCopies_Description", null);
                 });
         }
 
         private void askWhetherToResume()
         {
-            MessengerInstance.Send<DialogMessage>(
-                new DialogMessage("Connections_ResumeSession_Description", (res) =>
+            showYesNoBox("Connections_ResumeSession_Title","Connections_ResumeSession_Description",System.Windows.MessageBoxResult.No, (res) =>
                 {
                     if (res == System.Windows.MessageBoxResult.Yes)
                         SessionMgr.resumeSession();
                     else
                         SessionMgr.startSession();
-                })
-                {
-                    Button = System.Windows.MessageBoxButton.YesNo,
-                    Caption = "Connections_ResumeSession_Title",
-
                 });
+                
         }
 
         protected override bool OnNavigateNext()
@@ -778,22 +770,14 @@ namespace MVVMDiversity.ViewModel
 
         private void nonHomeDBConnected()
         {
-            var msg = new DialogMessage("ConnectionsPage_NonHomeDB_Content",
+            showYesNoBox("ConnectionsPage_NonHomeDB_Title", "ConnectionsPage_NonHomeDB_Content", System.Windows.MessageBoxResult.No,
                 (result) =>
                 {
                     if (result == System.Windows.MessageBoxResult.Yes)
                     {
-                        //TODO Clean
-                        if (NavigateNext.CanExecute(null))
-                            NavigateNext.Execute(null);
+                        MessengerInstance.Send<ExecuteAction>(Enums.Action.CleanDB);
                     }
-                })
-                {
-                    Caption = "ConnectionsPage_NonHomeDB_Title",
-                    Button = System.Windows.MessageBoxButton.YesNo,
-                    DefaultResult = System.Windows.MessageBoxResult.No                    
-                };
-            MessengerInstance.Send<DialogMessage>(msg);
+                });            
         }
 
         
