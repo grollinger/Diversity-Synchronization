@@ -63,12 +63,7 @@ namespace MVVMDiversity.ViewModel
             protected override ISOIcon getIcon()
             {
                 return ISOIcon.Analysis;
-            }
-
-            public override IEnumerable<ISerializableObject> Children
-            {
-                get { return null; }
-            }
+            }            
         }
     }
 }

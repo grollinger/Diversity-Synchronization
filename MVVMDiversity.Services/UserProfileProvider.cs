@@ -84,7 +84,7 @@ namespace MVVMDiversity.Services
                     value.Register<ConnectionStateChanged>(this,
                         (msg) =>
                         {
-                            if ((msg.Content & ConnectionState.FullyConnected) == ConnectionState.FullyConnected)
+                            if ((msg.Content & ConnectionState.RepositoriesConnected) == ConnectionState.RepositoriesConnected)
                             {
                                 new Action(() =>
                                     {
