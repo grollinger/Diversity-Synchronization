@@ -14,7 +14,7 @@ namespace MVVMDiversity.Interface
         void endSession();
 
         bool canResumeSession();
-        void resumeSession();
+        DBPaths resumeSession(DBPaths paths);
 
     }
 }

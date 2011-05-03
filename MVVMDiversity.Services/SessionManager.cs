@@ -30,6 +30,7 @@ using MVVMDiversity.Interface;
 using Microsoft.Practices.Unity;
 using GalaSoft.MvvmLight.Messaging;
 using MVVMDiversity.Messages;
+using System.Xml.Serialization;
 
 namespace MVVMDiversity.Services
 {
@@ -122,6 +123,8 @@ namespace MVVMDiversity.Services
 
                 if(_sync != SyncState.None)
                     State = SessionState.Dirty;
+
+                saveSessionInfo();
             }
         }
 
@@ -139,15 +142,11 @@ namespace MVVMDiversity.Services
             {
 
                 //Example: 2010-10-08 2102
-                var currentTransaction = DateTime.Now.ToString("yyyy-MM-dd HHmm");
-                _currentSessionFolder = ApplicationPathManager.getFolderPath(ApplicationFolder.Sessions) + @"\" + currentTransaction;
+                var currentSession = DateTime.Now.ToString("yyyy-MM-dd HHmm");
+                _currentSessionFolder = ApplicationPathManager.getFolderPath(ApplicationFolder.Sessions) + @"\" + currentSession;
                 Directory.CreateDirectory(_currentSessionFolder);
-                if (SessionAppender != null)
-                {
-                    SessionAppender.File = _currentSessionFolder + @"\log.txt";
-                    SessionAppender.ActivateOptions();
-                }
-                _Log.InfoFormat("Session started! [{0}]", currentTransaction);
+                updateLogger();
+                _Log.InfoFormat("Session started! [{0}]", currentSession);
 
                 cleanUpOldSessions();
 
@@ -155,6 +154,15 @@ namespace MVVMDiversity.Services
             }
             else
                 _Log.Error("Cannot open new Session, while old one is still open");
+        }
+
+        private static void updateLogger()
+        {
+            if (SessionAppender != null)
+            {
+                SessionAppender.File = _currentSessionFolder + @"\log.txt";
+                SessionAppender.ActivateOptions();
+            }
         }
 
         public DBPaths createWorkingCopies(DBPaths paths)
@@ -246,8 +254,46 @@ namespace MVVMDiversity.Services
 
         #region DB Operations
 
-           
 
+        public bool canResumeSession()
+        {
+            var sessionInfo = getSessionInfo(lastSession());
+            return sessionInfo != null && sessionInfo.SState == SessionState.Dirty;
+        }
+
+        public DBPaths resumeSession(DBPaths paths)
+        {
+            var sessionToResume = lastSession();
+            var sessionInfo = getSessionInfo(sessionToResume);
+            var sessionDir = ApplicationPathManager.getFolderPath(ApplicationFolder.Sessions) + "\\" + sessionToResume;
+            var mobilePath = sessionDir + "\\" + ApplicationPathManager.MOBILEDB_FILE;
+            var taxonPath = sessionDir + "\\" + ApplicationPathManager.TAXONDB_FILE;
+
+            if (File.Exists(mobilePath) && File.Exists(taxonPath))
+            {
+                _currentSessionFolder = sessionDir;
+                updateLogger();
+
+                _paths = paths;
+
+                _workingPaths = new DBPaths()
+                {
+                    MobileDB = mobilePath,
+                    MobileTaxa = taxonPath
+                };
+
+                State = sessionInfo.SState;
+                Sync = sessionInfo.SSync;
+
+                return _workingPaths;
+            }
+            else
+            {
+                _Log.Error("Can't resume. Files missing.");
+                return createWorkingCopies(paths);
+            }
+            
+        }
         
 
 
@@ -255,6 +301,9 @@ namespace MVVMDiversity.Services
 
         private void copyMaps()
         {
+            if (!File.Exists(_paths.MobileDB))
+                return;
+
             string mobileMapsPath = Path.GetDirectoryName(_paths.MobileDB) + "\\maps";
             string localMapsPath = ApplicationPathManager.getFolderPath(ApplicationFolder.Maps);
             if (!Directory.Exists(mobileMapsPath))
@@ -280,6 +329,9 @@ namespace MVVMDiversity.Services
 
         private void copyPictures()
         {
+            if (!File.Exists(_paths.MobileDB))
+                return;
+
             string mobilePictureDirectory = Path.GetDirectoryName(_paths.MobileDB) + "\\pictures";
             if (Directory.Exists(mobilePictureDirectory))
             {
@@ -320,13 +372,11 @@ namespace MVVMDiversity.Services
 
         private static void cleanUpOldSessions()
         {
-            var sessions = Directory.GetDirectories(ApplicationPathManager.getFolderPath(ApplicationFolder.Sessions));
-            int sessionOverhang = sessions.Length - MAX_SESSIONS_SAVED;
+            var sessions = sessionListAsc();
+            int sessionOverhang = sessions.Count() - MAX_SESSIONS_SAVED;
             if (sessionOverhang > 0)
             {
-                var superfluousSessions = (from dir in sessions
-                                               orderby dir ascending
-                                               select dir).Take(sessionOverhang);
+                var superfluousSessions = sessions.Take(sessionOverhang);
                 foreach (var superfluousSession in superfluousSessions)
                 {
                     try
@@ -341,15 +391,62 @@ namespace MVVMDiversity.Services
             }
         }
 
-
-        public bool canResumeSession()
+        private static string lastSession()
         {
-            return false;
+            var sessions = sessionListAsc();
+            if (sessions.Count() > 0)
+                return sessions.Last();
+            else
+                return null;
+
         }
 
-        public void resumeSession()
+        private static IOrderedEnumerable<string> sessionListAsc()
         {
-            
+            var sessions = Directory.GetDirectories(ApplicationPathManager.getFolderPath(ApplicationFolder.Sessions));
+            return (from dir in sessions
+                    orderby dir ascending
+                    select dir);
         }
+
+        
+
+        private SessionInfo getSessionInfo(string session)
+        {
+            string fullSessionStatePath = string.Format("{0}\\{1}\\{2}", ApplicationPathManager.getFolderPath(ApplicationFolder.Sessions), session, ApplicationPathManager.SESSIONSTATE_FILE);
+
+            if (File.Exists(fullSessionStatePath))
+            {
+                try
+                {
+                    return (new XMLObjectStore<SessionInfo>(fullSessionStatePath)).Load();
+                }
+                catch (Exception ex)
+                {
+                    _Log.InfoFormat("Could not get State of session [{0}]:[{1}]", session, ex);
+                }
+            }
+            return null;
+        }
+
+        private void saveSessionInfo()
+        {
+            string fullSessionStatePath = string.Format("{0}\\{1}", _currentSessionFolder, ApplicationPathManager.SESSIONSTATE_FILE);
+            try
+            {
+                new XMLObjectStore<SessionInfo>(fullSessionStatePath).Store(new SessionInfo() { SState = State, SSync = Sync });
+            }
+            catch (Exception ex)
+            {
+                _Log.ErrorFormat("Error saving State: [{0}]", ex);
+            }
+        }
+
+        public class SessionInfo
+        {
+            public SessionState SState { get; set; }
+            public SyncState SSync { get; set; }
+        }
+       
     }
 }

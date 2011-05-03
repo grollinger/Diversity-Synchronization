@@ -45,5 +45,11 @@ namespace MVVMDiversity.DesignServices
         {
             
         }
+
+
+        public DBPaths resumeSession(DBPaths paths)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
