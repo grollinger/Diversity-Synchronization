@@ -26,6 +26,7 @@ using MVVMDiversity.Interface;
 using MVVMDiversity.Model;
 using System;
 using System.Windows;
+using GalaSoft.MvvmLight.Threading;
 
 namespace MVVMDiversity.ViewModel
 {
@@ -219,12 +220,18 @@ namespace MVVMDiversity.ViewModel
 
         protected void showProgress()
         {
-            MessengerInstance.Send<ShowProgress>(CurrentOperation);
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+               {
+                   MessengerInstance.Send<ShowProgress>(CurrentOperation);
+               });
         }
 
         protected void hideProgress()
         {
-            MessengerInstance.Send<HideProgress>(new HideProgress());
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+               {
+                   MessengerInstance.Send<HideProgress>(new HideProgress());
+               });
         }
 
         protected bool operationFailed(BackgroundOperation o)
@@ -234,24 +241,30 @@ namespace MVVMDiversity.ViewModel
 
         protected void showMessageBox(string caption, string content, Action<MessageBoxResult> callback)
         {
-            MessengerInstance.Send<DialogMessage>(
-                new DialogMessage(content, callback)
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
                 {
-                    Button = MessageBoxButton.OK,
-                    Caption = caption,
-                    DefaultResult = MessageBoxResult.Cancel
+                    MessengerInstance.Send<DialogMessage>(
+                    new DialogMessage(content, callback)
+                    {
+                        Button = MessageBoxButton.OK,
+                        Caption = caption,
+                        DefaultResult = MessageBoxResult.Cancel
+                    });
                 });
         }
 
         protected void showYesNoBox(string caption, string content, MessageBoxResult defaultResult, Action<MessageBoxResult> callback)
         {
-            MessengerInstance.Send<DialogMessage>(
-                new DialogMessage(content, callback)
-                {
-                    Button = MessageBoxButton.YesNo,
-                    Caption = caption,
-                    DefaultResult = defaultResult
-                });
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+               {
+                   MessengerInstance.Send<DialogMessage>(
+                       new DialogMessage(content, callback)
+                       {
+                           Button = MessageBoxButton.YesNo,
+                           Caption = caption,
+                           DefaultResult = defaultResult
+                       });
+               });
         }
         
     }

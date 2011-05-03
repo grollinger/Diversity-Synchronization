@@ -137,7 +137,7 @@ When you're finished, press the 'Save' button.</value>
     <value>Maps</value>
   </data>
   <data name="Actions_NextText" xml:space="preserve">
-    <value>Save</value>
+    <value>Save &amp; Close</value>
   </data>
   <data name="Actions_PreviousText" xml:space="preserve">
     <value>Back</value>
@@ -560,5 +560,11 @@ Do you really want to proceed?</value>
   </data>
   <data name="Services_Definitions_LoadingTaxa" xml:space="preserve">
     <value>Downloading Taxon Lists</value>
+  </data>
+  <data name="ConnectionsPage_ConnectionFailed_Content" xml:space="preserve">
+    <value>Failed to establish a connection to the repository. Please check your user name and Password. If you do not already have Credentials you can obtain them from Markus Weiss.</value>
+  </data>
+  <data name="ConnectionsPage_ConnectionFailed_Title" xml:space="preserve">
+    <value>Repository Connection Failed</value>
   </data>
 </root>

@@ -337,7 +337,8 @@ namespace MVVMDiversity.ViewModel
             MessengerInstance.Register<ApplicationClosing>(this,
                 (msg) =>
                 {
-                    OnNavigateNext();
+                    if (msg.WarningOnly)
+                        saveAndClose();
                 });
 
             MessengerInstance.Register<ExecuteAction>(this,
@@ -346,6 +347,8 @@ namespace MVVMDiversity.ViewModel
                     if (msg.Content == Enums.Action.CleanDB)
                         executeCleanDB();
                 });
+
+            
             
 
         
@@ -464,10 +467,7 @@ namespace MVVMDiversity.ViewModel
 
         protected override bool OnNavigateNext()
         {
-            if (SessionMgr != null)
-                SessionMgr.endSession();
-            else
-                _Log.Error("Session Manager N/A");
+            
 
             return base.OnNavigateNext();
         }
@@ -550,6 +550,20 @@ namespace MVVMDiversity.ViewModel
         private bool syncStateSatisfies(SyncState req)
         {
             return (_sState & req) == req;
+        }
+
+
+        private void saveAndClose()
+        {
+            if (CM != null)
+                CM.disconnectEverything();
+
+            if (SessionMgr != null)
+                SessionMgr.endSession();
+            else
+                _Log.Error("Session Manager N/A");
+
+            MessengerInstance.Send<ApplicationClosing>(new ApplicationClosing(false));
         }
     }
 }

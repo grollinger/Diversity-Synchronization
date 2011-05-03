@@ -29,7 +29,7 @@ namespace MVVMDiversity.Services
     public static class ApplicationPathManager
     {
         private const string APP_FOLDER = "Diversity Mobile";
-        private const string TRANSACTION_FOLDER = "Transactions";
+        private const string SESSIONS_FOLDER = "Sessions";
         private const string SETTINGS_FOLDER = "Settings";
         private const string LANGUAGE_FOLDER = "Languages";
         private const string DEFAULTS_FOLDER = "Defaults";
@@ -40,6 +40,7 @@ namespace MVVMDiversity.Services
         public const string MOBILEDB_FILE = "MobileDB.sdf";
         public const string TAXONDB_FILE = "TaxonNames.sdf";
         public const string USEROPTIONS_FILE = "useroptions.xml";
+        public const string SESSIONSTATE_FILE = "state.xml";
         private const string CONNECTIONPROFILES_FILE = "ConnectionProfiles.xml";
 
         
@@ -59,6 +60,8 @@ namespace MVVMDiversity.Services
             createIfNotExists(ApplicationFolder.Pictures);
             
             createIfNotExists(ApplicationFolder.Maps);
+
+            createIfNotExists(ApplicationFolder.Sessions);
         }
 
         private static void createIfNotExists(ApplicationFolder f)
@@ -107,7 +110,7 @@ namespace MVVMDiversity.Services
                     return String.Format("{0}\\{1}", getFolderPath(ApplicationFolder.Application), LANGUAGE_FOLDER);
                     
                 case ApplicationFolder.Sessions:
-                    return String.Format("{0}\\{1}", getFolderPath(ApplicationFolder.ApplicationData), TRANSACTION_FOLDER);
+                    return String.Format("{0}\\{1}", getFolderPath(ApplicationFolder.ApplicationData), SESSIONS_FOLDER);
                                     
                 case ApplicationFolder.Pictures:
                     return String.Format("{0}\\{1}", getFolderPath(ApplicationFolder.ApplicationData), PICTURES_FOLDER);

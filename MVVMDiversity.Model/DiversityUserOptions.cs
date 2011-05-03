@@ -180,7 +180,8 @@ namespace MVVMDiversity.Model
         {
             get 
             {
-                _err = this[UsernamePropertyName];
+                //_err = this[UsernamePropertyName];
+                _err = null;
 
                 _err = _err ?? this[PathsName];
                 _err = _err ?? this[ScreenHeightPropertyName];

@@ -58,6 +58,14 @@ namespace MVVMDiversity.View
                     }
                 });
 
+            Messenger.Default.Register<ApplicationClosing>(this, (msg) =>
+                {
+                    if (!msg.WarningOnly)
+                    {
+                        finalShutdown = true;                        
+                    }
+                });
+
         }
 
         private void Options_Click(object sender, RoutedEventArgs e)
@@ -75,9 +83,12 @@ namespace MVVMDiversity.View
             this.Close();
         }
 
+        private bool finalShutdown = false;
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Messenger.Default.Send<ApplicationClosing>(new ApplicationClosing());
+            e.Cancel = !finalShutdown;
+            new Action(() => { Messenger.Default.Send<ApplicationClosing>(new ApplicationClosing(!finalShutdown)); }).BeginInvoke(null, null);
         }
 
         

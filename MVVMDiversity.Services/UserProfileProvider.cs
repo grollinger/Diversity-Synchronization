@@ -85,15 +85,10 @@ namespace MVVMDiversity.Services
                         (msg) =>
                         {
                             if ((msg.Content & ConnectionState.RepositoriesConnected) == ConnectionState.RepositoriesConnected)
-                            {
-                                new Action(() =>
-                                    {
-                                        lock (this)
-                                        {
-                                            updateProfile();
-                                        }
-                                    }).BeginInvoke(null, null);
-
+                            {                                
+                                
+                                    updateProfile();
+                               
                             }
                         });
             }

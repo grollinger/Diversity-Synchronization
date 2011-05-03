@@ -81,6 +81,7 @@
     <Compile Include="SessionManager.cs" />
     <Compile Include="UserOptionsService.cs" />
     <Compile Include="UserProfileProvider.cs" />
+    <Compile Include="XMLObjectStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MVVMDiversity.Interface\MVVMDiversity.Common.csproj">

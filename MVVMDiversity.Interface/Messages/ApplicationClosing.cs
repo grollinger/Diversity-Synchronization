@@ -8,5 +8,10 @@ namespace MVVMDiversity.Messages
 {
     public class ApplicationClosing : MessageBase
     {
+        public ApplicationClosing(bool warningOnly)
+        {
+            WarningOnly = warningOnly;
+        }
+        public bool WarningOnly { get; private set; }
     }
 }

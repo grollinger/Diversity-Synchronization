@@ -57,28 +57,12 @@ namespace MVVMDiversity.ViewModel
 
         [Dependency]
         public IConnectionManagementService ConnectionManager { get; set; }
-
-        private ISessionManager _sessMgr = null;
+        
         [Dependency]
         public ISessionManager SessionMgr
         {
-            get
-            {
-                return _sessMgr;
-            }
-            set
-            {
-                _sessMgr = value;
-                if (SessionMgr != null)
-                {
-                    if (SessionMgr.canResumeSession())
-                        askWhetherToResume();
-                    else
-                        SessionMgr.startSession();
-                }
-                else
-                    _Log.Error("SessionManager N/A");
-            }
+            get;
+            set;
         }
         #endregion
 
@@ -686,18 +670,28 @@ namespace MVVMDiversity.ViewModel
             ConnectMobile = new RelayCommand(
                 () =>
                 {
-                    this._mobileConnecting = true;
-                    new Action(() =>
-                        {
-                            DBPaths workingpaths;
-                            if ((workingpaths = SessionMgr.createWorkingCopies(_settings.Paths)) != null)
-                                ConnectionManager.connectToMobileDB(workingpaths);
-                            else
-                                showWorkingCopyFailure();
-                        }).BeginInvoke((res) =>
+                    if (SessionMgr.canResumeSession())
+                        showYesNoBox("Connections_ResumeSession_Title", "Connections_ResumeSession_Description", System.Windows.MessageBoxResult.No,
+                            (res) =>
                             {
-                                this._mobileConnecting = false;
-                            }, null);
+                                if (res == System.Windows.MessageBoxResult.Yes)
+                                {
+                                    new Action<DBPaths>(connectTo).BeginInvoke(SessionMgr.resumeSession(_settings.Paths), null, null);
+                                }
+                                else
+                                {
+                                    SessionMgr.startSession();
+                                    new Action<DBPaths>(connectTo).BeginInvoke(SessionMgr.createWorkingCopies(_settings.Paths), null, null);
+                                }
+                            });
+                    else
+                    {
+                        SessionMgr.startSession();
+                        new Action<DBPaths>(connectTo).BeginInvoke(SessionMgr.createWorkingCopies(_settings.Paths), null, null);
+                    }
+                
+        
+                   
                 },
                 () => { return !this._mobileConnecting; });
             DisConnectMobile = new RelayCommand(
@@ -721,6 +715,14 @@ namespace MVVMDiversity.ViewModel
                
         }
 
+        private void connectTo(DBPaths paths)
+        {
+            if (paths != null)
+                ConnectionManager.connectToMobileDB(paths);
+            else
+                showWorkingCopyFailure();
+        }
+
         private void showWorkingCopyFailure()
         {
             DispatcherHelper.CheckBeginInvokeOnUI(
@@ -730,17 +732,7 @@ namespace MVVMDiversity.ViewModel
                 });
         }
 
-        private void askWhetherToResume()
-        {
-            showYesNoBox("Connections_ResumeSession_Title","Connections_ResumeSession_Description",System.Windows.MessageBoxResult.No, (res) =>
-                {
-                    if (res == System.Windows.MessageBoxResult.Yes)
-                        SessionMgr.resumeSession();
-                    else
-                        SessionMgr.startSession();
-                });
-                
-        }
+       
 
         protected override bool OnNavigateNext()
         {
@@ -811,6 +803,12 @@ namespace MVVMDiversity.ViewModel
 
 
             CanNavigateNext = (IsDefinitionsConnected && IsRepositoryConnected && IsMobileConnected && IsMobileTaxaConnected);
+
+            //Connection to Repository failed
+            if (IsDefinitionsConnected != IsRepositoryConnected)
+            {
+                showMessageBox("ConnectionsPage_ConnectionFailed_Title", "ConnectionsPage_ConnectionFailed_Content", null);
+            }
         }
 
         private bool loginInformationFilled()
