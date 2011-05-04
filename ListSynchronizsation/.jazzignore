@@ -1,0 +1,19 @@
+### Jazz Ignore 0
+# Die Eigenschaft core.ignore gibt eine Liste von Dateimustern an, die 
+# in diesem Verzeichnis ignoriert werden. 
+#
+# Der Wert von core.ignore.recursive wird ignoriert.
+#
+# Eigenschaften für Ignorierungen müssen eine durch Leerzeichen getrennte Liste von Dateinamensmustern enthalten.
+# Jedes Muster beachtet die Groß-/Kleinschreibung muss beachtet werden und wird in geschweifte Klammern ('{' und '}') gesetzt. 
+# "*" entspricht keinem oder mehreren Zeichen, "?" entspricht einem Einzelzeichen. 
+#
+#   Beispiel: {*.sh} {\.*}    Ignoriert Shell-Scripts und verdeckte Dateien
+
+# HINWEIS: Die Änderung von Ignorierungsdateien ändert nicht den 
+# Ignorierungsstatus von abgeleiteten Ressourcen.
+
+core.ignore.recursive= 
+
+core.ignore= \
+	{bin} 

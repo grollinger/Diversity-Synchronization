@@ -41,9 +41,6 @@
     <Reference Include="GalaSoft.MvvmLight">
       <HintPath>..\Lib\MVVMLight\Binaries\WPF35SP1\GalaSoft.MvvmLight.dll</HintPath>
     </Reference>
-    <Reference Include="ListSynchronizsation">
-      <HintPath>..\Lib\ListSynchronizsation.dll</HintPath>
-    </Reference>
     <Reference Include="log4net">
       <HintPath>..\Lib\log4net\log4net.dll</HintPath>
     </Reference>
@@ -84,6 +81,10 @@
     <Compile Include="XMLObjectStore.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ListSynchronizsation\ListSynchronization.csproj">
+      <Project>{16E4FAD9-A68C-4C10-BA60-CCE0AABD9A46}</Project>
+      <Name>ListSynchronization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MVVMDiversity.Interface\MVVMDiversity.Common.csproj">
       <Project>{0C7DA1CC-6977-45AC-8595-F538E41EE8B1}</Project>
       <Name>MVVMDiversity.Common</Name>

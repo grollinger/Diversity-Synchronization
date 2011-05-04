@@ -97,7 +97,7 @@ namespace MVVMDiversity.Services
                 syncList.addList(selection);
                 syncList.initialize(LookupSynchronizationInformation.getFieldDataList(), LookupSynchronizationInformation.getReflexiveReferences(), LookupSynchronizationInformation.getReflexiveIDFields());
 
-                _ansl = new AnalyzeSyncObjectList(syncList, _mobileDB, _repository, _sync);
+                _ansl = new AnalyzeSyncObjectList(syncList,_repository, _mobileDB, _sync);
             }
 
             private void getSerializers()

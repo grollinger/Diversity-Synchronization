@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:tns="http://adventure-works.com/2007/03/01" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" targetNamespace="http://adventure-works.com/2007/03/01" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://adventure-works.com/2007/03/01/Imports">
+      <xsd:import schemaLocation="http://141.84.65.122:9080/Service.svc?xsd=xsd0" namespace="http://adventure-works.com/2007/03/01" />
+      <xsd:import schemaLocation="http://141.84.65.122:9080/Service.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="DiversityMediaService_BeginTransaction_InputMessage">
+    <wsdl:part name="parameters" element="tns:BeginTransaction" />
+  </wsdl:message>
+  <wsdl:message name="DiversityMediaService_BeginTransaction_OutputMessage">
+    <wsdl:part name="parameters" element="tns:BeginTransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="DiversityMediaService_EncodeFile_InputMessage">
+    <wsdl:part name="parameters" element="tns:EncodeFile" />
+  </wsdl:message>
+  <wsdl:message name="DiversityMediaService_EncodeFile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EncodeFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="DiversityMediaService_Commit_InputMessage">
+    <wsdl:part name="parameters" element="tns:Commit" />
+  </wsdl:message>
+  <wsdl:message name="DiversityMediaService_Commit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CommitResponse" />
+  </wsdl:message>
+  <wsdl:message name="DiversityMediaService_Rollback_InputMessage">
+    <wsdl:part name="parameters" element="tns:Rollback" />
+  </wsdl:message>
+  <wsdl:message name="DiversityMediaService_Rollback_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RollbackResponse" />
+  </wsdl:message>
+  <wsdl:message name="DiversityMediaService_Submit_InputMessage">
+    <wsdl:part name="parameters" element="tns:Submit" />
+  </wsdl:message>
+  <wsdl:message name="DiversityMediaService_Submit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SubmitResponse" />
+  </wsdl:message>
+  <wsdl:portType name="DiversityMediaService">
+    <wsdl:operation name="BeginTransaction">
+      <wsdl:input wsaw:Action="http://adventure-works.com/2007/03/01/DiversityMediaService/BeginTransaction" message="tns:DiversityMediaService_BeginTransaction_InputMessage" />
+      <wsdl:output wsaw:Action="http://adventure-works.com/2007/03/01/DiversityMediaService/BeginTransactionResponse" message="tns:DiversityMediaService_BeginTransaction_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EncodeFile">
+      <wsdl:input wsaw:Action="http://adventure-works.com/2007/03/01/DiversityMediaService/EncodeFile" message="tns:DiversityMediaService_EncodeFile_InputMessage" />
+      <wsdl:output wsaw:Action="http://adventure-works.com/2007/03/01/DiversityMediaService/EncodeFileResponse" message="tns:DiversityMediaService_EncodeFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Commit">
+      <wsdl:input wsaw:Action="http://adventure-works.com/2007/03/01/DiversityMediaService/Commit" message="tns:DiversityMediaService_Commit_InputMessage" />
+      <wsdl:output wsaw:Action="http://adventure-works.com/2007/03/01/DiversityMediaService/CommitResponse" message="tns:DiversityMediaService_Commit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Rollback">
+      <wsdl:input wsaw:Action="http://adventure-works.com/2007/03/01/DiversityMediaService/Rollback" message="tns:DiversityMediaService_Rollback_InputMessage" />
+      <wsdl:output wsaw:Action="http://adventure-works.com/2007/03/01/DiversityMediaService/RollbackResponse" message="tns:DiversityMediaService_Rollback_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Submit">
+      <wsdl:input wsaw:Action="http://adventure-works.com/2007/03/01/DiversityMediaService/Submit" message="tns:DiversityMediaService_Submit_InputMessage" />
+      <wsdl:output wsaw:Action="http://adventure-works.com/2007/03/01/DiversityMediaService/SubmitResponse" message="tns:DiversityMediaService_Submit_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>
