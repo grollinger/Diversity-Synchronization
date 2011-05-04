@@ -101,6 +101,11 @@ namespace MVVMDiversity.Services
                             sync.Open();
                             rowsAffected = truncate.ExecuteNonQuery();
                         }
+                        catch (Exception ex)
+                        {
+                            _Log.ErrorFormat("Exception truncating Sync Table: [{0}]", ex);
+                            return false;
+                        }
                         finally
                         {
                             sync.Close();

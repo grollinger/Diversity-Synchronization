@@ -54,11 +54,9 @@ namespace MVVMDiversity
                     ioc.RegisterInstance<IConnectionManagementService>(connections);
                     ioc.RegisterInstance<IConnectionProvider>(connections);
                     ioc.RegisterInstance<IProjectService>(ioc.Resolve<ProjectProvider>());
-                    ioc.RegisterInstance<IUserProfileService>(ioc.Resolve<UserProfileProvider>());
+                    ioc.RegisterInstance<IUserProfileService>(ioc.Resolve<UserProfileProvider>());                   
 
-                    ioc.RegisterInstance<IDefinitionsService>(new DesignServices.Definitions());
-
-                    //ioc.RegisterInstance<IDefinitionsService>(ioc.Resolve<DefinitionsService>());
+                    ioc.RegisterInstance<IDefinitionsService>(ioc.Resolve<DefinitionsService>());
                     ioc.RegisterInstance<IFieldDataService>(ioc.Resolve<FieldDataService>());
                     ioc.RegisterInstance<ITaxonListService>(ioc.Resolve<TaxonListService>());
                     ioc.RegisterInstance<ISessionManager>(ioc.Resolve<SessionManager>());
