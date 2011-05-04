@@ -98,14 +98,13 @@
                        Content="{Loc ConnectionsPage_RepositoryUser}" />
                 <TextBox Grid.Row="8" Grid.Column="2"  Grid.ColumnSpan="2" 
                          Text="{Binding UserName}"
-                         IsEnabled="{Binding UserCredentialsRequired}"/>
+                         IsEnabled="{Binding CanChangeCredentials}"/>
                 
                 <Label Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" 
-                       Content="{Loc ConnectionsPage_RepositoryPassword}" 
-                       IsEnabled="{Binding UserCredentialsRequired}"/>
+                       Content="{Loc ConnectionsPage_RepositoryPassword}"/>
                 
                 <vw:InterfacingPasswordBox Grid.Column="2" Grid.Row="9" Grid.ColumnSpan="2"
-                                           IsEnabled="{Binding UserCredentialsRequired}"
+                                           IsEnabled="{Binding CanChangeCredentials}"
                                            Password="{Binding Password, UpdateSourceTrigger=PropertyChanged}">
                     <vw:InterfacingPasswordBox.Style>
 
@@ -123,7 +122,7 @@
                 
                 <TextBox Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="2"
                          Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
-                         IsEnabled="{Binding UserCredentialsRequired}">
+                         IsEnabled="{Binding CanChangeCredentials}">
                     <TextBox.Style>
                         <Style TargetType="TextBox" BasedOn="{StaticResource txtBoxStyle}">
                             <Style.Triggers>

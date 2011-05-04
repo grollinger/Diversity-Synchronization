@@ -40,7 +40,8 @@ namespace MVVMDiversity
                     ioc.RegisterInstance<IDefinitionsService>(new DesignServices.Definitions());
                     ioc.RegisterInstance<IFieldDataService>(new DesignServices.FieldData());
 
-                    ioc.RegisterInstance<ISessionManager>(new DesignServices.Sessions());
+                    //ioc.RegisterInstance<ISessionManager>(new DesignServices.Sessions());
+                    ioc.RegisterInstance<ISessionManager>(ioc.Resolve<SessionManager>());
 
                     ioc.RegisterInstance<ITaxonListService>(new DesignServices.TaxonLists());                  
 

@@ -104,7 +104,9 @@ namespace MVVMDiversity.ViewModel
                 VerifyPropertyName(IsRepositoryConnectedPropertyName);
 
                 // Update bindings, no broadcast
-                RaisePropertyChanged(IsRepositoryConnectedPropertyName);                
+                RaisePropertyChanged(IsRepositoryConnectedPropertyName);
+
+                updateCanChangeCreds();
             }
         }
 
@@ -417,12 +419,7 @@ namespace MVVMDiversity.ViewModel
                 // Update bindings, no broadcast
                 RaisePropertyChanged(IsPasswordVisiblePropertyName);
             }
-        }
-
-        /// <summary>
-        /// The <see cref="UserCredentialsRequired" /> property's name.
-        /// </summary>
-        public const string UserCredentialsRequiredPropertyName = "UserCredentialsRequired";
+        }      
 
         private bool _credsRequired = false;
 
@@ -432,7 +429,7 @@ namespace MVVMDiversity.ViewModel
         /// Changes to that property's value raise the PropertyChanged event. 
         /// This property's value is broadcasted by the Messenger's default instance when it changes.
         /// </summary>
-        public bool UserCredentialsRequired
+        private bool UserCredentialsRequired
         {
             get
             {
@@ -445,15 +442,48 @@ namespace MVVMDiversity.ViewModel
                 {
                     return;
                 }
-
-                var oldValue = _credsRequired;
+               
                 _credsRequired = value;
 
+                updateCanChangeCreds();
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="CanChangeCredentials" /> property's name.
+        /// </summary>
+        public const string CanChangeCredentialsPropertyName = "CanChangeCredentials";
+
+        private bool _canChangeCreds = true;
+
+        /// <summary>
+        /// Gets the CanChangeCredentials property.
+        /// TODO Update documentation:
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// </summary>
+        public bool CanChangeCredentials
+        {
+            get
+            {
+                return _canChangeCreds;
+            }
+
+            private set
+            {
+                if (_canChangeCreds == value)
+                {
+                    return;
+                }
+
+               
+                _canChangeCreds = value;                
+
                 // Verify Property Exists
-                VerifyPropertyName(UserCredentialsRequiredPropertyName);
+                VerifyPropertyName(CanChangeCredentialsPropertyName);
 
                 // Update bindings, no broadcast
-                RaisePropertyChanged(UserCredentialsRequiredPropertyName);
+                RaisePropertyChanged(CanChangeCredentialsPropertyName);               
             }
         }
 
@@ -598,8 +628,12 @@ namespace MVVMDiversity.ViewModel
                 _repConnecting = value;
                 if(_connectRepository != null)
                     _connectRepository.RaiseCanExecuteChanged();
+
+                updateCanChangeCreds();
             }
         }
+
+       
 
         private bool _mobileConnecting;
 
@@ -625,7 +659,7 @@ namespace MVVMDiversity.ViewModel
 
             MessengerInstance.Register<ConnectionStateChanged>(this, (msg) => 
             {
-                this.RepositoryConnecting = false;
+                
                 updateFromConnectionState(msg.Content);                
             });
             MessengerInstance.Register<Settings>(this, (msg) => { updateFromSettings(msg.Content); });
@@ -671,7 +705,7 @@ namespace MVVMDiversity.ViewModel
                 () =>
                 {
                     if (SessionMgr.canResumeSession())
-                        showYesNoBox("Connections_ResumeSession_Title", "Connections_ResumeSession_Description", System.Windows.MessageBoxResult.No,
+                        showYesNoBox("ConnectionsPage_ResumeSession_Title", "ConnectionsPage_ResumeSession_Description", System.Windows.MessageBoxResult.No,
                             (res) =>
                             {
                                 if (res == System.Windows.MessageBoxResult.Yes)
@@ -796,6 +830,7 @@ namespace MVVMDiversity.ViewModel
 
         private void updateFromConnectionState(ConnectionState state)
         {
+            var definitionsWasConnected = IsDefinitionsConnected;
             IsDefinitionsConnected = stateHasFlag(state, ConnectionState.ConnectedToRepTax);
             IsMobileConnected = stateHasFlag(state, ConnectionState.ConnectedToMobile);
             IsRepositoryConnected = stateHasFlag(state, ConnectionState.ConnectedToRepository);
@@ -805,10 +840,15 @@ namespace MVVMDiversity.ViewModel
             CanNavigateNext = (IsDefinitionsConnected && IsRepositoryConnected && IsMobileConnected && IsMobileTaxaConnected);
 
             //Connection to Repository failed
-            if (IsDefinitionsConnected != IsRepositoryConnected)
+            if (!definitionsWasConnected && IsDefinitionsConnected && !IsRepositoryConnected)
             {
                 showMessageBox("ConnectionsPage_ConnectionFailed_Title", "ConnectionsPage_ConnectionFailed_Content", null);
             }
+        }
+
+        private void updateCanChangeCreds()
+        {
+            CanChangeCredentials = !RepositoryConnecting && !IsRepositoryConnected && UserCredentialsRequired;
         }
 
         private bool loginInformationFilled()

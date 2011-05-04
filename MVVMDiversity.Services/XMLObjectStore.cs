@@ -27,12 +27,14 @@ namespace MVVMDiversity.Services
             {
                 if (File.Exists(_file))
                 {
-                    var xmlDoc = XmlReader.Create(new FileStream(_file, FileMode.Open));
-
-                    if (_serializer.CanDeserialize(xmlDoc))
+                    using (var fs = new FileStream(_file, FileMode.Open))
                     {
-                        _content = (T)_serializer.Deserialize(xmlDoc);
-                    }
+                        var xmlDoc = XmlReader.Create(fs);
+                        if (_serializer.CanDeserialize(xmlDoc))
+                        {
+                            _content = (T)_serializer.Deserialize(xmlDoc);
+                        }
+                    }            
                 }
             }
             return _content;
@@ -41,8 +43,10 @@ namespace MVVMDiversity.Services
         public void Store(T value)
         {
             _content = value;
-            var xmlFile = new FileStream(_file, FileMode.OpenOrCreate);
-            _serializer.Serialize(xmlFile, value);
+            using (var xmlFile = new FileStream(_file, FileMode.OpenOrCreate))
+            {
+                _serializer.Serialize(xmlFile, value);
+            }
 
         }
 

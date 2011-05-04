@@ -497,6 +497,8 @@ namespace MVVMDiversity.ViewModel
                                 if (CM.truncateSyncTable())
                                 {
                                     CM.disconnectFromMobileDB();
+                                    SessionMgr.endSession();
+                                    SessionMgr.startSession();
                                     var workingPaths = SessionMgr.createCleanWorkingCopies(paths);
                                     CM.connectToMobileDB(workingPaths);
                                 }

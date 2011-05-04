@@ -249,7 +249,8 @@ namespace MVVMDiversity.Services
             else
                 _Log.Info("Nothing To Save");
 
-            State = SessionState.Uninitialized;            
+            State = SessionState.Uninitialized;
+            Sync = SyncState.None;
         }
 
         #region DB Operations
@@ -265,13 +266,13 @@ namespace MVVMDiversity.Services
         {
             var sessionToResume = lastSession();
             var sessionInfo = getSessionInfo(sessionToResume);
-            var sessionDir = ApplicationPathManager.getFolderPath(ApplicationFolder.Sessions) + "\\" + sessionToResume;
-            var mobilePath = sessionDir + "\\" + ApplicationPathManager.MOBILEDB_FILE;
-            var taxonPath = sessionDir + "\\" + ApplicationPathManager.TAXONDB_FILE;
+            
+            var mobilePath = sessionToResume + "\\" + ApplicationPathManager.MOBILEDB_FILE;
+            var taxonPath = sessionToResume + "\\" + ApplicationPathManager.TAXONDB_FILE;
 
             if (File.Exists(mobilePath) && File.Exists(taxonPath))
             {
-                _currentSessionFolder = sessionDir;
+                _currentSessionFolder = sessionToResume;
                 updateLogger();
 
                 _paths = paths;
@@ -281,15 +282,23 @@ namespace MVVMDiversity.Services
                     MobileDB = mobilePath,
                     MobileTaxa = taxonPath
                 };
-
-                State = sessionInfo.SState;
-                Sync = sessionInfo.SSync;
+                if (sessionInfo != null)
+                {
+                    State = sessionInfo.SState;
+                    Sync = sessionInfo.SSync;
+                }
+                else
+                {
+                    State = SessionState.New;
+                    Sync = SyncState.None;
+                }
 
                 return _workingPaths;
             }
             else
             {
                 _Log.Error("Can't resume. Files missing.");
+                startSession();
                 return createWorkingCopies(paths);
             }
             
@@ -413,7 +422,7 @@ namespace MVVMDiversity.Services
 
         private SessionInfo getSessionInfo(string session)
         {
-            string fullSessionStatePath = string.Format("{0}\\{1}\\{2}", ApplicationPathManager.getFolderPath(ApplicationFolder.Sessions), session, ApplicationPathManager.SESSIONSTATE_FILE);
+            string fullSessionStatePath = string.Format("{0}\\{1}",session, ApplicationPathManager.SESSIONSTATE_FILE);
 
             if (File.Exists(fullSessionStatePath))
             {

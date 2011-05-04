@@ -14,6 +14,7 @@ using WPFLocalization;
 using GalaSoft.MvvmLight.Messaging;
 using MVVMDiversity.Messages;
 using MVVMDiversity.View.Dialogs;
+using GalaSoft.MvvmLight.Threading;
 
 
 namespace MVVMDiversity.View
@@ -62,7 +63,8 @@ namespace MVVMDiversity.View
                 {
                     if (!msg.WarningOnly)
                     {
-                        finalShutdown = true;                        
+                        finalShutdown = true;
+                        DispatcherHelper.CheckBeginInvokeOnUI(()=> Application.Current.Shutdown());                       
                     }
                 });
 

@@ -74,12 +74,14 @@ namespace MVVMDiversity.DesignServices
         
         public BackgroundOperation uploadData(string userNr, int projectID)
         {
-            throw new NotImplementedException();
+            var b = BackgroundOperation.newUninterruptable();
+            return b;
         }
 
         public BackgroundOperation downloadData(IList<UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable.ISerializableObject> selection)
         {
-            throw new NotImplementedException();
+            var b = BackgroundOperation.newUninterruptable();
+            return b;
         }
 
         public BackgroundOperation executeSearch(SearchSpecification search, int currentProjectID, Action<IList<UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable.ISerializableObject>> finishedCallback)
