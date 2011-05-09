@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UBT.AI4.Bio.DivMobi.ListSynchronization</RootNamespace>
-    <AssemblyName>ListSynchronizsation</AssemblyName>
+    <AssemblyName>ListSynchronization</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -75,9 +75,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\DivMobi DatabaseConnector.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\log4net\log4net.dll</HintPath>
+    <Reference Include="log4net">
+      <HintPath>..\Lib\log4net\log4net.dll</HintPath>
     </Reference>
     <Reference Include="SyncBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

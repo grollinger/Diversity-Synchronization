@@ -89,6 +89,7 @@
     <Compile Include="Messages\HideProgress.cs" />
     <Compile Include="Messages\NavigateToPage.cs" />
     <Compile Include="Messages\Settings.cs" />
+    <Compile Include="Messages\StatusNotification.cs" />
     <Compile Include="Messages\SyncStateChanged.cs" />
     <Compile Include="Messages\SyncStepFinished.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

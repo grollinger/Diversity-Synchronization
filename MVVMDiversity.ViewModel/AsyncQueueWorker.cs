@@ -1,0 +1,57 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+
+namespace MVVMDiversity.ViewModel
+{
+    public class AsyncQueueWorker<T>
+    {
+        private Action<T> _operation;
+        private Queue<T> _taskQueue = new Queue<T>();
+        private AutoResetEvent _hasWork = new AutoResetEvent(false);
+
+
+        public AsyncQueueWorker(Action<T> operation)
+        {
+            _operation = operation;
+
+            Thread worker = new Thread(() =>
+                {
+                    while (_hasWork.WaitOne())
+                    {
+                        T currentTask;
+                        while (!(currentTask = safelyDequeue()).Equals(default(T)))
+                        {
+                            _operation(currentTask);
+                        }
+                    }
+                });
+            worker.IsBackground = true;
+            worker.Start();
+        }
+
+        private T safelyDequeue()
+        {
+            lock (this)
+            {
+                if (_taskQueue.Count > 0)
+                    return _taskQueue.Dequeue();
+                else
+                    return default(T);
+            }
+        }
+
+        public void Enqueue(T task)
+        {
+            lock (this)
+            {
+                _taskQueue.Enqueue(task);
+                _hasWork.Set();
+            }
+        }
+
+
+    }
+}

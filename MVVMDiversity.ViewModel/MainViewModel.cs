@@ -29,6 +29,8 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Practices.Unity;
 using log4net;
+using GalaSoft.MvvmLight.Threading;
+using System.Threading;
 
 namespace MVVMDiversity.ViewModel
 {
@@ -50,6 +52,7 @@ namespace MVVMDiversity.ViewModel
 
         private ILog _Log = LogManager.GetLogger(typeof(MainViewModel));
 
+        private AsyncQueueWorker<string> _notificationsQueue;
         #region Properties
 
         public ICommand CancelOperation { get; private set; }
@@ -196,6 +199,44 @@ namespace MVVMDiversity.ViewModel
           
             }
         }
+
+        /// <summary>
+        /// The <see cref="Status" /> property's name.
+        /// </summary>
+        public const string StatusPropertyName = "Status";
+
+        private string _status = "";
+
+        /// <summary>
+        /// Gets the Status property.
+        /// TODO Update documentation:
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// </summary>
+        public string Status
+        {
+            get
+            {
+                return _status;
+            }
+
+            set
+            {
+                if (_status == value)
+                {
+                    return;
+                }
+
+                var oldValue = _status;
+                _status = value;
+              
+                // Verify Property Exists
+                VerifyPropertyName(StatusPropertyName);
+
+                // Update bindings, no broadcast
+                RaisePropertyChanged(StatusPropertyName);
+            }
+        }
         #endregion
 
         /// <summary>
@@ -204,6 +245,13 @@ namespace MVVMDiversity.ViewModel
         public MainViewModel()
             : base(Messenger.Default)
         {
+            _notificationsQueue = new AsyncQueueWorker<string>((msg) =>
+                {
+                    setStatus(msg);
+                    Thread.Sleep(3000); //Delay next Notification
+                    setStatus("");
+                });
+
             CancelOperation = new RelayCommand(
                 () =>
                 {
@@ -222,6 +270,11 @@ namespace MVVMDiversity.ViewModel
                     Progress = msg.Content;
                     ShowProgress = true;
                 });
+
+            MessengerInstance.Register<StatusNotification>(this,(msg) =>
+                {
+                    _notificationsQueue.Enqueue(msg.Content);
+                });
             MessengerInstance.Register<HideProgress>(this,
                 (msg) =>
                 {
@@ -233,6 +286,14 @@ namespace MVVMDiversity.ViewModel
                     CurrentPage = msg.Content;
                 });
             MessengerInstance.Send<NavigateToPage>(Page.Connections);
+        }
+
+        private void setStatus(string msg)
+        {
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            {
+                Status = msg;
+            });
         }
 
         private PageViewModel vmFromPage(Page p)

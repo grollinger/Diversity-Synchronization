@@ -752,6 +752,8 @@ namespace MVVMDiversity.ViewModel
         private void connectTo(DBPaths paths)
         {
             if (paths != null)
+            {
+                MessengerInstance.Send<StatusNotification>("ConnectionsPage_WorkingCopiesCreated");
                 ConnectionManager.connectToMobileDB(paths);
             else
                 showWorkingCopyFailure();

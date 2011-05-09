@@ -215,6 +215,9 @@ namespace MVVMDiversity.ViewModel
 
             // Update bindings, no broadcast
             RaisePropertyChanged(QueryResultPropertyName);
+
+            if (QueryResult != null && QueryResult.Count() == 0)
+                MessengerInstance.Send<StatusNotification>("SelectFD_ResultEmpty");
         }
 
         private void RaiseSelectionChanged()

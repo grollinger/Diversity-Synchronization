@@ -418,7 +418,7 @@ namespace MVVMDiversity.ViewModel
                                 () =>
                                 {
                                     IsBusy = false;
-                                    MessengerInstance.Send<DialogMessage>(new DialogMessage("Map_Saved", null));
+                                    MessengerInstance.Send<StatusNotification>("Map_Saved");
                                 });
                         });
                     }).BeginInvoke(null, null);

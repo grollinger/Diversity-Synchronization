@@ -80,6 +80,7 @@
                     Style="{StaticResource HideIfDisabledStyle}" 
                     Content="{LocBinding CurrentVM.PreviousTextID}" 
                     Command="{Binding CurrentVM.NavigateBack}" />
+            <TextBlock HorizontalAlignment="Center" Text="{LocBinding Status}"/>
             <Button Width="150"  HorizontalAlignment="Right" TabIndex="1"
                     Style="{StaticResource HideIfDisabledStyle}"
                     Content="{LocBinding CurrentVM.NextTextID}" 

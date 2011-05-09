@@ -89,7 +89,7 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Done ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Successful ähnelt.
         /// </summary>
         internal static string Actions_Done {
             get {
@@ -450,6 +450,15 @@ namespace MVVMDiversity.Properties {
         internal static string ConnectionsPage_Title {
             get {
                 return ResourceManager.GetString("ConnectionsPage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Database working copies created ähnelt.
+        /// </summary>
+        internal static string ConnectionsPage_WorkingCopiesCreated {
+            get {
+                return ResourceManager.GetString("ConnectionsPage_WorkingCopiesCreated", resourceCulture);
             }
         }
         
@@ -1107,6 +1116,15 @@ namespace MVVMDiversity.Properties {
         internal static string SelectFD_RemoveFromSelection {
             get {
                 return ResourceManager.GetString("SelectFD_RemoveFromSelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Query Result Empty ähnelt.
+        /// </summary>
+        internal static string SelectFD_ResultEmpty {
+            get {
+                return ResourceManager.GetString("SelectFD_ResultEmpty", resourceCulture);
             }
         }
         
