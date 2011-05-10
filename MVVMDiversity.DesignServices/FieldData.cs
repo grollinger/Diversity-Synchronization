@@ -69,22 +69,10 @@ namespace MVVMDiversity.DesignServices
                     })
                 };
             }
-        }
+        }     
+     
 
-        
-        public BackgroundOperation uploadData(string userNr, int projectID)
-        {
-            var b = BackgroundOperation.newUninterruptable();
-            return b;
-        }
-
-        public BackgroundOperation downloadData(IList<UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable.ISerializableObject> selection)
-        {
-            var b = BackgroundOperation.newUninterruptable();
-            return b;
-        }
-
-        public BackgroundOperation executeSearch(SearchSpecification search, int currentProjectID, Action<IList<UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable.ISerializableObject>> finishedCallback)
+        /*public AsyncOperationInstance executeSearch(SearchSpecification search, int currentProjectID, Action<IList<UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable.ISerializableObject>> finishedCallback)
         {
             new Action(() =>
             {
@@ -104,24 +92,57 @@ namespace MVVMDiversity.DesignServices
                 ces
             });
             }).BeginInvoke(null, null);
-            return BackgroundOperation.newUninterruptable();
+            return AsyncOperationInstance.newUninterruptable();
         }
 
 
-        public BackgroundOperation uploadData(string userNr, int projectID, Action finishedCallback)
+        public AsyncOperationInstance uploadData(string userNr, int projectID, Action finishedCallback)
         {
-            return BackgroundOperation.newUninterruptable();
+            return AsyncOperationInstance.newUninterruptable();
 
-        }
-
-        public BackgroundOperation downloadData(IList<ISerializableObject> selection, Action finishedCallback)
-        {
-            throw new NotImplementedException();
-        }
+        }*/        
 
         public bool tryCleaningSyncTable()
         {
             return true;
+        }
+
+
+        public AsyncOperationInstance uploadData(string userNr, int projectID, AsyncOperationFinishedHandler finishedCallBack)
+        {
+            throw new NotImplementedException();
+        }
+
+        public event AsyncOperationFinishedHandler UploadFinished;
+
+        public AsyncOperationInstance downloadData(IList<ISerializableObject> selection, AsyncOperationFinishedHandler finishedCallBack)
+        {
+            throw new NotImplementedException();
+        }
+
+        public event AsyncOperationFinishedHandler DownloadFinished;
+
+        public AsyncOperationInstance startSearch(SearchSpecification search, int currentProjectID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public event AsyncOperationFinishedHandler<IList<ISerializableObject>> SearchFinished;
+
+
+        public AsyncOperationInstance uploadData(string userNr, int projectID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AsyncOperationInstance downloadData(IList<ISerializableObject> selection)
+        {
+            throw new NotImplementedException();
+        }
+
+        AsyncOperation<IList<ISerializableObject>> IFieldDataService.startSearch(SearchSpecification search, int currentProjectID)
+        {
+            throw new NotImplementedException();
         }
     }
 }

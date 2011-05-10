@@ -68,10 +68,41 @@ namespace MVVMDiversity.ViewModel
                     updateTaxonLists();
                 }
             }
-        }        
+        }
+
+        private IDefinitionsService _defSvc;
 
         [Dependency]
-        public IDefinitionsService DefinitionsSvc { get; set; }
+        public IDefinitionsService DefinitionsSvc 
+        {
+            get
+            {
+                return _defSvc;
+            }
+            set
+            {
+                if (_defSvc != value)
+                {
+                    if (_defSvc != null)
+                        detachFromDefSvc();
+                    _defSvc = value;
+                    if (_defSvc != null)
+                        attachFromDefSvc();
+                }
+            }
+        }
+
+        private void attachFromDefSvc()
+        {
+            DefinitionsSvc.TaxaLoaded += new AsyncOperationFinishedHandler(DefinitionsSvc_TaxaLoaded);
+        }
+
+        
+
+        private void detachFromDefSvc()
+        {
+            DefinitionsSvc.TaxaLoaded -= DefinitionsSvc_TaxaLoaded;
+        }
 
         /// <summary>
         /// The <see cref="TaxonLists" /> property's name.
@@ -132,12 +163,7 @@ namespace MVVMDiversity.ViewModel
                         IList<TaxonList> finalList = new List<TaxonList>(typedSelection);
                         if (DefinitionsSvc != null)
                         {
-                            var progress = DefinitionsSvc.loadTaxonLists(finalList,
-                                () =>
-                                {
-                                    MessengerInstance.Send<HideProgress>(new HideProgress());
-                                    MessengerInstance.Send<SyncStepFinished>(SyncState.TaxaDownloaded);
-                                });
+                            var progress = DefinitionsSvc.loadTaxonLists(finalList);
                             MessengerInstance.Send<ShowProgress>(progress);
                         }
                         else
@@ -151,6 +177,15 @@ namespace MVVMDiversity.ViewModel
                     if ((msg.Content & ConnectionState.ConnectedToRepTax) == ConnectionState.ConnectedToRepTax)
                         updateTaxonLists();
                 });
+        }
+
+        void DefinitionsSvc_TaxaLoaded(AsyncOperationInstance operation)
+        {
+            MessengerInstance.Send<HideProgress>(new HideProgress());
+            if (operation.State == OperationState.Succeeded)
+                MessengerInstance.Send<SyncStepFinished>(SyncState.TaxaDownloaded);
+            else
+                ; //TODO
         }
 
         private void updateTaxonLists()

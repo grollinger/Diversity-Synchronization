@@ -755,6 +755,7 @@ namespace MVVMDiversity.ViewModel
             {
                 MessengerInstance.Send<StatusNotification>("ConnectionsPage_WorkingCopiesCreated");
                 ConnectionManager.connectToMobileDB(paths);
+            }
             else
                 showWorkingCopyFailure();
         }

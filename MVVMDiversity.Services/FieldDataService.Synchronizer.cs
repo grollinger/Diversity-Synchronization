@@ -27,7 +27,7 @@ using UBT.AI4.Bio.DivMobi.DataLayer.DataItems;
 using UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializer;
 using log4net;
 using UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable;
-using System.ComponentModel;
+
 using MVVMDiversity.Model;
 
 namespace MVVMDiversity.Services
@@ -38,15 +38,16 @@ namespace MVVMDiversity.Services
         {
             ILog _Log = LogManager.GetLogger(typeof(Synchronizer));
             FieldDataService _owner;
-            public Synchronizer(FieldDataService owner)
+            public Synchronizer(FieldDataService owner, AsyncOperationInstance op)
             {
                 _owner = owner;
+                _operation = op;
             }
 
             private int _projectID;
             string _userNr;
             IList<ISerializableObject> _selection;
-            BackgroundOperation _progress;
+            AsyncOperationInstance _operation;
             AnalyzeSyncObjectList _ansl;            
             Serializer _mobileDB;
             Serializer _repository;
@@ -56,7 +57,8 @@ namespace MVVMDiversity.Services
 
             public void uploadFieldDataWorker(string userNr, int projectID)
             {
-
+                _operation.IsProgressIndeterminate = true;
+                _operation.StatusDescription = "Services_FieldData_Uploading";
 
                 getSerializers();
 

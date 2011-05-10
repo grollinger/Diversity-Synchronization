@@ -29,7 +29,7 @@ namespace MVVMDiversity.Model
 {
     public class ProgressInterval : IAdvanceProgress
     {
-        BackgroundOperation _progress;
+        AsyncOperationInstance _progress;
         float _deltaPerStep = 0f;
         int _initialProgress = 0;
         int _currentProgress = 0;
@@ -37,7 +37,7 @@ namespace MVVMDiversity.Model
         int _stepsPerIncrement = 1;
         int _deltaSteps = 0;
 
-        public ProgressInterval(BackgroundOperation p, float delta , int steps)
+        public ProgressInterval(AsyncOperationInstance p, float delta , int steps)
         {
             if(p==null)
                 throw new ArgumentNullException();

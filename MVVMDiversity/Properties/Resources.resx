@@ -567,7 +567,13 @@ Do you really want to proceed?</value>
   <data name="ConnectionsPage_ConnectionFailed_Title" xml:space="preserve">
     <value>Repository Connection Failed</value>
   </data>
+  <data name="ConnectionsPage_WorkingCopiesCreated" xml:space="preserve">
+    <value>Database working copies created</value>
+  </data>
   <data name="SelectFD_ResultEmpty" xml:space="preserve">
     <value>Query Result Empty</value>
+  </data>
+  <data name="Services_Definitions_Error_MissingRights" xml:space="preserve">
+    <value>An Error occurred while downloading the Taxon data. You may be missing access rights to the database.</value>
   </data>
 </root>

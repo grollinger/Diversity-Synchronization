@@ -35,8 +35,40 @@ namespace MVVMDiversity.ViewModel
     {
         private ILog _Log = LogManager.GetLogger(typeof(SelectionViewModel));
 
+        
+        private IFieldDataService _fdSvc;
+
         [Dependency]
-        public IFieldDataService FDSvc { get; set; }
+	    public IFieldDataService FDSvc
+	    {
+		    get { return FDSvc;}
+		    set 
+            {
+                if (FDSvc != value)
+                {
+                    if (_fdSvc != null)
+                        detachFDSvcHandlers();
+                    _fdSvc = value;
+                    if (_fdSvc != null)
+                        attachFDSvcHandlers();                    
+                }
+
+                
+            }
+	    }
+
+        private void attachFDSvcHandlers()
+        {
+            FDSvc.DownloadFinished += new AsyncOperationFinishedHandler(DownloadFinished);           
+        }        
+
+        private void detachFDSvcHandlers()
+        {
+            FDSvc.DownloadFinished -= DownloadFinished;
+        }
+
+       
+	
 
         [Dependency]
         public IISOViewModelStore ISOStore { get; set; }
@@ -73,6 +105,22 @@ namespace MVVMDiversity.ViewModel
                     }).BeginInvoke(null, null);
             });
         }
+
+        void DownloadFinished(AsyncOperationInstance operation)
+        {
+            DispatcherHelper.CheckBeginInvokeOnUI(
+            () =>
+            {
+                if (operation.State == OperationState.Succeeded)
+                    MessengerInstance.Send<SyncStepFinished>(SyncState.FieldDataDownloaded);
+                else
+                    ;//TODO
+
+
+                MessengerInstance.Send<HideProgress>(new HideProgress());
+                NavigateNext.Execute(null);
+            });
+        }
         
         protected override bool OnNavigateNext()
         {
@@ -85,17 +133,7 @@ namespace MVVMDiversity.ViewModel
                         if (!IsBusy)
                         {
                             IsBusy = true;
-                            var progress = FDSvc.downloadData(_completeSelection,
-                                () =>
-                                {
-                                    DispatcherHelper.CheckBeginInvokeOnUI(
-                                    () =>
-                                    {
-                                        MessengerInstance.Send<SyncStepFinished>(SyncState.FieldDataDownloaded);
-                                        MessengerInstance.Send<HideProgress>(new HideProgress());
-                                        NavigateNext.Execute(null);
-                                    });
-                                });
+                            var progress = FDSvc.downloadData(_completeSelection);
 
                             MessengerInstance.Send<ShowProgress>(progress);
 

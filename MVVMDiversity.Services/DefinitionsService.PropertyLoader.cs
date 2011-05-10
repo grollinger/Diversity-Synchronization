@@ -38,7 +38,7 @@ namespace MVVMDiversity.Services
         private class PropertyLoader
         {
             DefinitionsService _owner;
-            BackgroundOperation _progress;
+            AsyncOperationInstance _progress;
             int _progressPerProperty = 50;
             ILog _Log = LogManager.GetLogger(typeof(PropertyLoader));
 
@@ -51,10 +51,10 @@ namespace MVVMDiversity.Services
                 _owner = owner;
             }
 
-            public void updateProperties(BackgroundOperation progress)
+            public void updateProperties(AsyncOperationInstance progress)
             {
                 _progress = progress;
-                _progress.ProgressDescriptionID = "Services_Definitions_LoadingProperties";
+                _progress.StatusDescription = "Services_Definitions_LoadingProperties";
 
 
                 if (_owner.Connections != null)
@@ -140,7 +140,8 @@ namespace MVVMDiversity.Services
                 catch (Exception e)
                 {
                     _Log.ErrorFormat("Exception reading Properties: [{0}]", e);
-                    _progress.OperationState = BackgroundOperation.State.Failed;
+                    //TODO
+                    _progress.failure();
                     return;
                 }
                 finally
@@ -189,7 +190,8 @@ namespace MVVMDiversity.Services
                         trans.Rollback();
 
                     _Log.ErrorFormat("Exception writing Properties to mobile DB: [{0}]", ex);
-                    _progress.OperationState = BackgroundOperation.State.Failed;
+                    //TODO
+                    _progress.failure();
                     return;
                 }
                 finally

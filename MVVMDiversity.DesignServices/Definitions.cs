@@ -9,27 +9,14 @@ namespace MVVMDiversity.DesignServices
 {
     public class Definitions : IDefinitionsService
     {
-        public Model.BackgroundOperation loadDefinitions(Action finishedCallback)
-        {
-            return simulateWork(finishedCallback);
-        }
+        
 
-        public Model.BackgroundOperation loadTaxonLists(IEnumerable<Model.TaxonList> taxa, Action finishedCallback)
+        private static Model.AsyncOperationInstance simulateWork(Model.AsyncOperationFinishedHandler finishedCallback)
         {
-            return simulateWork(finishedCallback);
-        }
-
-        public Model.BackgroundOperation loadProperties(Action finishedCallback)
-        {
-            return simulateWork(finishedCallback);
-        }
-
-        private static Model.BackgroundOperation simulateWork(Action finishedCallback)
-        {
-            var p = Model.BackgroundOperation.newInterruptable();
+            var p = new Model.AsyncOperationInstance(true,finishedCallback);
                 p.IsProgressIndeterminate = false;
-                p.ProgressDescriptionID = "MainWindow_Title";
-                p.ProgressOutput = "Output1234";
+                p.StatusDescription = "MainWindow_Title";
+                p.StatusOutput = "Output1234";
                 
             p.IsProgressIndeterminate = false;
 
@@ -40,13 +27,34 @@ namespace MVVMDiversity.DesignServices
                 if (p.Progress >= 100 || p.IsCancelRequested)
                 {
                     (sender as DispatcherTimer).Stop();
-                    finishedCallback();
+                    p.success();
                 }
             };
             timer.Interval = new TimeSpan(0, 0, 1);
             timer.Start();
 
             return p;
-        }       
+        }
+
+        public Model.AsyncOperationInstance loadDefinitions()
+        {
+            return simulateWork(DefinitionsLoaded);
+        }
+
+        public event Model.AsyncOperationFinishedHandler DefinitionsLoaded;
+
+        public Model.AsyncOperationInstance loadTaxonLists(IEnumerable<Model.TaxonList> taxa)
+        {
+            return simulateWork(TaxaLoaded);
+        }
+
+        public event Model.AsyncOperationFinishedHandler TaxaLoaded;
+
+        public Model.AsyncOperationInstance loadProperties()
+        {
+            return simulateWork(PropertiesLoaded);
+        }
+
+        public event Model.AsyncOperationFinishedHandler PropertiesLoaded;
     }
 }

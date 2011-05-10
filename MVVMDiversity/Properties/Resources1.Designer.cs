@@ -1228,6 +1228,15 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die An Error occurred while downloading the Taxon data. You may be missing access rights to the database. ähnelt.
+        /// </summary>
+        internal static string Services_Definitions_Error_MissingRights {
+            get {
+                return ResourceManager.GetString("Services_Definitions_Error_MissingRights", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Downloading necessary Collection Definitions, please wait. ähnelt.
         /// </summary>
         internal static string Services_Definitions_LoadingCollectionDefinitions {

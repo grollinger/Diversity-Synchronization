@@ -26,8 +26,9 @@ using log4net;
 using MVVMDiversity.Model;
 using System.Data;
 using System.Data.SqlServerCe;
-using System.ComponentModel;
 using System.Data.SqlClient;
+
+
 
 namespace MVVMDiversity.Services
 {
@@ -44,7 +45,7 @@ namespace MVVMDiversity.Services
             private string destinationTable;
             private string sourceExpression;
 
-            BackgroundOperation _progress;
+            AsyncOperationInstance _progress;
             float progressPerTaxonList = 100f;
             DefinitionsService _owner;
 
@@ -59,7 +60,7 @@ namespace MVVMDiversity.Services
             private const string TAXONLIST_NAME_COLUMN = "DisplayText";
             private const string TAXONLIST_GROUP_COLUMN = "TaxonomicGroup";
 
-            public void startTaxonDownload(IEnumerable<TaxonList> selectedTaxa, BackgroundOperation progress)
+            public void startTaxonDownload(IEnumerable<TaxonList> selectedTaxa, AsyncOperationInstance progress)
             {
                 _progress = progress;
                 _selectedTaxa = selectedTaxa;                
@@ -183,7 +184,7 @@ namespace MVVMDiversity.Services
                 foreach (var taxonList in _selectedTaxa)
                 {
 
-                    _progress.ProgressOutput = taxonList.DisplayText;
+                    _progress.StatusOutput = taxonList.DisplayText;
                     copyTable(taxonList.DataSource);                
                 }
             }
@@ -371,7 +372,7 @@ namespace MVVMDiversity.Services
             /// <returns>The correct SqlDbType for the .Net type passed in.</returns>
             public static SqlDbType GetSqlDBTypeFromType(Type type)
             {
-                TypeConverter tc = TypeDescriptor.GetConverter(typeof(DbType));
+                System.ComponentModel.TypeConverter tc = System.ComponentModel.TypeDescriptor.GetConverter(typeof(DbType));
            
                     DbType dbType = (DbType)tc.ConvertFrom(type.Name);
                     // A cheat, but the parameter class knows how to map between DbType and SqlDBType.

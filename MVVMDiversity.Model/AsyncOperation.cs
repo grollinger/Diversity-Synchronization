@@ -24,39 +24,49 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
+
+
+
 namespace MVVMDiversity.Model
 {
-    public class BackgroundOperation 
+    public delegate void AsyncOperationFinishedHandler(AsyncOperationInstance operation);
+    public delegate void AsyncOperationFinishedHandler<T>(AsyncOperation<T> operation, T result);
+
+    public class AsyncOperationInstance
     {
-        public enum State
-        {
-            Running,
-            Succeeded,
-            Failed
-        }
-
-        public static BackgroundOperation newUninterruptable()
-        {
-            return new BackgroundOperation(false);
-        }
-
-        public static BackgroundOperation newInterruptable()
-        {
-            return new BackgroundOperation(true);
-        }
+        private AsyncOperationFinishedHandler _finished;       
         
-        private BackgroundOperation(bool canBeCanceled)
+        public AsyncOperationInstance(bool canBeCanceled, AsyncOperationFinishedHandler finishedCallback)
         {
+            _finished = finishedCallback;
             CanBeCanceled = canBeCanceled;
         }
 
+        public virtual void success()
+        {            
+            if (!operationFinished())
+            {
+                State = OperationState.Succeeded;
+            }      
+        }
+
+        public virtual void failure()
+        {
+            if (!operationFinished())
+            {
+                State = OperationState.Succeeded;
+            }    
+        }
+
+
+        #region Properties
 
         /// <summary>
         /// The <see cref="State" /> property's name.
         /// </summary>
         public const string StatePropertyName = "OperationState";
 
-        private State _state = BackgroundOperation.State.Running;
+        private OperationState _state = OperationState.Running;
 
         /// <summary>
         /// Gets the State property.
@@ -64,27 +74,30 @@ namespace MVVMDiversity.Model
         /// Changes to that property's value raise the PropertyChanged event. 
         /// This property's value is broadcasted by the Messenger's default instance when it changes.
         /// </summary>
-        public State OperationState
+        public OperationState State
         {
             get
             {
                 return _state;
             }
 
-            set
+            private set
             {
-                if (_state == value)
+                if (_state == value || operationFinished())
                 {
                     return;
                 }
                 
                 _state = value;
 
+                if (_finished != null)
+                    _finished(this);
+
                 // Update bindings, no broadcast
                 RaisePropertyChanged(StatePropertyName);
               
             }
-        }
+        }      
 
 
         /// <summary>
@@ -109,7 +122,7 @@ namespace MVVMDiversity.Model
 
             set
             {
-                if (_progress == value)
+                if (_progress == value || operationFinished())
                 {
                     return;
                 }
@@ -120,83 +133,80 @@ namespace MVVMDiversity.Model
                 // Update bindings, no broadcast
                 RaisePropertyChanged(ProgressPropertyName);
             }
-        }        
-     
+        }
+
 
         /// <summary>
-        /// The <see cref="ProgressDescriptionID" /> property's name.
+        /// The <see cref="Status" /> property's name.
         /// </summary>
-        public const string ProgressDescriptionIDPropertyName = "ProgressDescriptionID";
+        public const string StatusPropertyName = "StatusDescription";
 
-        private string _descID = "";
+        private string _status = "";
 
         /// <summary>
-        /// Gets the ProgressDescriptionID property.
+        /// Gets the Status property.
         /// TODO Update documentation:
         /// Changes to that property's value raise the PropertyChanged event. 
         /// This property's value is broadcasted by the Messenger's default instance when it changes.
         /// </summary>
-        public string ProgressDescriptionID
+        public string StatusDescription
         {
             get
             {
-                return _descID;
+                return _status;
             }
 
             set
             {
-                if (_descID == value)
+                if (_status == value)
                 {
                     return;
                 }
-
-                var oldValue = _descID;
-                _descID = value;             
-
                
+                _status = value;
+
+
+
                 // Update bindings, no broadcast
-                RaisePropertyChanged(ProgressDescriptionIDPropertyName);                
+                RaisePropertyChanged(StatusPropertyName);
             }
         }
-   
+
+      
 
         /// <summary>
-        /// The <see cref="ProgressOutput" /> property's name.
+        /// The <see cref="StatusOutput" /> property's name.
         /// </summary>
-        public const string ProgressOutputPropertyName = "ProgressOutput";
+        public const string StatusOutputPropertyName = "StatusOutput";
 
-        private string _progOut = "";
+        private string _statusOut = "";
 
         /// <summary>
-        /// Gets the ProgressOutput property.
+        /// Gets the StatusOutput property.
         /// TODO Update documentation:
         /// Changes to that property's value raise the PropertyChanged event. 
         /// This property's value is broadcasted by the Messenger's default instance when it changes.
         /// </summary>
-        public string ProgressOutput
+        public string StatusOutput
         {
             get
             {
-                return _progOut;
+                return _statusOut;
             }
 
             set
             {
-                if (_progOut == value)
+                if (_statusOut == value)
                 {
                     return;
                 }
-
-                var oldValue = _progOut;
-                _progOut = value;
-
                
-
+                _statusOut = value;
+               
                 // Update bindings, no broadcast
-                RaisePropertyChanged(ProgressOutputPropertyName);
-
+                RaisePropertyChanged(StatusOutputPropertyName);             
             }
-        }      
+        }
 
         /// <summary>
         /// The <see cref="IsProgressIndeterminate" /> property's name.
@@ -220,7 +230,7 @@ namespace MVVMDiversity.Model
 
             set
             {
-                if (_indet == value)
+                if (_indet == value || operationFinished())
                 {
                     return;
                 }
@@ -249,6 +259,12 @@ namespace MVVMDiversity.Model
                 _canceled = value && CanBeCanceled;
             }
         }
+        #endregion
+
+        protected bool operationFinished()
+        {
+            return State != OperationState.Running;
+        }
 
 
         #region INPC Members
@@ -261,4 +277,39 @@ namespace MVVMDiversity.Model
         }
         #endregion
     }
+
+    public class AsyncOperation<T> : AsyncOperationInstance
+    {
+        private AsyncOperationFinishedHandler<T> _finished;
+
+        public AsyncOperation(bool canBeCanceled, AsyncOperationFinishedHandler<T> finishedCallback)
+            : base(canBeCanceled,null)
+        {
+            _finished = finishedCallback;
+        }
+
+        public void success(T result)
+        {
+            base.success();
+            if (_finished != null)
+                _finished(this, result);
+        }
+
+        public override void success()
+        {
+            base.success();
+            success(default(T));
+        }
+
+        public void failure(T result)
+        {
+            base.failure();
+            if (_finished != null)
+                _finished(this, result);
+        }
+        public override void failure()
+        {
+            failure(default(T));
+        }
+    } 
 }

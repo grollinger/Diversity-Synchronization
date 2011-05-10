@@ -157,7 +157,24 @@ namespace MVVMDiversity.ViewModel
             }
         }
 
-        protected BackgroundOperation CurrentOperation { get; set; }
+        private AsyncOperationInstance _currOp;
+
+        protected AsyncOperationInstance CurrentOperation
+        {
+            get { return _currOp; }
+            set 
+            {
+                if(_currOp != value)
+                    _currOp = value;
+                if (_currOp != null)
+                    showProgress();
+                else
+                    hideProgress();
+            }
+        }
+        
+
+       
         #endregion
 
 
@@ -218,7 +235,7 @@ namespace MVVMDiversity.ViewModel
             });
         }
 
-        protected void showProgress()
+        private void showProgress()
         {
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
                {
@@ -226,7 +243,7 @@ namespace MVVMDiversity.ViewModel
                });
         }
 
-        protected void hideProgress()
+        private void hideProgress()
         {
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
                {
@@ -234,11 +251,14 @@ namespace MVVMDiversity.ViewModel
                });
         }
 
-        protected bool operationFailed(BackgroundOperation o)
+        protected void sendNotification(string msg)
         {
-            return (o.OperationState == BackgroundOperation.State.Failed);
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+               {
+                   MessengerInstance.Send<StatusNotification>(msg);
+               });
         }
-
+        
         protected void showMessageBox(string caption, string content, Action<MessageBoxResult> callback)
         {
             DispatcherHelper.CheckBeginInvokeOnUI(() =>

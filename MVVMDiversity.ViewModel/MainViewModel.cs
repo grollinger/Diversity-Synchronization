@@ -24,13 +24,13 @@ using MVVMDiversity.Messages;
 using MVVMDiversity.Interface;
 
 using MVVMDiversity.Model;
-using System.ComponentModel;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Practices.Unity;
 using log4net;
 using GalaSoft.MvvmLight.Threading;
 using System.Threading;
+using System.ComponentModel;
 
 namespace MVVMDiversity.ViewModel
 {
@@ -121,7 +121,7 @@ namespace MVVMDiversity.ViewModel
         /// </summary>
         public const string ProgressPropertyName = "Progress";
 
-        private BackgroundOperation _p = null;
+        private AsyncOperationInstance _p = null;
 
         /// <summary>
         /// Gets the Progress property.
@@ -129,7 +129,7 @@ namespace MVVMDiversity.ViewModel
         /// Changes to that property's value raise the PropertyChanged event. 
         /// This property's value is broadcasted by the Messenger's default instance when it changes.
         /// </summary>
-        public BackgroundOperation Progress
+        public AsyncOperationInstance Progress
         {
             get
             {

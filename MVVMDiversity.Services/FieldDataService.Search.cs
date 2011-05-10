@@ -37,35 +37,31 @@ namespace MVVMDiversity.Services
             private ILog _Log = LogManager.GetLogger(typeof(Search));
 
             private FieldDataService _owner;
-            public Search(FieldDataService owner)
+            private AsyncOperation<IList<ISerializableObject>> _operation;
+
+            private SearchSpecification _configuredSearch;
+            private int _currentProjectID;
+            private IList<ISerializableObject> _queryResult; 
+
+            public Search(FieldDataService owner, AsyncOperation<IList<ISerializableObject>> op)
             {
                 _owner = owner;
+                _operation = op;
             }
 
-            public BackgroundOperation executeSearch(SearchSpecification search, int currentProjectID, Action<IList<ISerializableObject>> finishedCallback)
+            public void executeSearch(SearchSpecification search, int currentProjectID)
             {
                 if (search == null)
                     throw new ArgumentNullException("search");
                 
-
-                _progress = BackgroundOperation.newInterruptable();
-                _progress.IsProgressIndeterminate = true;
-                _progress.ProgressDescriptionID = "Services_FieldData_Querying";
+                _operation.IsProgressIndeterminate = true;
+                _operation.StatusDescription = "Services_FieldData_Querying";
                     
                 _configuredSearch = search;
                 _currentProjectID = currentProjectID;
                 
 
-                new Action(asyncQuery).BeginInvoke(
-                    (res) =>
-                    {
-                        if (finishedCallback != null)
-                            finishedCallback(_queryResult);
-                    },null);
-
-
-                
-                return _progress;
+                new Action(asyncQuery).BeginInvoke(null,null);               
             }
 
             private void asyncQuery()
@@ -77,7 +73,7 @@ namespace MVVMDiversity.Services
                     var repo = _owner.Connections.Repository;
                     if (repo != null)
                     {
-                        repo.Progress = new ProgressInterval(_progress, 100f, 1);
+                        repo.Progress = new ProgressInterval(_operation, 100f, 1);
                         _queryResult = repo.Connector.LoadList(_configuredSearch.ObjectType, GetQueryRestriction());
                     }
                     else
@@ -88,11 +84,7 @@ namespace MVVMDiversity.Services
             }
 
 
-            private SearchSpecification _configuredSearch;
-            private int _currentProjectID;
-            private BackgroundOperation _progress;
-           
-            private IList<ISerializableObject> _queryResult;       
+                  
 
             private static IList<SearchSpecification> _sTypes = new List<SearchSpecification>()
                 {

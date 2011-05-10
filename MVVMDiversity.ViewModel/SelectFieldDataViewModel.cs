@@ -65,13 +65,27 @@ namespace MVVMDiversity.ViewModel
             {
                 if (value != null)
                 {
+                    if (_fd != null)
+                        detachFromFDSvc();
                     _fd = value;
+                    if (_fd != null)
+                        attachToFDSvc();
 
                     VerifyPropertyName(SearchTypesPropertyName);
 
                     RaisePropertyChanged(SearchTypesPropertyName);
                 }
             }
+        }
+
+        private void attachToFDSvc()
+        {
+            FieldData.SearchFinished += new AsyncOperationFinishedHandler<IList<ISerializableObject>>(SearchFinished);
+        }        
+
+        private void detachFromFDSvc()
+        {
+            FieldData.SearchFinished -= SearchFinished;
         }
 
         [Dependency]
@@ -82,7 +96,7 @@ namespace MVVMDiversity.ViewModel
        
         #endregion   
      
-        BackgroundOperation _progress;      
+        AsyncOperation<IList<ISerializableObject>> _progress;      
 
         /// <summary>
         /// Initializes a new instance of the SelectFieldDataViewModel class.
@@ -103,24 +117,8 @@ namespace MVVMDiversity.ViewModel
                     if (UserProfileSvc != null)
                     {
                         IsBusy = true;
-                        _progress = FieldData.executeSearch(ConfiguredSearch, UserProfileSvc.ProjectID,
-                            (result) =>
-                            {
-                                List<IISOViewModel> selectionList = buildVMList(result);
-                                DispatcherHelper.CheckBeginInvokeOnUI(
-                                    () =>
-                                    {
-
-                                        _queryResult = selectionList;
-
-                                        QueryResultTree = new AsyncTreeViewModel(ISOStore);
-
-                                        queryResultChanged();
-
-                                        MessengerInstance.Send<HideProgress>(new HideProgress());
-                                        IsBusy = false;
-                                    });
-                            });
+                        _progress = FieldData.startSearch(ConfiguredSearch, UserProfileSvc.ProjectID);
+                            
                         MessengerInstance.Send<ShowProgress>(_progress);
                     }
                     else
@@ -174,24 +172,47 @@ namespace MVVMDiversity.ViewModel
             MessengerInstance.Send<SettingsRequest>(new SettingsRequest());
         }
 
+        void SearchFinished(AsyncOperation<IList<ISerializableObject>> operation, IList<ISerializableObject> result)
+        {
+            List<IISOViewModel> selectionList = buildQueryResult(result);
+            DispatcherHelper.CheckBeginInvokeOnUI(
+                () =>
+                {
+                    _queryResult = selectionList;
+
+                    QueryResultTree = new AsyncTreeViewModel(ISOStore);
+
+                    queryResultChanged();
+
+                    MessengerInstance.Send<HideProgress>(new HideProgress());
+                    IsBusy = false;
+                });
+                                    
+        }
+
         private void updateFromSettings(DiversityUserOptions diversityUserOptions)
         {
             TruncateDataItems = diversityUserOptions.TruncateDataItems;
         }
 
-        private List<IISOViewModel> buildVMList(IList<ISerializableObject> result)
+        private List<IISOViewModel> buildQueryResult(IList<ISerializableObject> result)
         {
-            
+            CurrentOperation = new AsyncOperationInstance(true, null)
+            {
+                StatusDescription = "SelectFD_Status_FillingResults",
+                Progress = 0,
+                IsProgressIndeterminate = false,
+            };       
 
             List<IISOViewModel> list = new List<IISOViewModel>(result.Count());
-            ProgressInterval localProgress = null;
-            if (_progress != null)
+            if (result.Count() == 0)
             {
-                _progress.ProgressDescriptionID = "SelectFD_Status_FillingResults";
-                _progress.Progress = 0;
-                _progress.IsProgressIndeterminate = false;
-                localProgress = new ProgressInterval(_progress,100f,result.Count());
+                sendNotification("SelectFD_ResultEmpty");
+                return list;
             }
+
+            ProgressInterval localProgress = null;
+            localProgress = new ProgressInterval(_progress, 100f, result.Count());           
 
             var conversionQuery = from obj in result
                                   select ISOStore.addOrRetrieveVMForISO(obj);

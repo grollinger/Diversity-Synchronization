@@ -72,15 +72,64 @@ namespace MVVMDiversity.ViewModel
             }
         }
 
+        private IFieldDataService _fdSvc;
+
+        [Dependency]
+        public IFieldDataService FieldDataSvc
+        {
+            get { return _fdSvc; }
+            set
+            {
+                if (_fdSvc != value)
+                {
+                    if (_fdSvc != null)
+                        detachFdSvc();
+                    _fdSvc = value;
+                    if (_defSvc != null)
+                        attachFdSvc();
+                }
+            }
+        }
+
+        private void attachFdSvc()
+        {
+            FieldDataSvc.UploadFinished += new AsyncOperationFinishedHandler(FieldDataUploadFinished);
+        }       
+
+        private void detachFdSvc()
+        {
+            FieldDataSvc.UploadFinished -= FieldDataUploadFinished;
+        }        
+
+
+        private IDefinitionsService _defSvc;
+
         [Dependency]
         public IDefinitionsService DefinitionsSvc
         {
-            get;
-            set;
+            get { return _defSvc; }
+            set
+            {
+                if (_defSvc != value)
+                {
+                    if (_defSvc != null)
+                        detachDefSvc();
+                    _defSvc = value;
+                    if (_defSvc != null)
+                        attachDefSvc();
+                }
+            }
         }
 
-        [Dependency]
-        public IFieldDataService FieldDataSvc { get; set; }
+        private void attachDefSvc()
+        {
+            DefinitionsSvc.PropertiesLoaded += new AsyncOperationFinishedHandler(PropertiesLoaded);
+        }
+
+        private void detachDefSvc()
+        {
+            DefinitionsSvc.PropertiesLoaded -= PropertiesLoaded;
+        } 
 
         [Dependency]
         public IUserProfileService ProfileSvc { get; set; }
@@ -370,23 +419,7 @@ namespace MVVMDiversity.ViewModel
                     if (DefinitionsSvc != null)
                     {
                         IsBusy = true;
-                        CurrentOperation = DefinitionsSvc.loadProperties(
-                            () =>
-                            {
-                                DispatcherHelper.CheckBeginInvokeOnUI(
-                                    () =>
-                                    {
-                                        MessengerInstance.Send<HideProgress>(new HideProgress());
-                                        if (!operationFailed(CurrentOperation))
-                                            MessengerInstance.Send<SyncStepFinished>(SyncState.PropertyNamesDownloaded);
-                                        else
-                                            showMessageBox("Actions_Error_PropertyNamesHeader", "Actions_Error_Advice", null); //TODO?
-                                        IsBusy = false;
-                                    }
-                                    );
-                                
-                            });
-                        showProgress();
+                        CurrentOperation = DefinitionsSvc.loadProperties();                        
                     }
                     else
                         _Log.Error("DefinitionsService N/A");
@@ -417,21 +450,7 @@ namespace MVVMDiversity.ViewModel
                             var userNo = ProfileSvc.UserNr;
                             IsBusy = true;
 
-                            CurrentOperation = FieldDataSvc.uploadData(userNo, projectID, 
-                                ()=>
-                                {
-                                    DispatcherHelper.CheckBeginInvokeOnUI(() =>
-                                        {
-                                            if (!operationFailed(CurrentOperation))
-                                                MessengerInstance.Send<SyncStepFinished>(SyncState.FieldDataUploaded);
-                                            else
-                                                showMessageBox("Actions_Error_UploadHeader", "Actions_Error_Advice", null);
-                                            MessengerInstance.Send<HideProgress>(new HideProgress());
-                                            IsBusy = false;
-                                        });
-                                });
-
-                            showProgress();
+                            CurrentOperation = FieldDataSvc.uploadData(userNo, projectID);                          
                             
                         }
                         else
@@ -465,6 +484,34 @@ namespace MVVMDiversity.ViewModel
                 });
         }
 
+        void FieldDataUploadFinished(AsyncOperationInstance operation)
+        {
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            {
+                if (operation.State == OperationState.Succeeded)
+                    MessengerInstance.Send<SyncStepFinished>(SyncState.FieldDataUploaded);
+                else
+                    showMessageBox("Actions_Error_UploadHeader", "Actions_Error_Advice", null);
+                MessengerInstance.Send<HideProgress>(new HideProgress());
+                IsBusy = false;
+            });
+        }
+
+        void PropertiesLoaded(AsyncOperationInstance operation)
+        {
+            DispatcherHelper.CheckBeginInvokeOnUI(
+                () =>
+                {
+                    MessengerInstance.Send<HideProgress>(new HideProgress());
+                    if (operation.State == OperationState.Succeeded)
+                        MessengerInstance.Send<SyncStepFinished>(SyncState.PropertyNamesDownloaded);
+                    else
+                        showMessageBox("Actions_Error_PropertyNamesHeader", "Actions_Error_Advice", null); //TODO?
+                    IsBusy = false;
+                }
+                );
+        }
+
         protected override bool OnNavigateNext()
         {
             
@@ -482,10 +529,11 @@ namespace MVVMDiversity.ViewModel
                     {
                         if (Settings != null)
                         {
-                            CurrentOperation = BackgroundOperation.newUninterruptable();
-                            CurrentOperation.IsProgressIndeterminate = true;
-                            CurrentOperation.ProgressDescriptionID = "Actions_Cleaning_DB";
-                            showProgress();
+                            CurrentOperation = new AsyncOperationInstance(false, new AsyncOperationFinishedHandler(CleanFinished))
+                            {
+                                IsProgressIndeterminate = true,
+                                StatusDescription = "Actions_Cleaning_DB"
+                            };                            
 
                             new Action(() =>
                             {
@@ -512,11 +560,7 @@ namespace MVVMDiversity.ViewModel
 
                             }).BeginInvoke((res) =>
                             {
-                                DispatcherHelper.CheckBeginInvokeOnUI(() =>
-                                {
-                                    hideProgress();
-                                    MessengerInstance.Send<NavigateToPage>(Page.Connections);
-                                });
+                                
                             }, null);
 
 
@@ -533,6 +577,16 @@ namespace MVVMDiversity.ViewModel
             }
             else
                 _Log.Error("Session Manager N/A");
+        }
+
+        private void CleanFinished(AsyncOperationInstance op)
+        {
+            //TODO ERrors
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            {
+                CurrentOperation = null;
+                MessengerInstance.Send<NavigateToPage>(Page.Connections);
+            });
         }
 
         private void updateFromSyncState()

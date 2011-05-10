@@ -82,8 +82,34 @@ namespace MVVMDiversity.ViewModel
         [Dependency]
         public IUserProfileService ProfileProvider { get; set; }
 
-        [Dependency]
-        public IDefinitionsService DefinitionsProvider { get; set; }        
+        private IDefinitionsService _DefSvc;
+
+        public IDefinitionsService DefinitionsProvider
+        {
+            get { return _DefSvc; }
+            set 
+            { 
+                if(_DefSvc != value)
+                {
+                    if(_DefSvc != null)
+                        detachDefSvc();
+                    _DefSvc = value; 
+                    if(_DefSvc != null)
+                        attachDefSvc();
+                }
+            }
+        }
+
+        private void attachDefSvc()
+        {
+            DefinitionsProvider.DefinitionsLoaded += new AsyncOperationFinishedHandler(DefinitionsProvíder_DefinitionsLoaded);
+        }        
+
+        private void detachDefSvc()
+        {
+            DefinitionsProvider.DefinitionsLoaded -= DefinitionsProvíder_DefinitionsLoaded;
+        } 
+ 
 
         /// <summary>
         /// The <see cref="Projects" /> property's name.
@@ -192,7 +218,7 @@ namespace MVVMDiversity.ViewModel
             }
         }
 
-        BackgroundOperation _p = null;
+        AsyncOperationInstance _p = null;
 
         private void fillProjects()
         {
@@ -220,8 +246,7 @@ namespace MVVMDiversity.ViewModel
                 if (!IsBusy)
                 {
                     IsBusy = true;
-                    _p = DefinitionsProvider.loadDefinitions(continueNavigating);
-                    MessengerInstance.Send<ShowProgress>(_p);                   
+                    CurrentOperation = DefinitionsProvider.loadDefinitions();                                 
                 }
                 else
                 {
@@ -234,11 +259,13 @@ namespace MVVMDiversity.ViewModel
             return !IsBusy;
         }
 
-        private void continueNavigating()
+        void DefinitionsProvíder_DefinitionsLoaded(AsyncOperationInstance operation)
         {
             MessengerInstance.Send<HideProgress>(new HideProgress());
             if (NavigateNext != null)
                 NavigateNext.Execute(null);
         }
+
+       
     }       
 }

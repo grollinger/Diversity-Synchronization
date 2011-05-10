@@ -44,46 +44,52 @@ namespace MVVMDiversity.Services
         {
             get { return Search.SearchTypes; }
         }
-
-        public BackgroundOperation executeSearch(SearchSpecification search, int currentProjectID, Action<IList<ISerializableObject>> finishedCallback)
+       
+        public AsyncOperationInstance uploadData(string userNr, int projectID)
         {
-            return new Search(this).executeSearch(search, currentProjectID, finishedCallback);
-        }
-
-        public BackgroundOperation uploadData(string userID, int projectID, Action finishedCallback)
-        {
-            var p = BackgroundOperation.newUninterruptable();
-            p.IsProgressIndeterminate = true;
-            p.ProgressDescriptionID = "Services_FieldData_Uploading";
+            var op = new AsyncOperationInstance(false, UploadFinished);
+            
 
             new Action(() =>
             {
-                new Synchronizer(this).uploadFieldDataWorker(userID, projectID);
-            }).BeginInvoke((res) =>
-            {
-                if (finishedCallback != null)
-                    finishedCallback();
-            }, null);
+                new Synchronizer(this, op).uploadFieldDataWorker(userNr, projectID);
+            }).BeginInvoke(null, null);
 
-            return p;
+            return op;
         }
 
-        public BackgroundOperation downloadData(IList<ISerializableObject> selection,Action finishedCallback)
+        public event AsyncOperationFinishedHandler UploadFinished;
+
+
+        public AsyncOperationInstance downloadData(IList<ISerializableObject> selection)
         {
-            var p = BackgroundOperation.newUninterruptable();
-            p.IsProgressIndeterminate = true;
-            p.ProgressDescriptionID = "Services_FieldData_Downloading";
+            var op = new AsyncOperationInstance(false,DownloadFinished);
+            
 
             new Action(() =>
             {
-                new Synchronizer(this).downloadFieldDataWorker(selection);
-            }).BeginInvoke((res) =>
-            {
-                if (finishedCallback != null)
-                    finishedCallback();
-            }, null);
+                new Synchronizer(this, op).downloadFieldDataWorker(selection);
+            }).BeginInvoke(null, null);
 
-            return p;
-        }   
+            return op;
+        }
+
+        public event AsyncOperationFinishedHandler DownloadFinished;
+
+
+        public AsyncOperation<IList<ISerializableObject>> startSearch(SearchSpecification search, int currentProjectID)
+        {
+            var op = new AsyncOperation<IList<ISerializableObject>>(false, SearchFinished);
+
+
+            new Action(() =>
+            {
+                new Search(this, op).executeSearch(search, currentProjectID);
+            }).BeginInvoke(null, null);
+
+            return op;
+        }
+
+        public event AsyncOperationFinishedHandler<IList<ISerializableObject>> SearchFinished;
     }
 }

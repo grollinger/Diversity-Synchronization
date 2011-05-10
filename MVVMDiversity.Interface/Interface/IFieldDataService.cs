@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.ComponentModel;
 using MVVMDiversity.Model;
 using UBT.AI4.Bio.DivMobi.DatabaseConnector.Serializable;
 using UBT.AI4.Bio.DivMobi.DataLayer.DataItems;
@@ -13,10 +12,13 @@ namespace MVVMDiversity.Interface
     {
         IEnumerable<SearchSpecification> SearchTypes { get; }
 
-        BackgroundOperation uploadData(string userNr, int projectID, Action finishedCallback);
+        AsyncOperationInstance uploadData(string userNr, int projectID);
+        event AsyncOperationFinishedHandler UploadFinished;
 
-        BackgroundOperation downloadData(IList<ISerializableObject> selection, Action finishedCallback);
+        AsyncOperationInstance downloadData(IList<ISerializableObject> selection);
+        event AsyncOperationFinishedHandler DownloadFinished;
 
-        BackgroundOperation executeSearch(SearchSpecification search, int currentProjectID, Action<IList<ISerializableObject>> finishedCallback);        
+        AsyncOperation<IList<ISerializableObject>> startSearch(SearchSpecification search, int currentProjectID);
+        event AsyncOperationFinishedHandler<IList<ISerializableObject>> SearchFinished;
     }
 }

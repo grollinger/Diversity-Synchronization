@@ -48,7 +48,8 @@
     <Compile Include="DBPaths.cs" />
     <Compile Include="DiversityUserOptions.cs" />
     <Compile Include="MapInfo.cs" />
-    <Compile Include="BackgroundOperation.cs" />
+    <Compile Include="AsyncOperation.cs" />
+    <Compile Include="OperationState.cs" />
     <Compile Include="ProgressInterval.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

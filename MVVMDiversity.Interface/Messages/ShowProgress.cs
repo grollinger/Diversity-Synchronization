@@ -7,15 +7,15 @@ using MVVMDiversity.Model;
 
 namespace MVVMDiversity.Messages
 {
-    public class ShowProgress : GenericMessage<BackgroundOperation>
+    public class ShowProgress : GenericMessage<AsyncOperationInstance>
     {
-        public ShowProgress(BackgroundOperation p)
+        public ShowProgress(AsyncOperationInstance p)
             :base(p)
         {
 
         }
 
-        public static implicit operator ShowProgress(BackgroundOperation p)
+        public static implicit operator ShowProgress(AsyncOperationInstance p)
         {
             return new ShowProgress(p);
         }

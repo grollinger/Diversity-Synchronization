@@ -57,9 +57,9 @@ namespace MVVMDiversity.Services
                 _owner = owner;
 	        }
 
-            public void loadCollectionDefinitions(BackgroundOperation progress)
+            public void loadCollectionDefinitions(AsyncOperationInstance progress)
             {
-                progress.ProgressDescriptionID = "Services_Definitions_LoadingCollectionDefinitions";
+                progress.StatusDescription = "Services_Definitions_LoadingCollectionDefinitions";
                 
                 var uOptions = _owner.Settings.getOptions();
                 //TODO
@@ -106,9 +106,12 @@ namespace MVVMDiversity.Services
                     connRepository.Close();
                 }
                 catch (Exception e)
-                {
-                    //TODO
+                {                    
                     connRepository.Close();
+                    _Log.ErrorFormat("Error loading Collection Definitions: [{0}]", e);
+
+                    progress.StatusDescription = "Services_Definitions_Error_MissingRights";
+                    progress.failure();
                 }
 
 
@@ -133,8 +136,7 @@ namespace MVVMDiversity.Services
                 foreach (Type t in _defTypes)
                 {
                     repSerializer.Progress = new ProgressInterval(progress, progressPerType, 1);
-                    transferList.Load(t, repSerializer);
-                    //progress.Progress = (int)(absProgress += progressPerType);
+                    transferList.Load(t, repSerializer);                    
                 }
                 transferList.initialize(LookupSynchronizationInformation.downloadDefinitionsList(), LookupSynchronizationInformation.getReflexiveReferences(), LookupSynchronizationInformation.getReflexiveIDFields());
 
@@ -173,6 +175,9 @@ namespace MVVMDiversity.Services
                         }
                     }
                 }
+
+               
+                progress.success();
             }
         }
 	}

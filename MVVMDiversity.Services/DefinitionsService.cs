@@ -23,7 +23,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MVVMDiversity.Interface;
-using System.ComponentModel;
 using Microsoft.Practices.Unity;
 using MVVMDiversity.Model;
 
@@ -49,46 +48,39 @@ namespace MVVMDiversity.Services
             _defLoader = new DefinitionLoader(this);
             _propLoader = new PropertyLoader(this);
             _taxLoader = new TaxonLoader(this);
-        }   
+        }       
+       
 
-
-        public BackgroundOperation loadDefinitions(Action finishedCallback)
+        public AsyncOperationInstance loadTaxonLists(IEnumerable<Model.TaxonList> taxa)
         {
-            var progress = BackgroundOperation.newUninterruptable();
-            new Action<BackgroundOperation>(_defLoader.loadCollectionDefinitions).BeginInvoke(progress,(res) =>
-                {
-                    if( finishedCallback != null)
-                        finishedCallback();
-                }, null);
-            return progress;
-        }
-
-        public BackgroundOperation loadTaxonLists(IEnumerable<Model.TaxonList> taxa, Action finishedCallback)
-        {
-            var progress = BackgroundOperation.newUninterruptable();
-            progress.ProgressDescriptionID = "Services_Definitions_LoadingTaxa";
+            var op = new AsyncOperationInstance(false, TaxaLoaded);
+            op.StatusDescription = "Services_Definitions_LoadingTaxa";
             new Action(()=>
             {
-                _taxLoader.startTaxonDownload(taxa,progress);
-            }).BeginInvoke(
-            (res) => 
-            {
-                if (finishedCallback != null)
-                    finishedCallback();
-            },null);
+                _taxLoader.startTaxonDownload(taxa,op);
+            }).BeginInvoke(null,null);
 
-            return progress;
+            return op;
         }
 
-        public BackgroundOperation loadProperties(Action finishedCallback)
+        public AsyncOperationInstance loadProperties()
         {
-            var progress = BackgroundOperation.newUninterruptable();
-            new Action<BackgroundOperation>(_propLoader.updateProperties).BeginInvoke(progress, (res) =>
-            {
-                if (finishedCallback != null)
-                    finishedCallback();
-            }, null);
-            return progress;
+            var op = new AsyncOperationInstance(false, PropertiesLoaded);
+            new Action<AsyncOperationInstance>(_propLoader.updateProperties).BeginInvoke(op, null, null);
+            return op;
         }
+
+        public AsyncOperationInstance loadDefinitions()
+        {
+            var op = new AsyncOperationInstance(false, DefinitionsLoaded);
+            new Action<AsyncOperationInstance>(_defLoader.loadCollectionDefinitions).BeginInvoke(op,null, null);
+            return op;
+        }
+
+        public event AsyncOperationFinishedHandler DefinitionsLoaded;      
+
+        public event AsyncOperationFinishedHandler TaxaLoaded;       
+
+        public event AsyncOperationFinishedHandler PropertiesLoaded;
     }
 }
