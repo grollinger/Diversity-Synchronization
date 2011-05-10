@@ -75,22 +75,27 @@ namespace MVVMDiversity.Services
             }
         }
 
+        private IMessenger _msngr;
+
         [Dependency]
         public IMessenger MessengerInstance
         {
+            get { return _msngr; }
+
             set
             {
                 if (value != null)
+                {
+                    _msngr = value;
                     value.Register<ConnectionStateChanged>(this,
                         (msg) =>
                         {
                             if ((msg.Content & ConnectionState.RepositoriesConnected) == ConnectionState.RepositoriesConnected)
-                            {                                
-                                
-                                    updateProfile();
-                               
+                            {
+                                updateProfile();
                             }
                         });
+                }
             }
         }
 
@@ -108,6 +113,7 @@ namespace MVVMDiversity.Services
                  {
                      if ((_mobileSerializer = Connections.MobileDB) != null)
                      {
+                         MessengerInstance.Send<StatusNotification>("Services_UserProfile_SearchingProfile");
                          //Prüfen ob ein UserProfile zum LoginNamen existiert.                
                          IList<UserProfile> profiles = new List<UserProfile>();
 
@@ -121,6 +127,7 @@ namespace MVVMDiversity.Services
                          }
                          else
                          {
+                             MessengerInstance.Send<StatusNotification>("Services_UserProfile_CreatingNew");
                              _profile = createProfile();
                          }
 
@@ -223,12 +230,13 @@ namespace MVVMDiversity.Services
                         
                         newProfile.HomeDB = _settings.CurrentConnection.InitialCatalog;
                         
-                        newProfile.AgentURI = proxy.AgentURI;
+                        newProfile.AgentURI = proxy.AgentURI; //TODO
                        
                     }
                     catch (Exception ex)
                     {
                         newProfile = null;
+                        //TODO
 
                         _Log.ErrorFormat("Error Creating Profile: {0}", ex);
                     }

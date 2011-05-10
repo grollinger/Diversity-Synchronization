@@ -73,7 +73,9 @@ namespace MVVMDiversity.Services
                     syncData();
                 }
                 else
-                    _Log.Error("At least one Serializer is missing!");                 
+                    _Log.Error("At least one Serializer is missing!");
+
+                _operation.failure();
                 
             }            
 
@@ -91,6 +93,8 @@ namespace MVVMDiversity.Services
                 }
                 else
                     _Log.Error("At least one Serializer is missing!");
+
+                _operation.failure();
             }
 
             private void configureDownloadANSL(IList<ISerializableObject> selection)
@@ -151,6 +155,8 @@ namespace MVVMDiversity.Services
                 }
 
                 _ansl.synchronizeAll();
+
+                _operation.success();
             }
 
             private IList<Type> uploadTypes()

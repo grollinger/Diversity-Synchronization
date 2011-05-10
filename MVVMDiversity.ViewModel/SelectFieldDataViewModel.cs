@@ -117,9 +117,7 @@ namespace MVVMDiversity.ViewModel
                     if (UserProfileSvc != null)
                     {
                         IsBusy = true;
-                        _progress = FieldData.startSearch(ConfiguredSearch, UserProfileSvc.ProjectID);
-                            
-                        MessengerInstance.Send<ShowProgress>(_progress);
+                        CurrentOperation = FieldData.startSearch(ConfiguredSearch, UserProfileSvc.ProjectID);                     
                     }
                     else
                         _Log.Error("UserProfileService N/A");
@@ -184,7 +182,7 @@ namespace MVVMDiversity.ViewModel
 
                     queryResultChanged();
 
-                    MessengerInstance.Send<HideProgress>(new HideProgress());
+                    CurrentOperation = null;
                     IsBusy = false;
                 });
                                     

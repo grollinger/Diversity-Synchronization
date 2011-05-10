@@ -62,10 +62,7 @@ namespace MVVMDiversity.ViewModel
         private bool _canNavNext = false;
 
         /// <summary>
-        /// Gets the CanNavigateNext property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// Determines, whether the user is able to navigate Forward        
         /// </summary>
         protected bool CanNavigateNext
         {
@@ -94,9 +91,7 @@ namespace MVVMDiversity.ViewModel
         private bool _canNavBack = false;
 
         /// <summary>
-        /// Gets the CanNavigateBack property.
-        /// TODO Update documentation:
-        /// 
+        /// Determines, whether the user is able to navigate Back        
         /// </summary>
         protected bool CanNavigateBack
         {
@@ -159,6 +154,10 @@ namespace MVVMDiversity.ViewModel
 
         private AsyncOperationInstance _currOp;
 
+        /// <summary>
+        /// Displays the Progress information of the set AsyncOperationInstance to the user.
+        /// Set null to hide.
+        /// </summary>
         protected AsyncOperationInstance CurrentOperation
         {
             get { return _currOp; }
@@ -185,12 +184,26 @@ namespace MVVMDiversity.ViewModel
         private DelegateCommand _navigateBack;
         public ICommand NavigateBack { get { return _navigateBack; } }
 
+        /// <summary>
+        /// Contains the Page Forward Navigation navigates to.
+        /// </summary>
         protected Page NextPage { get; set; }
 
+        /// <summary>
+        /// Contains the Page Backward Navigation navigates to.
+        /// </summary>
         protected Page PreviousPage { get; set; }
 
+        /// <summary>
+        /// Is called before Navigating forward.
+        /// </summary>
+        /// <returns>Wether to continue the Navigation</returns>
         protected virtual bool OnNavigateNext() { return true; }
 
+        /// <summary>
+        /// Is called before Navigating back.
+        /// </summary>
+        /// <returns>Wether to continue the Navigation</returns>
         protected virtual bool OnNavigateBack() { return true; }
 
         private void RaiseCanNavigateNextChanged()
@@ -206,8 +219,12 @@ namespace MVVMDiversity.ViewModel
         }
 
         /// <summary>
-        /// Initializes a new instance of the PageViewModel class.
+        /// 
         /// </summary>
+        /// <param name="nextTextID">Key of the String displayed on the forward Button</param>
+        /// <param name="prevTextID">Key of the String displayed on the back Button</param>
+        /// <param name="titleID">Key of the String displayed as the Page Title</param>
+        /// <param name="descriptionID">Key of the String displayed as the Page Description</param>
         public PageViewModel(string nextTextID, string prevTextID, string titleID, string descriptionID)
             : base(Messenger.Default)
         {            

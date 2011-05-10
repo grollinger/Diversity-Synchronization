@@ -75,12 +75,15 @@ namespace MVVMDiversity.Services
                     {
                         repo.Progress = new ProgressInterval(_operation, 100f, 1);
                         _queryResult = repo.Connector.LoadList(_configuredSearch.ObjectType, GetQueryRestriction());
+                        _operation.success(_queryResult);
                     }
                     else
                         _Log.Error("Repository N/A");
                 }
                 else
                     _Log.Error("ConnectionsProvider N/A");
+
+                _operation.failure();
             }
 
 

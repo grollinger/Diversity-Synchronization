@@ -41,7 +41,7 @@ namespace MVVMDiversity.ViewModel
         [Dependency]
 	    public IFieldDataService FDSvc
 	    {
-		    get { return FDSvc;}
+		    get { return _fdSvc;}
 		    set 
             {
                 if (FDSvc != value)

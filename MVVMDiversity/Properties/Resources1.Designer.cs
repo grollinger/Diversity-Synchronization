@@ -1291,6 +1291,24 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No User Profile Found. Creating new one. ähnelt.
+        /// </summary>
+        internal static string Services_UserProfile_CreatingNew {
+            get {
+                return ResourceManager.GetString("Services_UserProfile_CreatingNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Looking for User Profile ähnelt.
+        /// </summary>
+        internal static string Services_UserProfile_SearchingProfile {
+            get {
+                return ResourceManager.GetString("Services_UserProfile_SearchingProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Welcome to the SyncMobile Client ähnelt.
         /// </summary>
         internal static string Splash_Line1 {
@@ -1314,6 +1332,25 @@ namespace MVVMDiversity.Properties {
         internal static string Taxon_Description {
             get {
                 return ResourceManager.GetString("Taxon_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die An Error occurred while downloading taxon data.
+        ///You may need additional permissions on the database. ähnelt.
+        /// </summary>
+        internal static string Taxon_Error_Text {
+            get {
+                return ResourceManager.GetString("Taxon_Error_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error ähnelt.
+        /// </summary>
+        internal static string Taxon_Error_Title {
+            get {
+                return ResourceManager.GetString("Taxon_Error_Title", resourceCulture);
             }
         }
         

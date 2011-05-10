@@ -185,7 +185,11 @@ namespace MVVMDiversity.ViewModel
             if (operation.State == OperationState.Succeeded)
                 MessengerInstance.Send<SyncStepFinished>(SyncState.TaxaDownloaded);
             else
-                ; //TODO
+                MessengerInstance.Send<DialogMessage>(new DialogMessage("Taxon_Error_Text",null)
+                    { 
+                        Button = System.Windows.MessageBoxButton.OK,
+                        Caption = "Taxon_Error_Title",                        
+                    });
         }
 
         private void updateTaxonLists()

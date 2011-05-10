@@ -66,8 +66,8 @@
                    Opacity="80"/>
         <StackPanel Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding ShowProgress, Converter={StaticResource BoolToVis}}">
             <StackPanel Width="300">
-                <TextBlock Text="{LocBinding Progress.ProgressDescriptionID}" TextWrapping="Wrap" />
-                <TextBlock Text="{Binding Progress.ProgressOutput}"/>
+                <TextBlock Text="{LocBinding Progress.StatusDescription}" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding Progress.StatusOutput}"/>
             </StackPanel>
             <ProgressBar Value="{Binding Progress.Progress, Mode=OneWay}" IsIndeterminate="{Binding Progress.IsProgressIndeterminate, Mode=OneWay}" Width="300" Height="25"/>
             <Button Content="{Loc MainWindow_Cancel}" 

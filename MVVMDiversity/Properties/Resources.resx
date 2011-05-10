@@ -576,4 +576,17 @@ Do you really want to proceed?</value>
   <data name="Services_Definitions_Error_MissingRights" xml:space="preserve">
     <value>An Error occurred while downloading the Taxon data. You may be missing access rights to the database.</value>
   </data>
+  <data name="Services_UserProfile_CreatingNew" xml:space="preserve">
+    <value>No User Profile Found. Creating new one.</value>
+  </data>
+  <data name="Services_UserProfile_SearchingProfile" xml:space="preserve">
+    <value>Looking for User Profile</value>
+  </data>
+  <data name="Taxon_Error_Text" xml:space="preserve">
+    <value>An Error occurred while downloading taxon data.
+You may need additional permissions on the database.</value>
+  </data>
+  <data name="Taxon_Error_Title" xml:space="preserve">
+    <value>Error</value>
+  </data>
 </root>

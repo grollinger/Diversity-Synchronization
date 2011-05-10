@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace MVVMDiversity.ViewModel
 {
-    public class AsyncQueueWorker<T>
+    public class AsyncQueueWorker<T> where T : class
     {
         private Action<T> _operation;
         private Queue<T> _taskQueue = new Queue<T>();
@@ -22,7 +22,7 @@ namespace MVVMDiversity.ViewModel
                     while (_hasWork.WaitOne())
                     {
                         T currentTask;
-                        while (!(currentTask = safelyDequeue()).Equals(default(T)))
+                        while ((currentTask = safelyDequeue()) != null)
                         {
                             _operation(currentTask);
                         }

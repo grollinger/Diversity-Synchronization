@@ -84,6 +84,7 @@ namespace MVVMDiversity.ViewModel
 
         private IDefinitionsService _DefSvc;
 
+        [Dependency]
         public IDefinitionsService DefinitionsProvider
         {
             get { return _DefSvc; }
@@ -252,11 +253,12 @@ namespace MVVMDiversity.ViewModel
                 {
                     ProfileProvider.ProjectID = Selection.ID;
                     IsBusy = false;
+                    return true;
                 }
             }
 
 
-            return !IsBusy;
+            return false;
         }
 
         void DefinitionsProvíder_DefinitionsLoaded(AsyncOperationInstance operation)

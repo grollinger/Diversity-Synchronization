@@ -60,9 +60,9 @@ namespace MVVMDiversity.Services
             private const string TAXONLIST_NAME_COLUMN = "DisplayText";
             private const string TAXONLIST_GROUP_COLUMN = "TaxonomicGroup";
 
-            public void startTaxonDownload(IEnumerable<TaxonList> selectedTaxa, AsyncOperationInstance progress)
+            public void startTaxonDownload(IEnumerable<TaxonList> selectedTaxa, AsyncOperationInstance operation)
             {
-                _progress = progress;
+                _progress = operation;
                 _selectedTaxa = selectedTaxa;                
            
                 try
@@ -77,11 +77,13 @@ namespace MVVMDiversity.Services
 
                     updateSelectedTaxonLists();
 
-                        
+                    operation.success();
+   
                 }
                 catch (Exception e)
                 {
                     _Log.ErrorFormat("Error while downloading Taxon Lists: [{0}]", e);
+                    operation.failure();
                 }
                 finally
                 {
@@ -176,8 +178,7 @@ namespace MVVMDiversity.Services
             }
 
             private void downloadTaxonLists()
-            {
-                System.Threading.Thread.Sleep(500);
+            {                
                 progressPerTaxonList = 100 / _selectedTaxa.Count();
             
 
