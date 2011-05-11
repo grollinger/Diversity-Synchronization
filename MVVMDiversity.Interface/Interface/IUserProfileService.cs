@@ -9,6 +9,9 @@ namespace MVVMDiversity.Interface
 {
     public interface IUserProfileService
     {
+        void tryLoadProfile();
+        event AsyncOperationFinishedHandler ProfileLoaded;
+
         int ProjectID { get; set; }
         string HomeDB { get; }
         string UserNr { get; }

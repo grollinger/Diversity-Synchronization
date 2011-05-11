@@ -109,9 +109,8 @@ namespace MVVMDiversity.Services
                 {                    
                     connRepository.Close();
                     _Log.ErrorFormat("Error loading Collection Definitions: [{0}]", e);
-
-                    progress.StatusDescription = "Services_Definitions_Error_MissingRights";
-                    progress.failure();
+                                        
+                    progress.failure("Services_Definitions_Error_MissingRights","");
                 }
 
 

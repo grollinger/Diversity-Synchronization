@@ -75,7 +75,7 @@ namespace MVVMDiversity.Services
                 else
                     _Log.Error("At least one Serializer is missing!");
 
-                _operation.failure();
+                _operation.failure("Services_FieldData_Error_MissingServices","");
                 
             }            
 
@@ -94,7 +94,7 @@ namespace MVVMDiversity.Services
                 else
                     _Log.Error("At least one Serializer is missing!");
 
-                _operation.failure();
+                _operation.failure("Services_FieldData_Error_MissingServices", "");
             }
 
             private void configureDownloadANSL(IList<ISerializableObject> selection)

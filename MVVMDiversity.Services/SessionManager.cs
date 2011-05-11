@@ -140,7 +140,7 @@ namespace MVVMDiversity.Services
         {
             if (State == SessionState.Uninitialized)
             {
-
+                MessengerInstance.Send<StatusNotification>("Services_Session_NewSession");
                 //Example: 2010-10-08 2102
                 var currentSession = DateTime.Now.ToString("yyyy-MM-dd HHmm");
                 _currentSessionFolder = ApplicationPathManager.getFolderPath(ApplicationFolder.Sessions) + @"\" + currentSession;
@@ -170,7 +170,10 @@ namespace MVVMDiversity.Services
             if (initSessionFromPaths(paths))
             {
                 if (tryCopyToWorking(_paths.MobileDB, _paths.MobileTaxa))
+                {
+                    MessengerInstance.Send<StatusNotification>("Services_Session_WorkingCopiesCreated");
                     return _workingPaths;
+                }
             }
             
             return null;
@@ -183,6 +186,8 @@ namespace MVVMDiversity.Services
             {
                 var emptyDB = ApplicationPathManager.getFilePath(ApplicationFile.EmptyDB);
                 var emptyTaxa = ApplicationPathManager.getFilePath(ApplicationFile.EmptyTaxonDB);
+
+                MessengerInstance.Send<StatusNotification>("Services_Session_CreatingCleanCopies");
 
                 if (tryCopyToWorking(emptyDB, emptyTaxa))
                 {

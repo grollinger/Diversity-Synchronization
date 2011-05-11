@@ -141,7 +141,7 @@ namespace MVVMDiversity.Services
                 {
                     _Log.ErrorFormat("Exception reading Properties: [{0}]", e);
                     //TODO
-                    _progress.failure();
+                    _progress.failure("Services_Definitions_Error_ReadingProperties","");
                     return;
                 }
                 finally
@@ -191,7 +191,7 @@ namespace MVVMDiversity.Services
 
                     _Log.ErrorFormat("Exception writing Properties to mobile DB: [{0}]", ex);
                     //TODO
-                    _progress.failure();
+                    _progress.failure("Services_Definitions_Error_WritingProperties","");
                     return;
                 }
                 finally

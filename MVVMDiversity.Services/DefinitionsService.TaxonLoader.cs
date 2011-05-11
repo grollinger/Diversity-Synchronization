@@ -45,7 +45,7 @@ namespace MVVMDiversity.Services
             private string destinationTable;
             private string sourceExpression;
 
-            AsyncOperationInstance _progress;
+            AsyncOperationInstance _operation;
             float progressPerTaxonList = 100f;
             DefinitionsService _owner;
 
@@ -62,7 +62,7 @@ namespace MVVMDiversity.Services
 
             public void startTaxonDownload(IEnumerable<TaxonList> selectedTaxa, AsyncOperationInstance operation)
             {
-                _progress = operation;
+                _operation = operation;
                 _selectedTaxa = selectedTaxa;                
            
                 try
@@ -83,7 +83,7 @@ namespace MVVMDiversity.Services
                 catch (Exception e)
                 {
                     _Log.ErrorFormat("Error while downloading Taxon Lists: [{0}]", e);
-                    operation.failure();
+                    _operation.failure("Services_Definitions_Error_LoadingTaxa","");
                 }
                 finally
                 {
@@ -180,12 +180,11 @@ namespace MVVMDiversity.Services
             private void downloadTaxonLists()
             {                
                 progressPerTaxonList = 100 / _selectedTaxa.Count();
-            
+                _operation.StatusDescription = "Services_Definitions_LoadingTaxa";
 
                 foreach (var taxonList in _selectedTaxa)
                 {
-
-                    _progress.StatusOutput = taxonList.DisplayText;
+                    _operation.StatusOutput = taxonList.DisplayText;
                     copyTable(taxonList.DataSource);                
                 }
             }

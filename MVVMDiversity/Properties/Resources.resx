@@ -299,9 +299,6 @@ Please fill in your Logindata and connect to the databases.</value>
   <data name="ProjectSelection_NextText" xml:space="preserve">
     <value>Next</value>
   </data>
-  <data name="ProjectSelection_PreviousText" xml:space="preserve">
-    <value>Back</value>
-  </data>
   <data name="ProjectSelection_ProjectsHeader" xml:space="preserve">
     <value>Project-Selection</value>
   </data>
@@ -567,9 +564,6 @@ Do you really want to proceed?</value>
   <data name="ConnectionsPage_ConnectionFailed_Title" xml:space="preserve">
     <value>Repository Connection Failed</value>
   </data>
-  <data name="ConnectionsPage_WorkingCopiesCreated" xml:space="preserve">
-    <value>Database working copies created</value>
-  </data>
   <data name="SelectFD_ResultEmpty" xml:space="preserve">
     <value>Query Result Empty</value>
   </data>
@@ -588,5 +582,38 @@ You may need additional permissions on the database.</value>
   </data>
   <data name="Taxon_Error_Title" xml:space="preserve">
     <value>Error</value>
+  </data>
+  <data name="ProjectSelection_PreviousText" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Services_Definitions_Error_LoadingTaxa" xml:space="preserve">
+    <value>An Error occured, while downloading Taxon Data.</value>
+  </data>
+  <data name="Services_Definitions_Error_ReadingProperties" xml:space="preserve">
+    <value>An Error occurred while reading collection properties from the repository.</value>
+  </data>
+  <data name="Services_Definitions_Error_WritingProperties" xml:space="preserve">
+    <value>An Error occurred while writing collection properties to the local database.</value>
+  </data>
+  <data name="Services_FieldData_Error_MissingServices" xml:space="preserve">
+    <value>Could not execute the requested operation, because key services are unavailable.</value>
+  </data>
+  <data name="Services_Session_CreatingCleanCopies" xml:space="preserve">
+    <value>Clean database copies created.</value>
+  </data>
+  <data name="Services_Session_NewSession" xml:space="preserve">
+    <value>New session started.</value>
+  </data>
+  <data name="Services_Session_ResumingSession" xml:space="preserve">
+    <value>Trying to resume last Session.</value>
+  </data>
+  <data name="Services_Session_WorkingCopiesCreated" xml:space="preserve">
+    <value>Database working copies created.</value>
+  </data>
+  <data name="Services_UserProfile_Error_EmptyAgentURL" xml:space="preserve">
+    <value>Could not create a new User Profile because your AgentURI is empty. Please contact your administrator for assistance.</value>
+  </data>
+  <data name="Services_UserProfile_Error_MissingConnectivitiy" xml:space="preserve">
+    <value>Could not load User Profile because some necessary services aren't available.</value>
   </data>
 </root>

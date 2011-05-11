@@ -41,6 +41,7 @@ namespace MVVMDiversity.Services
         public const string TAXONDB_FILE = "TaxonNames.sdf";
         public const string USEROPTIONS_FILE = "useroptions.xml";
         public const string SESSIONSTATE_FILE = "state.xml";
+        public const string SNSB_USERID_PREFIX = @"http://id.snsb.info/Agents/";
         private const string CONNECTIONPROFILES_FILE = "ConnectionProfiles.xml";
 
         

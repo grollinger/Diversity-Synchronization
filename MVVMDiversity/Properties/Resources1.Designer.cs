@@ -454,15 +454,6 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Database working copies created ähnelt.
-        /// </summary>
-        internal static string ConnectionsPage_WorkingCopiesCreated {
-            get {
-                return ResourceManager.GetString("ConnectionsPage_WorkingCopiesCreated", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die From ähnelt.
         /// </summary>
         internal static string Control_DateRange_From {
@@ -1228,11 +1219,38 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die An Error occured, while downloading Taxon Data. ähnelt.
+        /// </summary>
+        internal static string Services_Definitions_Error_LoadingTaxa {
+            get {
+                return ResourceManager.GetString("Services_Definitions_Error_LoadingTaxa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die An Error occurred while downloading the Taxon data. You may be missing access rights to the database. ähnelt.
         /// </summary>
         internal static string Services_Definitions_Error_MissingRights {
             get {
                 return ResourceManager.GetString("Services_Definitions_Error_MissingRights", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die An Error occurred while reading collection properties from the repository. ähnelt.
+        /// </summary>
+        internal static string Services_Definitions_Error_ReadingProperties {
+            get {
+                return ResourceManager.GetString("Services_Definitions_Error_ReadingProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die An Error occurred while writing collection properties to the local database. ähnelt.
+        /// </summary>
+        internal static string Services_Definitions_Error_WritingProperties {
+            get {
+                return ResourceManager.GetString("Services_Definitions_Error_WritingProperties", resourceCulture);
             }
         }
         
@@ -1273,6 +1291,15 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Could not execute the requested operation, because key services are unavailable. ähnelt.
+        /// </summary>
+        internal static string Services_FieldData_Error_MissingServices {
+            get {
+                return ResourceManager.GetString("Services_FieldData_Error_MissingServices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Querying Database ähnelt.
         /// </summary>
         internal static string Services_FieldData_Querying {
@@ -1291,11 +1318,65 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Clean database copies created. ähnelt.
+        /// </summary>
+        internal static string Services_Session_CreatingCleanCopies {
+            get {
+                return ResourceManager.GetString("Services_Session_CreatingCleanCopies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die New session started. ähnelt.
+        /// </summary>
+        internal static string Services_Session_NewSession {
+            get {
+                return ResourceManager.GetString("Services_Session_NewSession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Trying to resume last Session. ähnelt.
+        /// </summary>
+        internal static string Services_Session_ResumingSession {
+            get {
+                return ResourceManager.GetString("Services_Session_ResumingSession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Database working copies created. ähnelt.
+        /// </summary>
+        internal static string Services_Session_WorkingCopiesCreated {
+            get {
+                return ResourceManager.GetString("Services_Session_WorkingCopiesCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die No User Profile Found. Creating new one. ähnelt.
         /// </summary>
         internal static string Services_UserProfile_CreatingNew {
             get {
                 return ResourceManager.GetString("Services_UserProfile_CreatingNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Could not create a new User Profile because your AgentURI is empty. Please contact your administrator for assistance. ähnelt.
+        /// </summary>
+        internal static string Services_UserProfile_Error_EmptyAgentURL {
+            get {
+                return ResourceManager.GetString("Services_UserProfile_Error_EmptyAgentURL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Could not load User Profile because some necessary services aren&apos;t available. ähnelt.
+        /// </summary>
+        internal static string Services_UserProfile_Error_MissingConnectivitiy {
+            get {
+                return ResourceManager.GetString("Services_UserProfile_Error_MissingConnectivitiy", resourceCulture);
             }
         }
         

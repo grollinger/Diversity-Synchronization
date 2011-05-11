@@ -50,11 +50,13 @@ namespace MVVMDiversity.Model
             }      
         }
 
-        public virtual void failure()
+        public virtual void failure(string reason,string output)
         {
             if (!operationFinished())
             {
-                State = OperationState.Succeeded;
+                StatusDescription = reason;
+                StatusOutput = output;
+                State = OperationState.Failed;
             }    
         }
 
@@ -301,15 +303,15 @@ namespace MVVMDiversity.Model
             success(default(T));
         }
 
-        public void failure(T result)
+        public void failure(string reason, string output, T result)
         {
-            base.failure();
+            base.failure(reason,output);
             if (_finished != null)
                 _finished(this, result);
         }
-        public override void failure()
+        public override void failure(string reason, string output)
         {
-            failure(default(T));
+            failure(reason, output,default(T));
         }
     } 
 }

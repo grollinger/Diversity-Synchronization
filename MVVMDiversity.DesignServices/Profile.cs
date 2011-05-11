@@ -33,5 +33,12 @@ namespace MVVMDiversity.DesignServices
         {
             get { return "1234"; }
         }
+
+        public void tryLoadProfile()
+        {
+            throw new NotImplementedException();
+        }
+
+        public event Model.AsyncOperationFinishedHandler ProfileLoaded;
     }
 }

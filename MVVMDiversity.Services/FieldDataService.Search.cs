@@ -83,7 +83,7 @@ namespace MVVMDiversity.Services
                 else
                     _Log.Error("ConnectionsProvider N/A");
 
-                _operation.failure();
+                _operation.failure("Services_FieldData_Error_MissingServices","");
             }
 
 

@@ -35,128 +35,73 @@ using MVVMDiversity.Messages;
 namespace MVVMDiversity.Services
 {
     public class UserProfileProvider : IUserProfileService
-    {
-        private IConnectionProvider _connections = null;
-        private IUserOptionsService _userOptions = null;
+    {       
         private DiversityUserOptions _settings = null;
         private Serializer _mobileSerializer = null;
         private Serializer _repositorySerializer = null;
         private Serializer _definitionsSerializer = null;
         private UserProfile _profile;
+        private AsyncOperationInstance _operation;
 
-
-        private ILog _Log = LogManager.GetLogger(typeof(UserProfileProvider));        
+        private ILog _Log = LogManager.GetLogger(typeof(UserProfileProvider));
 
         [Dependency]
-        public IUserOptionsService Settings 
+        public IUserOptionsService Settings
         {
-            get
-            {
-                return _userOptions;
-            }
-            set
-            {
-                _userOptions = value;
-                updateProfile();
-            }
+            get;
+            set;
         }
 
         [Dependency]
         public IConnectionProvider Connections
         {
-            get
-            {
-                return _connections;
-            }
-            set
-            {
-                _connections = value;               
-                updateProfile();
-            }
+            get;
+            set;
         }
-
-        private IMessenger _msngr;
 
         [Dependency]
         public IMessenger MessengerInstance
         {
-            get { return _msngr; }
+            get;
+            set;
+        }   
 
-            set
-            {
-                if (value != null)
-                {
-                    _msngr = value;
-                    value.Register<ConnectionStateChanged>(this,
-                        (msg) =>
-                        {
-                            if ((msg.Content & ConnectionState.RepositoriesConnected) == ConnectionState.RepositoriesConnected)
-                            {
-                                updateProfile();
-                            }
-                        });
-                }
-            }
+        public void tryLoadProfile()
+        {
+            _operation = new AsyncOperationInstance(false, ProfileLoaded);
+            new Action(updateProfile).BeginInvoke(null, null);
         }
 
-        
-
-        
-
-        private void updateProfile()
-        {
-             _profile = null;
-             if (Connections != null)
-             {
-                 
-                 if (Settings != null && (_settings = Settings.getOptions()) != null)
-                 {
-                     if ((_mobileSerializer = Connections.MobileDB) != null)
-                     {
-                         MessengerInstance.Send<StatusNotification>("Services_UserProfile_SearchingProfile");
-                         //Prüfen ob ein UserProfile zum LoginNamen existiert.                
-                         IList<UserProfile> profiles = new List<UserProfile>();
-
-                         IRestriction r = RestrictionFactory.Eq(typeof(UserProfile), "_LoginName", _settings.Username);
-                         //IRestriction r = RestrictionFactory.Eq(typeof(UserProfile), "_LoginName", "TestEditor");
-                         profiles = _mobileSerializer.Connector.LoadList<UserProfile>(r);
-                         
-                         if (profiles.Count > 0)
-                         {
-                             _profile = profiles[0];
-                         }
-                         else
-                         {
-                             MessengerInstance.Send<StatusNotification>("Services_UserProfile_CreatingNew");
-                             _profile = createProfile();
-                         }
-
-                     }
-                     else
-                         _Log.Error("Mobile DB not connected");
-                 }
-                 else
-                     _Log.Error("Settings N/A");
-             }
-             else
-                 _Log.Error("Connections N/A");
-                
-        }        
+        public event AsyncOperationFinishedHandler ProfileLoaded;
 
         public int ProjectID
         {
             get
             {
-                return (_profile != null) ? _profile.ProjectID ?? -1 : -1;
+                if (_profile != null)
+                    if (_profile.ProjectID != null)
+                        return (int)_profile.ProjectID;
+                    else
+                    {
+                        _Log.Debug("ProjectID is NULL");
+                        return -1;
+                    }
+                else
+                {
+                    _Log.Error("No Profile Available");
+#if DEBUG
+                    throw new NullReferenceException("No Profile");
+#endif
+                }
             }
             set
             {
                 if (_profile != null)
                 {
                     _profile.ProjectID = value;
-                    if (_mobileSerializer != null)
+                    if (Connections != null && Connections.MobileDB != null)
                     {
-                        _mobileSerializer.Connector.Save(_profile);
+                        Connections.MobileDB.Connector.Save(_profile);
                     }
                     else
                         _Log.Error("Can't Save. No Connection.");
@@ -176,7 +121,7 @@ namespace MVVMDiversity.Services
         {
             get
             {
-                return (_profile == null || _profile.AgentURI == null) ? "" : _profile.AgentURI.Replace(@"http://id.snsb.info/Agents/", "");
+                return (_profile == null || _profile.AgentURI == null) ? "" : _profile.AgentURI.Replace(ApplicationPathManager.SNSB_USERID_PREFIX, "");
             }
         }
 
@@ -195,12 +140,21 @@ namespace MVVMDiversity.Services
                     
                     try
                     {
-                        newProfile = _mobileSerializer.CreateISerializableObject<UserProfile>();
+                        
                         
                         //Zuerst korrespondierenden Userproxy holen                
                         IRestriction r = RestrictionFactory.Eq(typeof(UserProxy), "_LoginName", _settings.Username);
                         //IRestriction r = RestrictionFactory.Eq(typeof(UserProxy), "_LoginName", @"TestEditor");
                         proxy = _repositorySerializer.Connector.Load<UserProxy>(r);
+                        if (string.IsNullOrEmpty(proxy.AgentURI))
+                        {
+                            _Log.Error("Cannot create Profile, empty AgentURI");
+                            
+                            _operation.failure("Services_UserProfile_Error_EmptyAgentURL","");
+                            return null;
+                        }
+
+                        newProfile = _mobileSerializer.CreateISerializableObject<UserProfile>();
                         
                         newProfile.LoginName = _settings.Username;
                         //newProfile.LoginName = @"TestEditor";
@@ -230,7 +184,7 @@ namespace MVVMDiversity.Services
                         
                         newProfile.HomeDB = _settings.CurrentConnection.InitialCatalog;
                         
-                        newProfile.AgentURI = proxy.AgentURI; //TODO
+                        newProfile.AgentURI = proxy.AgentURI; 
                        
                     }
                     catch (Exception ex)
@@ -249,6 +203,49 @@ namespace MVVMDiversity.Services
                 _Log.Error("Repository N/A");
 
             return newProfile;
+        }
+
+        private void updateProfile()
+        {
+            _profile = null;
+            if (Connections != null)
+            {
+
+                if (Settings != null && (_settings = Settings.getOptions()) != null)
+                {
+                    if ((_mobileSerializer = Connections.MobileDB) != null)
+                    {
+                        MessengerInstance.Send<StatusNotification>("Services_UserProfile_SearchingProfile");
+                        //Prüfen ob ein UserProfile zum LoginNamen existiert.                
+                        IList<UserProfile> profiles = new List<UserProfile>();
+
+                        IRestriction r = RestrictionFactory.Eq(typeof(UserProfile), "_LoginName", _settings.Username);
+                        //IRestriction r = RestrictionFactory.Eq(typeof(UserProfile), "_LoginName", "TestEditor");
+                        profiles = _mobileSerializer.Connector.LoadList<UserProfile>(r);
+
+                        if (profiles.Count > 0)
+                        {
+                            _profile = profiles[0];
+                        }
+                        else
+                        {
+                            MessengerInstance.Send<StatusNotification>("Services_UserProfile_CreatingNew");
+                            _profile = createProfile();
+
+                        }
+                        _operation.success();
+                    }
+                    else
+                        _Log.Error("Mobile DB not connected");
+                }
+                else
+                    _Log.Error("Settings N/A");
+            }
+            else
+                _Log.Error("Connections N/A");
+            
+            _operation.failure("Services_UserProfile_Error_MissingConnectivitiy","");
+
         }
     }
 }
