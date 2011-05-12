@@ -1264,6 +1264,15 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cannot complete the operation. Key services are unavailable. ähnelt.
+        /// </summary>
+        internal static string Services_Definitions_Error_MissingServices {
+            get {
+                return ResourceManager.GetString("Services_Definitions_Error_MissingServices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die An Error occurred while reading collection properties from the repository. ähnelt.
         /// </summary>
         internal static string Services_Definitions_Error_ReadingProperties {
@@ -1404,6 +1413,15 @@ namespace MVVMDiversity.Properties {
         internal static string Services_UserProfile_Error_MissingConnectivitiy {
             get {
                 return ResourceManager.GetString("Services_UserProfile_Error_MissingConnectivitiy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Could not create a user profile. Your profile may not have been correctly initialized at SNSB. Please contact your administrator for assistance. ähnelt.
+        /// </summary>
+        internal static string Services_UserProfile_Error_NoProxy {
+            get {
+                return ResourceManager.GetString("Services_UserProfile_Error_NoProxy", resourceCulture);
             }
         }
         

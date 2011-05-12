@@ -306,17 +306,18 @@ namespace MVVMDiversity.ViewModel
 
         void ProfileProvider_ProfileLoaded(AsyncOperationInstance operation)
         {
-            if (operation.State == OperationState.Succeeded)
-            {
-                ProfileProvider.ProjectID = Selection.ID;
-                if (NavigateNext != null)
-                    NavigateNext.Execute(null);
-            }
-            else
-            {
-                IsBusy = false;
-                showError(operation);
-            }
+            if(Selection != null)
+                if (operation.State == OperationState.Succeeded)
+                {
+                    ProfileProvider.ProjectID = Selection.ID;
+                    if (NavigateNext != null)
+                        NavigateNext.Execute(null);
+                }
+                else
+                {
+                    IsBusy = false;
+                    showError(operation);
+                }
         }
 
        

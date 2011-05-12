@@ -625,4 +625,10 @@ You may need additional permissions on the database.</value>
   <data name="MessageBox_Error_Title" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="Services_Definitions_Error_MissingServices" xml:space="preserve">
+    <value>Cannot complete the operation. Key services are unavailable.</value>
+  </data>
+  <data name="Services_UserProfile_Error_NoProxy" xml:space="preserve">
+    <value>Could not create a user profile. Your profile may not have been correctly initialized at SNSB. Please contact your administrator for assistance.</value>
+  </data>
 </root>

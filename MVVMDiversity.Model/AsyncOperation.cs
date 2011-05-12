@@ -293,7 +293,7 @@ namespace MVVMDiversity.Model
         public void success(T result)
         {
             base.success();
-            if (_finished != null)
+            if (_finished != null && !operationFinished())
                 _finished(this, result);
         }
 
@@ -306,7 +306,7 @@ namespace MVVMDiversity.Model
         public void failure(string reason, string output, T result)
         {
             base.failure(reason,output);
-            if (_finished != null)
+            if (_finished != null && !operationFinished())
                 _finished(this, result);
         }
         public override void failure(string reason, string output)

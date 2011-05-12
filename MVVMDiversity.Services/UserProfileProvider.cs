@@ -146,6 +146,13 @@ namespace MVVMDiversity.Services
                         IRestriction r = RestrictionFactory.Eq(typeof(UserProxy), "_LoginName", _settings.Username);
                         //IRestriction r = RestrictionFactory.Eq(typeof(UserProxy), "_LoginName", @"TestEditor");
                         proxy = _repositorySerializer.Connector.Load<UserProxy>(r);
+                        if (proxy == null)
+                        {
+                            _Log.Error("No User Proxy");
+
+                            _operation.failure("Services_UserProfile_Error_NoProxy", "");
+                            return null;
+                        }
                         if (string.IsNullOrEmpty(proxy.AgentURI))
                         {
                             _Log.Error("Cannot create Profile, empty AgentURI");
@@ -191,6 +198,8 @@ namespace MVVMDiversity.Services
                     {
                         newProfile = null;
                         //TODO
+
+                        _operation.failure("",);
 
                         _Log.ErrorFormat("Error Creating Profile: {0}", ex);
                     }

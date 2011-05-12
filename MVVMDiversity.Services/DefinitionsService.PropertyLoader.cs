@@ -85,7 +85,10 @@ namespace MVVMDiversity.Services
                     updateProperties("LebensraumTypen", "LebensraumTypenLfU");
 
                     updateProperties("Pflanzengesellschaften", "Pflanzengesellschaften");
+                    _progress.success();
                 }
+
+                _progress.failure("Services_Definitions_Error_MissingServices", "");
 
             }
 

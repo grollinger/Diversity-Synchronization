@@ -533,35 +533,10 @@ namespace MVVMDiversity.ViewModel
                             {
                                 IsProgressIndeterminate = true,
                                 StatusDescription = "Actions_Cleaning_DB"
-                            };                            
+                            };
 
-                            new Action(() =>
-                            {
-                                var project = ProfileSvc.ProjectID;
-
-                                var paths = Settings.getOptions().Paths;
-
-
-                                if (CM.truncateSyncTable())
-                                {
-                                    CM.disconnectFromMobileDB();
-                                    SessionMgr.endSession();
-                                    SessionMgr.startSession();
-                                    var workingPaths = SessionMgr.createCleanWorkingCopies(paths);
-                                    CM.connectToMobileDB(workingPaths);
-                                }
-                                else
-                                {
-                                    CurrentOperation.failure("Actions_Error_CouldntTruncateSync","");
-                                    _Log.Info("Could not truncate Sync Table, aborting clean.");
-                                }
-
-
-                                if (ProfileSvc.ProjectID != project)
-                                    ProfileSvc.ProjectID = project;
-
-                                CurrentOperation.success();
-                            }).BeginInvoke(null, null);
+                            ProfileSvc.ProfileLoaded += new AsyncOperationFinishedHandler(ProfileSvc_ProfileLoaded);
+                            ProfileSvc.tryLoadProfile();
 
 
 
@@ -577,6 +552,36 @@ namespace MVVMDiversity.ViewModel
             }
             else
                 _Log.Error("Session Manager N/A");
+        }
+
+        void ProfileSvc_ProfileLoaded(AsyncOperationInstance operation)
+        {
+            ProfileSvc.ProfileLoaded -= ProfileSvc_ProfileLoaded;
+            var project = ProfileSvc.ProjectID;
+
+            var paths = Settings.getOptions().Paths;
+
+
+            if (CM.truncateSyncTable())
+            {
+                CM.disconnectFromMobileDB();
+                SessionMgr.endSession();
+                SessionMgr.startSession();
+                var workingPaths = SessionMgr.createCleanWorkingCopies(paths);
+                CM.connectToMobileDB(workingPaths);
+            }
+            else
+            {
+                if(CurrentOperation != null)
+                    CurrentOperation.failure("Actions_Error_CouldntTruncateSync", "");
+                _Log.Info("Could not truncate Sync Table, aborting clean.");
+            }
+
+
+            if (ProfileSvc.ProjectID != project)
+                ProfileSvc.ProjectID = project;
+            if(CurrentOperation != null)
+                CurrentOperation.success();
         }
 
         private void CleanFinished(AsyncOperationInstance op)
