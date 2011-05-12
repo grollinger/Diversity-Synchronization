@@ -51,5 +51,11 @@ namespace MVVMDiversity.DesignServices
         {
             throw new NotImplementedException();
         }
+
+
+        bool ISessionManager.endSession()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

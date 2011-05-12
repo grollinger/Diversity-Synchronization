@@ -616,4 +616,13 @@ You may need additional permissions on the database.</value>
   <data name="Services_UserProfile_Error_MissingConnectivitiy" xml:space="preserve">
     <value>Could not load User Profile because some necessary services aren't available.</value>
   </data>
+  <data name="Actions_Error_CouldntSave" xml:space="preserve">
+    <value>Could not save back the database. Please make sure, no other processes are accessing the files and their storage location is available.</value>
+  </data>
+  <data name="Actions_Error_CouldntTruncateSync" xml:space="preserve">
+    <value>Could not truncate Sync table. Aborting Clean.</value>
+  </data>
+  <data name="MessageBox_Error_Title" xml:space="preserve">
+    <value>Error</value>
+  </data>
 </root>

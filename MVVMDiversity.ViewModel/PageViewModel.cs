@@ -303,6 +303,11 @@ namespace MVVMDiversity.ViewModel
                        });
                });
         }
+
+        protected void showError(AsyncOperationInstance op)
+        {
+            showMessageBox("MessageBox_Error_Title", op.StatusDescription, null);
+        }
         
     }
 }

@@ -551,17 +551,17 @@ namespace MVVMDiversity.ViewModel
                                     CM.connectToMobileDB(workingPaths);
                                 }
                                 else
+                                {
+                                    CurrentOperation.failure("Actions_Error_CouldntTruncateSync","");
                                     _Log.Info("Could not truncate Sync Table, aborting clean.");
+                                }
 
 
                                 if (ProfileSvc.ProjectID != project)
                                     ProfileSvc.ProjectID = project;
 
-
-                            }).BeginInvoke((res) =>
-                            {
-                                
-                            }, null);
+                                CurrentOperation.success();
+                            }).BeginInvoke(null, null);
 
 
 
@@ -580,19 +580,20 @@ namespace MVVMDiversity.ViewModel
         }
 
         private void CleanFinished(AsyncOperationInstance op)
-        {
-            //TODO ERrors
+        {            
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
             {
                 CurrentOperation = null;
-                MessengerInstance.Send<NavigateToPage>(Page.Connections);
+                if (op.State == OperationState.Succeeded)
+                    MessengerInstance.Send<NavigateToPage>(Page.Connections);
+                else
+                    showError(op);
             });
         }
 
         private void updateFromSyncState()
         {
-            IsDataUploaded = syncStateSatisfies(SyncState.FieldDataUploaded);
-            //IsDBCleaned
+            IsDataUploaded = syncStateSatisfies(SyncState.FieldDataUploaded);            
             ArePropertiesLoaded = syncStateSatisfies(SyncState.PropertyNamesDownloaded);
             AreTaxaDownloaded = syncStateSatisfies(SyncState.TaxaDownloaded);
             IsFieldDataLoaded = syncStateSatisfies(SyncState.FieldDataDownloaded);
@@ -615,11 +616,16 @@ namespace MVVMDiversity.ViewModel
                 CM.disconnectEverything();
 
             if (SessionMgr != null)
-                SessionMgr.endSession();
+            {
+                if (SessionMgr.endSession())
+                    MessengerInstance.Send<ApplicationClosing>(new ApplicationClosing(false));
+                else
+                    showMessageBox("MessageBox_Error_Title", "Actions_Error_CouldntSave", null);
+            }
             else
                 _Log.Error("Session Manager N/A");
-
-            MessengerInstance.Send<ApplicationClosing>(new ApplicationClosing(false));
         }
+
+            
     }
 }

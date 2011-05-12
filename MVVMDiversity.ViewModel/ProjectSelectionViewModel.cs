@@ -79,8 +79,37 @@ namespace MVVMDiversity.ViewModel
             }
         }
 
+        private IUserProfileService _profileSvc;
+
         [Dependency]
-        public IUserProfileService ProfileProvider { get; set; }
+        public IUserProfileService ProfileProvider 
+        {
+            get
+            {
+                return _profileSvc;
+            }
+            set
+            {
+                if (_profileSvc != value)
+                {
+                    if (_profileSvc != null)
+                        detachProfileSvc();
+                    _profileSvc = value;
+                    if (_profileSvc != null)
+                        attachProileSvc();
+                }
+            }
+        }
+
+        private void attachProileSvc()
+        {
+            ProfileProvider.ProfileLoaded += new AsyncOperationFinishedHandler(ProfileProvider_ProfileLoaded);
+        }        
+
+        private void detachProfileSvc()
+        {
+            ProfileProvider.ProfileLoaded -= ProfileProvider_ProfileLoaded;
+        }
 
         private IDefinitionsService _DefSvc;
 
@@ -250,8 +279,7 @@ namespace MVVMDiversity.ViewModel
                     CurrentOperation = DefinitionsProvider.loadDefinitions();                                 
                 }
                 else
-                {
-                    ProfileProvider.ProjectID = Selection.ID;
+                {                    
                     IsBusy = false;
                     return true;
                 }
@@ -263,9 +291,32 @@ namespace MVVMDiversity.ViewModel
 
         void DefinitionsProvíder_DefinitionsLoaded(AsyncOperationInstance operation)
         {
-            MessengerInstance.Send<HideProgress>(new HideProgress());
-            if (NavigateNext != null)
-                NavigateNext.Execute(null);
+            CurrentOperation = null;
+
+            if (operation.State == OperationState.Succeeded)
+            {
+                ProfileProvider.tryLoadProfile();
+            }
+            else
+            {
+                IsBusy = false;
+                showError(operation);
+            }
+        }
+
+        void ProfileProvider_ProfileLoaded(AsyncOperationInstance operation)
+        {
+            if (operation.State == OperationState.Succeeded)
+            {
+                ProfileProvider.ProjectID = Selection.ID;
+                if (NavigateNext != null)
+                    NavigateNext.Execute(null);
+            }
+            else
+            {
+                IsBusy = false;
+                showError(operation);
+            }
         }
 
        

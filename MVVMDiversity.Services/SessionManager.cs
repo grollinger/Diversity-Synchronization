@@ -239,7 +239,7 @@ namespace MVVMDiversity.Services
             return success;
         }
 
-        public void endSession()
+        public bool endSession()
         {
             bool success = true;//TODO Cleanup
             if (State == SessionState.Dirty || State == SessionState.Cleaned)
@@ -253,9 +253,12 @@ namespace MVVMDiversity.Services
             }
             else
                 _Log.Info("Nothing To Save");
-
-            State = SessionState.Uninitialized;
-            Sync = SyncState.None;
+            if (success)
+            {
+                State = SessionState.Uninitialized;
+                Sync = SyncState.None;
+            }
+            return success;
         }
 
         #region DB Operations

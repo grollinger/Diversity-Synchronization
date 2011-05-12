@@ -11,7 +11,7 @@ namespace MVVMDiversity.Interface
         void startSession();
         DBPaths createWorkingCopies(DBPaths paths);
         DBPaths createCleanWorkingCopies(DBPaths paths);
-        void endSession();
+        bool endSession();
 
         bool canResumeSession();
         DBPaths resumeSession(DBPaths paths);

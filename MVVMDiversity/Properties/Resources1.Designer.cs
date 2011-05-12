@@ -107,6 +107,24 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Could not save back the database. Please make sure, no other processes are accessing the files and their storage location is available. ähnelt.
+        /// </summary>
+        internal static string Actions_Error_CouldntSave {
+            get {
+                return ResourceManager.GetString("Actions_Error_CouldntSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Could not truncate Sync table. Aborting Clean. ähnelt.
+        /// </summary>
+        internal static string Actions_Error_CouldntTruncateSync {
+            get {
+                return ResourceManager.GetString("Actions_Error_CouldntTruncateSync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Failed to get Property Names ähnelt.
         /// </summary>
         internal static string Actions_Error_PropertyNamesHeader {
@@ -666,6 +684,15 @@ namespace MVVMDiversity.Properties {
         internal static string Map_Width {
             get {
                 return ResourceManager.GetString("Map_Width", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error ähnelt.
+        /// </summary>
+        internal static string MessageBox_Error_Title {
+            get {
+                return ResourceManager.GetString("MessageBox_Error_Title", resourceCulture);
             }
         }
         
