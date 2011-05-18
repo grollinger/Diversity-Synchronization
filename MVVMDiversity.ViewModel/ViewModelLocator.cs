@@ -78,19 +78,11 @@ namespace MVVMDiversity.ViewModel
             CreateMain();
             CreateConnections();
             CreateProjectSelection();
+            CreateTaxon();
             CreateActions();
+            CreateSelectFieldData();
+            CreateSelection();
             CreateMap();
-        }
-
-        /// <summary>
-        /// Cleans up all the resources.
-        /// </summary>
-        public static void Cleanup()
-        {
-            ClearMain();
-            ClearConnections();
-            ClearProjectSelection();
-            ClearActions();
         }
 
         /// <summary>

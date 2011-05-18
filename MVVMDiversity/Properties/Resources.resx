@@ -631,4 +631,19 @@ You may need additional permissions on the database.</value>
   <data name="Services_UserProfile_Error_NoProxy" xml:space="preserve">
     <value>Could not create a user profile. Your profile may not have been correctly initialized at SNSB. Please contact your administrator for assistance.</value>
   </data>
+  <data name="Services_UserProfile_Loaded" xml:space="preserve">
+    <value>User profile loaded successfully.</value>
+  </data>
+  <data name="Actions_Saved_Content" xml:space="preserve">
+    <value>The changes to your database have successfully been saved. The Application will now exit.</value>
+  </data>
+  <data name="Actions_Saved_Title" xml:space="preserve">
+    <value>Save successful</value>
+  </data>
+  <data name="Services_Definitions_CreatingDestTable" xml:space="preserve">
+    <value>Creating Destination Table</value>
+  </data>
+  <data name="Services_Definitions_UpdatingTaxonConfig" xml:space="preserve">
+    <value>Updating Taxon Configuration</value>
+  </data>
 </root>

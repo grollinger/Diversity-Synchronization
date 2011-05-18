@@ -217,6 +217,24 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The changes to your database have successfully been saved. The Application will now exit. ähnelt.
+        /// </summary>
+        internal static string Actions_Saved_Content {
+            get {
+                return ResourceManager.GetString("Actions_Saved_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Save successful ähnelt.
+        /// </summary>
+        internal static string Actions_Saved_Title {
+            get {
+                return ResourceManager.GetString("Actions_Saved_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Get Taxon Definitions ähnelt.
         /// </summary>
         internal static string Actions_TaxonDefinitions {
@@ -1246,6 +1264,15 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Creating Destination Table ähnelt.
+        /// </summary>
+        internal static string Services_Definitions_CreatingDestTable {
+            get {
+                return ResourceManager.GetString("Services_Definitions_CreatingDestTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die An Error occured, while downloading Taxon Data. ähnelt.
         /// </summary>
         internal static string Services_Definitions_Error_LoadingTaxa {
@@ -1314,6 +1341,15 @@ namespace MVVMDiversity.Properties {
         internal static string Services_Definitions_LoadingTaxa {
             get {
                 return ResourceManager.GetString("Services_Definitions_LoadingTaxa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Updating Taxon Configuration ähnelt.
+        /// </summary>
+        internal static string Services_Definitions_UpdatingTaxonConfig {
+            get {
+                return ResourceManager.GetString("Services_Definitions_UpdatingTaxonConfig", resourceCulture);
             }
         }
         
@@ -1422,6 +1458,15 @@ namespace MVVMDiversity.Properties {
         internal static string Services_UserProfile_Error_NoProxy {
             get {
                 return ResourceManager.GetString("Services_UserProfile_Error_NoProxy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die User profile loaded successfully. ähnelt.
+        /// </summary>
+        internal static string Services_UserProfile_Loaded {
+            get {
+                return ResourceManager.GetString("Services_UserProfile_Loaded", resourceCulture);
             }
         }
         

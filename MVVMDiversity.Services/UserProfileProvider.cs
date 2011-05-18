@@ -96,12 +96,13 @@ namespace MVVMDiversity.Services
             }
             set
             {
-                if (_profile != null)
+                if (_profile != null && _profile.ProjectID != value)
                 {
                     _profile.ProjectID = value;
                     if (Connections != null && Connections.MobileDB != null)
                     {
                         Connections.MobileDB.Connector.Save(_profile);
+                        MessengerInstance.Send<SyncStepFinished>(SyncState.ProfileChanged);    
                     }
                     else
                         _Log.Error("Can't Save. No Connection.");
@@ -156,9 +157,10 @@ namespace MVVMDiversity.Services
                         if (string.IsNullOrEmpty(proxy.AgentURI))
                         {
                             _Log.Error("Cannot create Profile, empty AgentURI");
-                            
+#if !DEBUG
                             _operation.failure("Services_UserProfile_Error_EmptyAgentURL","");
                             return null;
+#endif
                         }
 
                         newProfile = _mobileSerializer.CreateISerializableObject<UserProfile>();
@@ -191,8 +193,13 @@ namespace MVVMDiversity.Services
                         
                         newProfile.HomeDB = _settings.CurrentConnection.InitialCatalog;
                         
-                        newProfile.AgentURI = proxy.AgentURI; 
-                       
+                        newProfile.AgentURI = proxy.AgentURI;
+
+
+
+                        _mobileSerializer.Connector.Save(newProfile);
+                        
+                        MessengerInstance.Send<SyncStepFinished>(SyncState.ProfileChanged);                      
                     }
                     catch (Exception ex)
                     {
@@ -242,6 +249,8 @@ namespace MVVMDiversity.Services
                             _profile = createProfile();
 
                         }
+
+                        MessengerInstance.Send<StatusNotification>("Services_UserProfile_Loaded");
                         _operation.success();
                     }
                     else

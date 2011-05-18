@@ -12,6 +12,7 @@ namespace MVVMDiversity.Model
         TaxaDownloaded = 0x01,
         PropertyNamesDownloaded = 0x02,
         FieldDataDownloaded = 0x04,
-        FieldDataUploaded = 0x08
+        FieldDataUploaded = 0x08,
+        ProfileChanged = 0x10
     }
 }

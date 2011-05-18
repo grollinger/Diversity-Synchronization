@@ -81,6 +81,9 @@ namespace MVVMDiversity.Services
 
             public void downloadFieldDataWorker(IList<ISerializableObject> selection)
             {
+                _operation.IsProgressIndeterminate = true;
+                _operation.StatusDescription = "Services_FieldData_Downloading";
+
                 getSerializers();
 
                 _selection = selection;

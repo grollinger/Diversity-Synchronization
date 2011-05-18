@@ -57,7 +57,7 @@ namespace MVVMDiversity.Services
             }
         }
 
-        private const int MAX_SESSIONS_SAVED = 100;
+        private const int MAX_SESSIONS_SAVED = 25;
 
         static string _currentSessionFolder;
 

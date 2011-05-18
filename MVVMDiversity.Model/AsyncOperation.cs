@@ -30,7 +30,7 @@ using System.ComponentModel;
 namespace MVVMDiversity.Model
 {
     public delegate void AsyncOperationFinishedHandler(AsyncOperationInstance operation);
-    public delegate void AsyncOperationFinishedHandler<T>(AsyncOperation<T> operation, T result);
+    public delegate void AsyncOperationFinishedHandler<T>(AsyncOperationInstance<T> operation, T result);
 
     public class AsyncOperationInstance
     {
@@ -280,11 +280,11 @@ namespace MVVMDiversity.Model
         #endregion
     }
 
-    public class AsyncOperation<T> : AsyncOperationInstance
+    public class AsyncOperationInstance<T> : AsyncOperationInstance
     {
         private AsyncOperationFinishedHandler<T> _finished;
 
-        public AsyncOperation(bool canBeCanceled, AsyncOperationFinishedHandler<T> finishedCallback)
+        public AsyncOperationInstance(bool canBeCanceled, AsyncOperationFinishedHandler<T> finishedCallback)
             : base(canBeCanceled,null)
         {
             _finished = finishedCallback;
@@ -292,22 +292,25 @@ namespace MVVMDiversity.Model
 
         public void success(T result)
         {
-            base.success();
             if (_finished != null && !operationFinished())
+            {
+                base.success();
                 _finished(this, result);
+            }
         }
 
         public override void success()
-        {
-            base.success();
+        {            
             success(default(T));
         }
 
         public void failure(string reason, string output, T result)
         {
-            base.failure(reason,output);
             if (_finished != null && !operationFinished())
+            {
+                base.failure(reason, output);
                 _finished(this, result);
+            }
         }
         public override void failure(string reason, string output)
         {

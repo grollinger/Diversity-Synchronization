@@ -27,6 +27,7 @@ using MVVMDiversity.Interface;
 using log4net;
 using System;
 using GalaSoft.MvvmLight.Threading;
+using System.Collections.Generic;
 
 namespace MVVMDiversity.ViewModel
 {
@@ -396,6 +397,13 @@ namespace MVVMDiversity.ViewModel
                     if (msg.Content == Enums.Action.CleanDB)
                         executeCleanDB();
                 });
+            MessengerInstance.Register<SelectedTaxonLists>(this,
+                (msg) =>
+                {
+                    if (DefinitionsSvc != null)
+                        DefinitionsSvc.TaxaLoaded += new AsyncOperationFinishedHandler(DefinitionsSvc_TaxaLoaded);
+                    loadTaxa(msg.Content);
+                });
 
             
             
@@ -482,6 +490,32 @@ namespace MVVMDiversity.ViewModel
                 {
                     MessengerInstance.Send<NavigateToPage>(Page.Map);
                 });
+        }
+
+        void loadTaxa(IList<TaxonList> selectedLists)
+        {
+            if (DefinitionsSvc != null)
+            {
+                CurrentOperation = DefinitionsSvc.loadTaxonLists(selectedLists);                
+            }
+            else
+                _Log.Error("DefinitionsService N/A");
+        }
+
+        void DefinitionsSvc_TaxaLoaded(AsyncOperationInstance operation)
+        {
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            {
+                if (DefinitionsSvc != null)
+                    DefinitionsSvc.TaxaLoaded -= DefinitionsSvc_TaxaLoaded;
+
+                CurrentOperation = null;
+               
+                if (operation.State == OperationState.Succeeded)
+                    MessengerInstance.Send<SyncStepFinished>(SyncState.TaxaDownloaded);
+                else
+                    showError(operation);
+            });
         }
 
         void FieldDataUploadFinished(AsyncOperationInstance operation)
@@ -621,7 +655,12 @@ namespace MVVMDiversity.ViewModel
             if (SessionMgr != null)
             {
                 if (SessionMgr.endSession())
-                    MessengerInstance.Send<ApplicationClosing>(new ApplicationClosing(false));
+                    showMessageBox("Actions_Saved_Title", "Actions_Saved_Content",
+                        (res) =>
+                        {
+                            //Execute Shutdown.
+                            MessengerInstance.Send<ApplicationClosing>(new ApplicationClosing(false));
+                        });
                 else
                     showMessageBox("MessageBox_Error_Title", "Actions_Error_CouldntSave", null);
             }

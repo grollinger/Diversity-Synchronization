@@ -72,7 +72,7 @@ namespace MVVMDiversity.ViewModel
             _addQueue = new Queue<IISOViewModel>();
             _removeQueue = new Queue<IISOViewModel>();
             
-            _queuesEmpty = new ManualResetEvent(false);
+            _queuesEmpty = new ManualResetEvent(true);
 
             
         }
@@ -115,8 +115,10 @@ namespace MVVMDiversity.ViewModel
                     queueForWork(this);
                 }
             }
+#if DEBUG
             else
                 throw new InvalidOperationException("Object is currently locked against further changes!");
+#endif
         }
 
         public override void removeGenerator(IISOViewModel vm)
@@ -129,8 +131,10 @@ namespace MVVMDiversity.ViewModel
                     queueForWork(this);
                 }
             }
+#if DEBUG
             else
                 throw new InvalidOperationException("Object is currently locked against further changes!");
+#endif
         }
 
         Mutex selectionExclusion = new Mutex();
@@ -140,12 +144,17 @@ namespace MVVMDiversity.ViewModel
             IList<ISerializableObject> selection;
             selectionExclusion.WaitOne();
 
-            _sealed = true;
-            _queuesEmpty.WaitOne();
-            selection = base.buildSelection();
-            _sealed = false;
-
-            selectionExclusion.ReleaseMutex();
+            try
+            {
+                _sealed = true;
+                _queuesEmpty.WaitOne();
+                selection = base.buildSelection();
+                _sealed = false;
+            }
+            finally
+            {
+                selectionExclusion.ReleaseMutex();
+            }
 
             return selection;
         }

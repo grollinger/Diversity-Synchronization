@@ -70,39 +70,9 @@ namespace MVVMDiversity.ViewModel
             }
         }
 
-        private IDefinitionsService _defSvc;
-
-        [Dependency]
-        public IDefinitionsService DefinitionsSvc 
-        {
-            get
-            {
-                return _defSvc;
-            }
-            set
-            {
-                if (_defSvc != value)
-                {
-                    if (_defSvc != null)
-                        detachFromDefSvc();
-                    _defSvc = value;
-                    if (_defSvc != null)
-                        attachFromDefSvc();
-                }
-            }
-        }
-
-        private void attachFromDefSvc()
-        {
-            DefinitionsSvc.TaxaLoaded += new AsyncOperationFinishedHandler(DefinitionsSvc_TaxaLoaded);
-        }
+        private bool _expectClose = false;
 
         
-
-        private void detachFromDefSvc()
-        {
-            DefinitionsSvc.TaxaLoaded -= DefinitionsSvc_TaxaLoaded;
-        }
 
         /// <summary>
         /// The <see cref="TaxonLists" /> property's name.
@@ -143,7 +113,17 @@ namespace MVVMDiversity.ViewModel
             }
         }
 
-        public ICommand DownloadTaxa { get; private set; }        
+        public ICommand DownloadTaxa { get; private set; }
+
+        public void OnClose()
+        {
+            if (!_expectClose)
+                sendLists(new List<TaxonList>());
+            else
+                _expectClose = false;
+        }
+
+      
 
         /// <summary>
         /// Initializes a new instance of the TaxonViewModel class.
@@ -151,6 +131,13 @@ namespace MVVMDiversity.ViewModel
         public TaxonViewModel(IMessenger msngr)
         {
             MessengerInstance = msngr;
+
+            MessengerInstance.Register<ConnectionStateChanged>(this,
+                (msg) =>
+                {
+                    if((msg.Content & ConnectionState.ConnectedToRepTax) == ConnectionState.ConnectedToRepTax)
+                        updateTaxonLists();
+                });
 
             DownloadTaxa = new RelayCommand<IList>(
                 (selection) =>
@@ -161,36 +148,11 @@ namespace MVVMDiversity.ViewModel
                                              where list is TaxonList
                                              select list as TaxonList;
                         IList<TaxonList> finalList = new List<TaxonList>(typedSelection);
-                        if (DefinitionsSvc != null)
-                        {
-                            var progress = DefinitionsSvc.loadTaxonLists(finalList);
-                            MessengerInstance.Send<ShowProgress>(progress);
-                        }
-                        else
-                            _Log.Error("DefinitionsService N/A");
+                        _expectClose = true;
+                        sendLists(finalList);
                     }                   
-                });
-
-            MessengerInstance.Register<ConnectionStateChanged>(this,
-                (msg) =>
-                {
-                    if ((msg.Content & ConnectionState.ConnectedToRepTax) == ConnectionState.ConnectedToRepTax)
-                        updateTaxonLists();
-                });
-        }
-
-        void DefinitionsSvc_TaxaLoaded(AsyncOperationInstance operation)
-        {
-            MessengerInstance.Send<HideProgress>(new HideProgress());
-            if (operation.State == OperationState.Succeeded)
-                MessengerInstance.Send<SyncStepFinished>(SyncState.TaxaDownloaded);
-            else
-                MessengerInstance.Send<DialogMessage>(new DialogMessage("Taxon_Error_Text",null)
-                    { 
-                        Button = System.Windows.MessageBoxButton.OK,
-                        Caption = "Taxon_Error_Title",                        
-                    });
-        }
+                });           
+        }        
 
         private void updateTaxonLists()
         {
@@ -210,6 +172,9 @@ namespace MVVMDiversity.ViewModel
 
         }
 
-        
+        private void sendLists(IList<TaxonList> list)
+        {
+            MessengerInstance.Send<SelectedTaxonLists>(new SelectedTaxonLists(list));
+        }
     }
 }

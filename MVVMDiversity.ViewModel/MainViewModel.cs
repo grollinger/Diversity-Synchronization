@@ -55,7 +55,9 @@ namespace MVVMDiversity.ViewModel
         private AsyncQueueWorker<string> _notificationsQueue;
         #region Properties
 
-        public ICommand CancelOperation { get; private set; }
+        private DelegateCommand _cancelOperation;
+
+        public ICommand CancelOperation { get { return _cancelOperation; } }
 
         PageViewModel _currentVM;
         public const string CurrentVMPropertyName = "CurrentVM";
@@ -124,10 +126,7 @@ namespace MVVMDiversity.ViewModel
         private AsyncOperationInstance _p = null;
 
         /// <summary>
-        /// Gets the Progress property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// Represents the running background process and it's status information
         /// </summary>
         public AsyncOperationInstance Progress
         {
@@ -136,7 +135,7 @@ namespace MVVMDiversity.ViewModel
                 return _p;
             }
 
-            set
+            private set
             {
                 if (_p == value)
                 {
@@ -151,7 +150,7 @@ namespace MVVMDiversity.ViewModel
                 if (_p != null)
                     _p.PropertyChanged += progressChanged;
                 
-               
+                _cancelOperation.RaiseCanExecuteChanged();
 
                 // Verify Property Exists
                 VerifyPropertyName(ProgressPropertyName);
@@ -169,10 +168,7 @@ namespace MVVMDiversity.ViewModel
         private bool _showProg = false;
 
         /// <summary>
-        /// Gets the ShowProgress property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// Determines, if the Progress Overlay is visible.
         /// </summary>
         public bool ShowProgress
         {
@@ -181,7 +177,7 @@ namespace MVVMDiversity.ViewModel
                 return _showProg;
             }
 
-            set
+            private set
             {
                 if (_showProg == value)
                 {
@@ -251,7 +247,7 @@ namespace MVVMDiversity.ViewModel
                     Thread.Sleep(500); //Delay next Notification                   
                 });
 
-            CancelOperation = new RelayCommand(
+            _cancelOperation = new DelegateCommand(
                 () =>
                 {
                     if (Progress != null)
@@ -325,9 +321,12 @@ namespace MVVMDiversity.ViewModel
 
         private void progressChanged(object sender, PropertyChangedEventArgs args)
         {
+
             VerifyPropertyName(ProgressPropertyName);
             RaisePropertyChanged(ProgressPropertyName);
-        }     
+        }
+
+
 
         
     }

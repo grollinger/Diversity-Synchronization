@@ -15,6 +15,8 @@ namespace MVVMDiversity.Messages
 
         }
 
+        public event Action OnClose;
+
         public static implicit operator CustomDialog(Dialog d)
         {
             return new CustomDialog(d);

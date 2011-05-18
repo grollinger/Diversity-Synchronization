@@ -40,19 +40,7 @@ namespace MVVMDiversity.ViewModel
         {
             get;
             set;
-        }
-
-        private void attachFDSvcHandlers()
-        {
-            FDSvc.DownloadFinished += new AsyncOperationFinishedHandler(DownloadFinished);           
-        }        
-
-        private void detachFDSvcHandlers()
-        {
-            FDSvc.DownloadFinished -= DownloadFinished;
-        }
-
-       
+        } 
 	
 
         [Dependency]
@@ -89,23 +77,7 @@ namespace MVVMDiversity.ViewModel
                             });
                     }).BeginInvoke(null, null);
             });
-        }
-
-        void DownloadFinished(AsyncOperationInstance operation)
-        {
-            DispatcherHelper.CheckBeginInvokeOnUI(
-            () =>
-            {
-                if (operation.State == OperationState.Succeeded)
-                    MessengerInstance.Send<SyncStepFinished>(SyncState.FieldDataDownloaded);
-                else
-                    ;//TODO
-
-
-                MessengerInstance.Send<HideProgress>(new HideProgress());
-                NavigateNext.Execute(null);
-            });
-        }
+        }        
         
         protected override void OnNavigateNext()
         {
@@ -119,10 +91,7 @@ namespace MVVMDiversity.ViewModel
                 }
             }
             else
-                _Log.Error("FieldDataService N/A");
-
-
-            
+                _Log.Error("FieldDataService N/A");            
             
         }
 

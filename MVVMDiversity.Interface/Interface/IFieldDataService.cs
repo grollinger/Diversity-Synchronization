@@ -18,7 +18,7 @@ namespace MVVMDiversity.Interface
         AsyncOperationInstance downloadData(IList<ISerializableObject> selection);
         event AsyncOperationFinishedHandler DownloadFinished;
 
-        AsyncOperation<IList<ISerializableObject>> startSearch(SearchSpecification search, int currentProjectID);
+        AsyncOperationInstance<IList<ISerializableObject>> startSearch(SearchSpecification search, int currentProjectID);
         event AsyncOperationFinishedHandler<IList<ISerializableObject>> SearchFinished;
     }
 }

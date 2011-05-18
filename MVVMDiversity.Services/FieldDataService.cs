@@ -77,9 +77,9 @@ namespace MVVMDiversity.Services
         public event AsyncOperationFinishedHandler DownloadFinished;
 
 
-        public AsyncOperation<IList<ISerializableObject>> startSearch(SearchSpecification search, int currentProjectID)
+        public AsyncOperationInstance<IList<ISerializableObject>> startSearch(SearchSpecification search, int currentProjectID)
         {
-            var op = new AsyncOperation<IList<ISerializableObject>>(false, SearchFinished);
+            var op = new AsyncOperationInstance<IList<ISerializableObject>>(false, SearchFinished);
 
 
             new Action(() =>

@@ -96,7 +96,7 @@ namespace MVVMDiversity.ViewModel
        
         #endregion   
      
-        AsyncOperation<IList<ISerializableObject>> _progress;      
+        
 
         /// <summary>
         /// Initializes a new instance of the SelectFieldDataViewModel class.
@@ -110,22 +110,8 @@ namespace MVVMDiversity.ViewModel
             CanNavigateBack = true;
             CanNavigateNext = true;
 
-            QueryDatabase = new RelayCommand(() =>
-            {
-                if (FieldData != null)
-                {
-                    if (UserProfileSvc != null)
-                    {
-                        IsBusy = true;
-                        CurrentOperation = FieldData.startSearch(ConfiguredSearch, UserProfileSvc.ProjectID);                     
-                    }
-                    else
-                        _Log.Error("UserProfileService N/A");
-                }
-                else
-                    _Log.Error("FieldDataService N/A");
-            },
-            () => ConfiguredSearch != null);
+            QueryDatabase = new RelayCommand(exscuteSearch,
+                () => ConfiguredSearch != null);
 
             AddToSelection = new RelayCommand<IList>((selection) =>
             {
@@ -170,7 +156,22 @@ namespace MVVMDiversity.ViewModel
             MessengerInstance.Send<SettingsRequest>(new SettingsRequest());
         }
 
-        void SearchFinished(AsyncOperation<IList<ISerializableObject>> operation, IList<ISerializableObject> result)
+        void exscuteSearch()
+        {
+            if (FieldData != null)
+            {
+                if (UserProfileSvc != null)
+                {                    
+                    CurrentOperation = FieldData.startSearch(ConfiguredSearch, UserProfileSvc.ProjectID);
+                }
+                else
+                    _Log.Error("UserProfileService N/A");
+            }
+            else
+                _Log.Error("FieldDataService N/A");
+        }
+
+        void SearchFinished(AsyncOperationInstance<IList<ISerializableObject>> operation, IList<ISerializableObject> result)
         {
             List<IISOViewModel> selectionList = buildQueryResult(result);
             DispatcherHelper.CheckBeginInvokeOnUI(
@@ -182,8 +183,7 @@ namespace MVVMDiversity.ViewModel
 
                     queryResultChanged();
 
-                    CurrentOperation = null;
-                    IsBusy = false;
+                    CurrentOperation = null;                    
                 });
                                     
         }
@@ -210,7 +210,7 @@ namespace MVVMDiversity.ViewModel
             }
 
             ProgressInterval localProgress = null;
-            localProgress = new ProgressInterval(_progress, 100f, result.Count());           
+            localProgress = new ProgressInterval(CurrentOperation, 100f, result.Count());           
 
             var conversionQuery = from obj in result
                                   select ISOStore.addOrRetrieveVMForISO(obj);

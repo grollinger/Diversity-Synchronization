@@ -42,11 +42,11 @@ namespace MVVMDiversity.Services
             private SqlCeConnection _destination;
             private IDbConnection _mobile;
             private IEnumerable<TaxonList> _selectedTaxa;
-            private string destinationTable;
-            private string sourceExpression;
+            private string _destinationTable;
+            private string _sourceExpression;
 
             AsyncOperationInstance _operation;
-            float progressPerTaxonList = 100f;
+            float _progressPerTaxonList = 100f;
             DefinitionsService _owner;
 
             public TaxonLoader(DefinitionsService owner)
@@ -62,6 +62,13 @@ namespace MVVMDiversity.Services
 
             public void startTaxonDownload(IEnumerable<TaxonList> selectedTaxa, AsyncOperationInstance operation)
             {
+                if (selectedTaxa == null || selectedTaxa.Count() == 0)
+                {
+                    operation.success();
+                    _Log.Info("No Taxon Lists selected");
+                    return;
+                }
+
                 _operation = operation;
                 _selectedTaxa = selectedTaxa;                
            
@@ -69,15 +76,18 @@ namespace MVVMDiversity.Services
                 {
                     createConnections();
 
-                    openConnections();
+                    openConnections();                   
 
                     downloadTaxonLists();
+
+                    _operation.StatusDescription = "Services_Definitions_UpdatingTaxonConfig";
+                    _operation.IsProgressIndeterminate = true;
 
                     fillTaxonListsForUser();                   
 
                     updateSelectedTaxonLists();
 
-                    operation.success();
+                    _operation.success();
    
                 }
                 catch (Exception e)
@@ -88,11 +98,42 @@ namespace MVVMDiversity.Services
                 finally
                 {
                     closeConnections();
-                }
-
-
-                      
+                }                      
             }
+
+            private void createConnections()
+            {
+                var connectionProvider = _owner.Connections;
+                if (connectionProvider != null)
+                {
+
+                    if (connectionProvider.Definitions != null)
+                    {
+                        _source = connectionProvider.Definitions.CreateConnection();
+                    }
+                    else
+                        _Log.Error("Definitions Serializer not available");
+
+                    if (connectionProvider.MobileTaxa != null)
+                    {
+                        _destination = connectionProvider.MobileTaxa.CreateConnection() as SqlCeConnection;
+                    }
+                    else
+                        _Log.Error("Mobile Taxon Serializer not available");
+
+                    if (connectionProvider.MobileDB != null)
+                    {
+                        _mobile = connectionProvider.MobileDB.CreateConnection();
+                    }
+                    else
+                        _Log.Error("Mobile DB Serializer not available");
+
+                }
+                else
+                    _Log.Error("ConnectionsProvider not available.");
+
+            }
+
             private void openConnections()
             {
                 try
@@ -125,98 +166,19 @@ namespace MVVMDiversity.Services
                 
             }
 
-            private void closeConnections()
-            {
-                if (_source != null)
-                {
-                    _source.Close();
-                    _source = null;
-                }
-                if(_destination != null)
-                {
-                    _destination.Close();
-                    _destination = null;
-                }
-                if (_mobile != null)
-                {
-                    _mobile.Close();
-                    _mobile = null;
-                }
-            }
-
-            private void createConnections()
-            {
-                var connectionProvider = _owner.Connections;
-                if (connectionProvider != null)
-                {
-                    
-                    if (connectionProvider.Definitions != null)
-                    {
-                        _source = connectionProvider.Definitions.CreateConnection();
-                    }
-                    else
-                        _Log.Error("Definitions Serializer not available");
-
-                    if (connectionProvider.MobileTaxa != null)
-                    {
-                        _destination = connectionProvider.MobileTaxa.CreateConnection() as SqlCeConnection;
-                    }
-                    else
-                        _Log.Error("Mobile Taxon Serializer not available");
-
-                    if (connectionProvider.MobileDB != null)
-                    {
-                        _mobile = connectionProvider.MobileDB.CreateConnection();
-                    }
-                    else
-                        _Log.Error("Mobile DB Serializer not available");
-
-                }
-                else
-                    _Log.Error("ConnectionsProvider not available.");                
-               
-            }
-
             private void downloadTaxonLists()
-            {                
-                progressPerTaxonList = 100 / _selectedTaxa.Count();
-                _operation.StatusDescription = "Services_Definitions_LoadingTaxa";
+            {
+                _progressPerTaxonList = 100 / _selectedTaxa.Count();
+
 
                 foreach (var taxonList in _selectedTaxa)
                 {
                     _operation.StatusOutput = taxonList.DisplayText;
-                    copyTable(taxonList.DataSource);                
-                }
-            }
+                    _destinationTable = taxonList.DataSource;
+                    _sourceExpression = "[" + _owner.Settings.getOptions().CurrentConnection.TaxonNamesInitialCatalog + "].[dbo].[" + taxonList.DataSource + "]";
 
-            private void updateSelectedTaxonLists()
-            {
-                var firstListOfEachGroup = from list in _selectedTaxa
-                                            group list by list.TaxonomicGroup into g
-                                            select g.First();
-
-               
-                using (var cmd = _mobile.CreateCommand())
-                {                    
-                    try
-                    {
-                        foreach (var list in firstListOfEachGroup)
-                        {
-                            cmd.CommandText = String.Format("UPDATE [UserTaxonomicGroupTable] SET [TaxonomicTable] = '{0}' WHERE [TaxonomicCode] = '{1}';", list.DataSource, list.TaxonomicGroup);
-                            int rowsAffected = cmd.ExecuteNonQuery();
-                            if (rowsAffected == 0)
-                            {
-                                cmd.CommandText = String.Format("INSERT INTO [UserTaxonomicGroupTable] ([TaxonomicCode], [TaxonomicTable]) VALUES ('{0}','{1}');", list.TaxonomicGroup, list.DataSource);
-                                cmd.ExecuteNonQuery();
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        _Log.ErrorFormat("Error while updating Selected Taxon Lists: [{0}]", ex);
-                    }                    
+                    copyTable();
                 }
-                
             }
 
             private void fillTaxonListsForUser()
@@ -248,37 +210,89 @@ namespace MVVMDiversity.Services
                 }
             }
 
-        
-            private void copyTable(string table)
+            private void updateSelectedTaxonLists()
             {
-                //TODO
-                sourceExpression = "["+_owner.Settings.getOptions().CurrentConnection.TaxonNamesInitialCatalog+"].[dbo].[" + table + "]";
-                destinationTable = table;
-                copyDBExpressionToTable();
+                var firstListOfEachGroup = from list in _selectedTaxa
+                                           group list by list.TaxonomicGroup into g
+                                           select g.First();
+
+
+                using (var cmd = _mobile.CreateCommand())
+                {
+                    try
+                    {
+                        foreach (var list in firstListOfEachGroup)
+                        {
+                            cmd.CommandText = String.Format("UPDATE [UserTaxonomicGroupTable] SET [TaxonomicTable] = '{0}' WHERE [TaxonomicCode] = '{1}';", list.DataSource, list.TaxonomicGroup);
+                            int rowsAffected = cmd.ExecuteNonQuery();
+                            if (rowsAffected == 0)
+                            {
+                                cmd.CommandText = String.Format("INSERT INTO [UserTaxonomicGroupTable] ([TaxonomicCode], [TaxonomicTable]) VALUES ('{0}','{1}');", list.TaxonomicGroup, list.DataSource);
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _Log.ErrorFormat("Error while updating Selected Taxon Lists: [{0}]", ex);
+                    }
+                }
+
             }
-        
 
-            private void copyDBExpressionToTable()
+            private void closeConnections()
             {
+                if (_source != null)
+                {
+                    _source.Close();
+                    _source = null;
+                }
+                if(_destination != null)
+                {
+                    _destination.Close();
+                    _destination = null;
+                }
+                if (_mobile != null)
+                {
+                    _mobile.Close();
+                    _mobile = null;
+                }
+            }
 
+        
+            private void copyTable()
+            {                      
                 dropDestinationTable();
             
                 using (var cmd = _destination.CreateCommand())
                 {
-                    cmd.CommandText = destinationTable;
+                    cmd.CommandText = _destinationTable;
                     cmd.CommandType = CommandType.TableDirect;
 
-                
-                    int rowCount = countRowsToCopy();
-                
+                    _operation.StatusDescription = "Services_Definitions_CreatingDestTable";
+                    _operation.IsProgressIndeterminate = true;               
 
                     IDbCommand readCmd = _source.CreateCommand();
-                    readCmd.CommandText = "SELECT * FROM " + sourceExpression;
+                    readCmd.CommandText = "SELECT * FROM " + _sourceExpression;
+                    DataTable schema = null;
+                    using (var sourceReader = readCmd.ExecuteReader())
+                    {                 
+                        schema = sourceReader.GetSchemaTable();
+                        sourceReader.Close();
+                    }
+                    
+                    createDestinationTable(schema);
+
+                    int rowCount = countRowsToCopy();
+
                     using (var sourceReader = readCmd.ExecuteReader())
                     {
+                        _operation.StatusDescription = "Services_Definitions_LoadingTaxa";
+                        _operation.IsProgressIndeterminate = false;
 
-                        createDestinationTable(sourceReader.GetSchemaTable());
-                       
+                        
+                        var copyOperation = new ProgressInterval(_operation, _progressPerTaxonList, rowCount);
+
                         using (var destinationResultSet = cmd.ExecuteResultSet(ResultSetOptions.Updatable | ResultSetOptions.Scrollable))
                         {
                             while (sourceReader.Read())
@@ -287,8 +301,10 @@ namespace MVVMDiversity.Services
                                 object[] values = new object[sourceReader.FieldCount];
                                 sourceReader.GetValues(values);
                                 record.SetValues(values);
-                                destinationResultSet.Insert(record);                                                                                   
+                                destinationResultSet.Insert(record);
+                                copyOperation.advance();                                                 
                             }
+                            destinationResultSet.Close();
                         }
                         sourceReader.Close();
                     }
@@ -300,8 +316,8 @@ namespace MVVMDiversity.Services
             {
                 using (IDbCommand readCmd = _source.CreateCommand())
                 {
-                    readCmd.CommandText = "SELECT COUNT(*) FROM " + sourceExpression;
-                    return (int)readCmd.ExecuteScalar();
+                    readCmd.CommandText = "SELECT COUNT(*) FROM " + _sourceExpression;
+                    return (int)readCmd.ExecuteScalar();                    
                 }
             }
 
@@ -309,7 +325,7 @@ namespace MVVMDiversity.Services
             {
                 using (var create = _destination.CreateCommand())
                 {
-                    create.CommandText = GetCreateTableStatement(destinationTable, schema);
+                    create.CommandText = GetCreateTableStatement(_destinationTable, schema);
                     create.ExecuteNonQuery();
                 }
             }
@@ -319,20 +335,20 @@ namespace MVVMDiversity.Services
                 bool tableExists = false;
                 using (var existenceCheckCmd = _destination.CreateCommand())
                 {
-                    existenceCheckCmd.CommandText = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '" + destinationTable + "'";
+                    existenceCheckCmd.CommandText = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '" + _destinationTable + "'";
                     tableExists = (Int32)existenceCheckCmd.ExecuteScalar() > 0;                
                 }
                 if (tableExists)
                 {
                     using (var drop = _destination.CreateCommand())
                     {
-                        drop.CommandText = "DROP TABLE " + destinationTable;
+                        drop.CommandText = "DROP TABLE " + _destinationTable;
                         drop.ExecuteNonQuery();           
                     }
                 }
             }
 
-                /// <summary>
+            /// <summary>
             /// Genenerates a SQL CE compatible CREATE TABLE statement based on a schema obtained from
             /// a SqlDataReader or a SqlCeDataReader.
             /// </summary>

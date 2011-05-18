@@ -225,8 +225,7 @@ namespace MVVMDiversity.ViewModel
         protected override void OnNavigateNext()
         {
             if (DefinitionsProvider != null && Selection != null)
-            {
-                IsBusy = true;
+            {                
                 DefinitionsProvider.DefinitionsLoaded += new AsyncOperationFinishedHandler(DefinitionsProvíder_DefinitionsLoaded);
                 CurrentOperation = DefinitionsProvider.loadDefinitions();          
             }           
@@ -246,8 +245,7 @@ namespace MVVMDiversity.ViewModel
             }
             else
             {
-                CurrentOperation = null;
-                IsBusy = false;
+                CurrentOperation = null;                
                 showError(operation);
             }
         }
@@ -257,16 +255,16 @@ namespace MVVMDiversity.ViewModel
             if (ProfileProvider != null)
                 ProfileProvider.ProfileLoaded -= ProfileProvider_ProfileLoaded;
 
-            CurrentOperation = null;
+            CurrentOperation = null;            
+
             if(Selection != null)
                 if (operation.State == OperationState.Succeeded)
                 {
-                    ProfileProvider.ProjectID = Selection.ID;
+                    ProfileProvider.ProjectID = Selection.ID;                    
                     base.OnNavigateNext();
                 }
                 else
-                {
-                    IsBusy = false;
+                {                   
                     showError(operation);
                 }
         }

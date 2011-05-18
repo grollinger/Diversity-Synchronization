@@ -140,7 +140,7 @@ namespace MVVMDiversity.DesignServices
             throw new NotImplementedException();
         }
 
-        AsyncOperation<IList<ISerializableObject>> IFieldDataService.startSearch(SearchSpecification search, int currentProjectID)
+        AsyncOperationInstance<IList<ISerializableObject>> IFieldDataService.startSearch(SearchSpecification search, int currentProjectID)
         {
             throw new NotImplementedException();
         }

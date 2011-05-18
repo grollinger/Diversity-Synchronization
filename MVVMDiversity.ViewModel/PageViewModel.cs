@@ -169,6 +169,9 @@ namespace MVVMDiversity.ViewModel
                     showProgress();
                 else
                     hideProgress();
+
+                RaiseCanNavigateBackChanged();
+                RaiseCanNavigateNextChanged();
             }
         }
         

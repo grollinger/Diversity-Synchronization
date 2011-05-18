@@ -37,13 +37,13 @@ namespace MVVMDiversity.Services
             private ILog _Log = LogManager.GetLogger(typeof(Search));
 
             private FieldDataService _owner;
-            private AsyncOperation<IList<ISerializableObject>> _operation;
+            private AsyncOperationInstance<IList<ISerializableObject>> _operation;
 
             private SearchSpecification _configuredSearch;
             private int _currentProjectID;
             private IList<ISerializableObject> _queryResult; 
 
-            public Search(FieldDataService owner, AsyncOperation<IList<ISerializableObject>> op)
+            public Search(FieldDataService owner, AsyncOperationInstance<IList<ISerializableObject>> op)
             {
                 _owner = owner;
                 _operation = op;
