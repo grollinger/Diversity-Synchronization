@@ -33,29 +33,14 @@ namespace MVVMDiversity.ViewModel
 {
     public class SelectionViewModel : PageViewModel
     {
-        private ILog _Log = LogManager.GetLogger(typeof(SelectionViewModel));
-
-        
-        private IFieldDataService _fdSvc;
+        private ILog _Log = LogManager.GetLogger(typeof(SelectionViewModel));      
 
         [Dependency]
-	    public IFieldDataService FDSvc
-	    {
-		    get { return _fdSvc;}
-		    set 
-            {
-                if (FDSvc != value)
-                {
-                    if (_fdSvc != null)
-                        detachFDSvcHandlers();
-                    _fdSvc = value;
-                    if (_fdSvc != null)
-                        attachFDSvcHandlers();                    
-                }
-
-                
-            }
-	    }
+        public IFieldDataService FDSvc
+        {
+            get;
+            set;
+        }
 
         private void attachFDSvcHandlers()
         {
@@ -122,43 +107,40 @@ namespace MVVMDiversity.ViewModel
             });
         }
         
-        protected override bool OnNavigateNext()
+        protected override void OnNavigateNext()
         {
-            if (!IsBusy)
+            if (FDSvc != null)
             {
-                if (FDSvc != null)
-                {
-                    if (SelectionTree != null)
-                    {
-                        if (!IsBusy)
-                        {
-                            IsBusy = true;
-                            var progress = FDSvc.downloadData(_completeSelection);
-
-                            MessengerInstance.Send<ShowProgress>(progress);
-
-                            //Cancel Navigation
-                            return true;
-                        }
-                        else
-                        {
-                            IsBusy = false;
-                            return base.OnNavigateNext();
-                        }
-                    }
+                if (SelectionTree != null)
+                {                    
+                    IsBusy = true;
+                    FDSvc.DownloadFinished += new AsyncOperationFinishedHandler(FDSvc_DownloadFinished);
+                    CurrentOperation = FDSvc.downloadData(_completeSelection);                   
                 }
-                else
-                    _Log.Error("FieldDataService N/A");
-
-
             }
             else
-            {
-                //Resume Navigation
-                IsBusy = false;
-            }
+                _Log.Error("FieldDataService N/A");
 
-            return base.OnNavigateNext();
+
+            
+            
+        }
+
+        void FDSvc_DownloadFinished(AsyncOperationInstance operation)
+        {
+            if (FDSvc != null)
+                FDSvc.DownloadFinished -= FDSvc_DownloadFinished;
+
+            CurrentOperation = null;
+
+            if (operation.State == OperationState.Succeeded)
+            {
+                MessengerInstance.Send<SyncStepFinished>(SyncState.FieldDataDownloaded);
+            }
+            else
+                showError(operation);
+
+            base.OnNavigateNext();
         }        
 
         /// <summary>

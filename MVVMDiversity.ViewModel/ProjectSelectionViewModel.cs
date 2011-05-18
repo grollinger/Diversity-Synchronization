@@ -77,68 +77,21 @@ namespace MVVMDiversity.ViewModel
                     fillProjects();
                 }
             }
-        }
-
-        private IUserProfileService _profileSvc;
+        }      
 
         [Dependency]
-        public IUserProfileService ProfileProvider 
+        public IUserProfileService ProfileProvider
         {
-            get
-            {
-                return _profileSvc;
-            }
-            set
-            {
-                if (_profileSvc != value)
-                {
-                    if (_profileSvc != null)
-                        detachProfileSvc();
-                    _profileSvc = value;
-                    if (_profileSvc != null)
-                        attachProileSvc();
-                }
-            }
-        }
-
-        private void attachProileSvc()
-        {
-            ProfileProvider.ProfileLoaded += new AsyncOperationFinishedHandler(ProfileProvider_ProfileLoaded);
-        }        
-
-        private void detachProfileSvc()
-        {
-            ProfileProvider.ProfileLoaded -= ProfileProvider_ProfileLoaded;
-        }
-
-        private IDefinitionsService _DefSvc;
+            get;
+            set;
+        }      
 
         [Dependency]
         public IDefinitionsService DefinitionsProvider
         {
-            get { return _DefSvc; }
-            set 
-            { 
-                if(_DefSvc != value)
-                {
-                    if(_DefSvc != null)
-                        detachDefSvc();
-                    _DefSvc = value; 
-                    if(_DefSvc != null)
-                        attachDefSvc();
-                }
-            }
-        }
-
-        private void attachDefSvc()
-        {
-            DefinitionsProvider.DefinitionsLoaded += new AsyncOperationFinishedHandler(DefinitionsProvíder_DefinitionsLoaded);
-        }        
-
-        private void detachDefSvc()
-        {
-            DefinitionsProvider.DefinitionsLoaded -= DefinitionsProvíder_DefinitionsLoaded;
-        } 
+            get;
+            set;
+        }  
  
 
         /// <summary>
@@ -269,36 +222,31 @@ namespace MVVMDiversity.ViewModel
             }
         }
 
-        protected override bool OnNavigateNext()
+        protected override void OnNavigateNext()
         {
             if (DefinitionsProvider != null && Selection != null)
             {
-                if (!IsBusy)
-                {
-                    IsBusy = true;
-                    CurrentOperation = DefinitionsProvider.loadDefinitions();                                 
-                }
-                else
-                {                    
-                    IsBusy = false;
-                    return true;
-                }
-            }
-
-
-            return false;
+                IsBusy = true;
+                DefinitionsProvider.DefinitionsLoaded += new AsyncOperationFinishedHandler(DefinitionsProvíder_DefinitionsLoaded);
+                CurrentOperation = DefinitionsProvider.loadDefinitions();          
+            }           
         }
-
+             
         void DefinitionsProvíder_DefinitionsLoaded(AsyncOperationInstance operation)
         {
-            CurrentOperation = null;
-
             if (operation.State == OperationState.Succeeded)
             {
-                ProfileProvider.tryLoadProfile();
+                if (DefinitionsProvider != null)
+                    DefinitionsProvider.DefinitionsLoaded -= DefinitionsProvíder_DefinitionsLoaded;
+                if (ProfileProvider != null)
+                {
+                    ProfileProvider.ProfileLoaded += new AsyncOperationFinishedHandler(ProfileProvider_ProfileLoaded);
+                    ProfileProvider.tryLoadProfile();
+                }
             }
             else
             {
+                CurrentOperation = null;
                 IsBusy = false;
                 showError(operation);
             }
@@ -306,12 +254,15 @@ namespace MVVMDiversity.ViewModel
 
         void ProfileProvider_ProfileLoaded(AsyncOperationInstance operation)
         {
+            if (ProfileProvider != null)
+                ProfileProvider.ProfileLoaded -= ProfileProvider_ProfileLoaded;
+
+            CurrentOperation = null;
             if(Selection != null)
                 if (operation.State == OperationState.Succeeded)
                 {
                     ProfileProvider.ProjectID = Selection.ID;
-                    if (NavigateNext != null)
-                        NavigateNext.Execute(null);
+                    base.OnNavigateNext();
                 }
                 else
                 {

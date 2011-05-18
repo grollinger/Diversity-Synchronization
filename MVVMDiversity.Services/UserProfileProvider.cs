@@ -199,7 +199,7 @@ namespace MVVMDiversity.Services
                         newProfile = null;
                         //TODO
 
-                        _operation.failure("",);
+                        _operation.failure("","");
 
                         _Log.ErrorFormat("Error Creating Profile: {0}", ex);
                     }

@@ -198,13 +198,13 @@ namespace MVVMDiversity.ViewModel
         /// Is called before Navigating forward.
         /// </summary>
         /// <returns>Wether to continue the Navigation</returns>
-        protected virtual bool OnNavigateNext() { return true; }
+        protected virtual void OnNavigateNext() { navigateNext(); }
 
         /// <summary>
         /// Is called before Navigating back.
         /// </summary>
         /// <returns>Wether to continue the Navigation</returns>
-        protected virtual bool OnNavigateBack() { return true; }
+        protected virtual void OnNavigateBack() { navigateBack(); }
 
         private void RaiseCanNavigateNextChanged()
         {
@@ -218,9 +218,7 @@ namespace MVVMDiversity.ViewModel
                 _navigateBack.RaiseCanExecuteChanged();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        
         /// <param name="nextTextID">Key of the String displayed on the forward Button</param>
         /// <param name="prevTextID">Key of the String displayed on the back Button</param>
         /// <param name="titleID">Key of the String displayed as the Page Title</param>
@@ -235,20 +233,18 @@ namespace MVVMDiversity.ViewModel
             
             _navigateNext = new DelegateCommand(() => 
             {
-                if(OnNavigateNext())
-                    MessengerInstance.Send<NavigateToPage>(new NavigateToPage(NextPage));
+                OnNavigateNext();                   
             }, 
             () => 
             { 
-                return !IsBusy && this.CanNavigateNext; 
+                return !IsBusy && CurrentOperation == null && this.CanNavigateNext; 
             });
             _navigateBack = new DelegateCommand(() =>
             {
-                if(OnNavigateBack())
-                    MessengerInstance.Send<NavigateToPage>(new NavigateToPage(PreviousPage)); 
+                OnNavigateBack();
             }, () => 
-            { 
-                return !IsBusy && this.CanNavigateBack; 
+            {
+                return !IsBusy && CurrentOperation == null && this.CanNavigateBack; 
             });
         }
 
@@ -308,6 +304,15 @@ namespace MVVMDiversity.ViewModel
         {
             showMessageBox("MessageBox_Error_Title", op.StatusDescription, null);
         }
-        
+
+        protected void navigateNext()
+        {
+            MessengerInstance.Send<NavigateToPage>(new NavigateToPage(NextPage));
+        }
+
+        protected void navigateBack()
+        {
+            MessengerInstance.Send<NavigateToPage>(new NavigateToPage(PreviousPage));
+        }
     }
 }

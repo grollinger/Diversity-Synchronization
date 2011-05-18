@@ -512,11 +512,9 @@ namespace MVVMDiversity.ViewModel
                 );
         }
 
-        protected override bool OnNavigateNext()
+        protected override void OnNavigateNext()
         {
-            
-
-            return base.OnNavigateNext();
+            saveAndClose();            
         }
 
         private void executeCleanDB()

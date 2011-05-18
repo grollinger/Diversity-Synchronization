@@ -388,14 +388,12 @@ namespace MVVMDiversity.ViewModel
             DeviceWidth = options.ScreenWidth;
         }
 
-        protected override bool OnNavigateNext()
+        protected override void OnNavigateNext()
         {
             saveMap();
 
             MapDescription = "";
-            MapName = "";
-
-            return false;
+            MapName = "";            
         }
 
         private void saveMap()

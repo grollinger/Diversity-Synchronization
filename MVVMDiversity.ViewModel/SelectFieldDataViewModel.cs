@@ -498,11 +498,11 @@ namespace MVVMDiversity.ViewModel
                 SelectionTree.removeGenerator(i);
         }
 
-        protected override bool OnNavigateNext()
+        protected override void OnNavigateNext()
         {
             MessengerInstance.Send<Messages.Selection>(_selection);
 
-            return base.OnNavigateNext();
+            base.OnNavigateNext();
         }
         
 

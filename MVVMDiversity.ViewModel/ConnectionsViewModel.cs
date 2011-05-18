@@ -770,30 +770,47 @@ namespace MVVMDiversity.ViewModel
 
        
 
-        protected override bool OnNavigateNext()
+        protected override void OnNavigateNext()
         {
-            string currentDB = null;
-            string homeDB = null;
             if (UserProfile != null)
             {
-                homeDB = UserProfile.HomeDB;
+                UserProfile.ProfileLoaded += new AsyncOperationFinishedHandler(UserProfile_ProfileLoaded);
+                UserProfile.tryLoadProfile();
             }
-            if (UserOptions != null)
-            {
-                var options = UserOptions.getOptions();
-                if (options != null && options.CurrentConnection != null)
-                {
-                    currentDB = options.CurrentConnection.InitialCatalog; 
-                }
-            }
-            if (currentDB != homeDB)
-            {
-                nonHomeDBConnected(); 
-                return false;
-            }
+        }
 
-                
-            return base.OnNavigateNext();
+        void UserProfile_ProfileLoaded(AsyncOperationInstance operation)
+        {
+            if (UserProfile != null)
+                UserProfile.ProfileLoaded -= UserProfile_ProfileLoaded;
+
+            if (operation.State == OperationState.Succeeded)
+            {
+                string currentDB = null;
+                string homeDB = null;
+                if (UserProfile != null)
+                {
+                    homeDB = UserProfile.HomeDB;
+                }
+                if (UserOptions != null)
+                {
+                    var options = UserOptions.getOptions();
+                    if (options != null && options.CurrentConnection != null)
+                    {
+                        currentDB = options.CurrentConnection.InitialCatalog;
+                    }
+                }
+                if (currentDB != homeDB)
+                {
+                    nonHomeDBConnected();                    
+                }
+                else
+                    base.OnNavigateNext();
+
+               
+            }
+            else
+                showError(operation);
         }
 
         private void nonHomeDBConnected()

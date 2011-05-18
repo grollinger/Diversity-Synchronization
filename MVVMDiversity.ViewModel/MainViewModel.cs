@@ -248,8 +248,7 @@ namespace MVVMDiversity.ViewModel
             _notificationsQueue = new AsyncQueueWorker<string>((msg) =>
                 {
                     setStatus(msg);
-                    Thread.Sleep(3000); //Delay next Notification
-                    setStatus("");
+                    Thread.Sleep(500); //Delay next Notification                   
                 });
 
             CancelOperation = new RelayCommand(
