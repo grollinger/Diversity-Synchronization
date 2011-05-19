@@ -67,9 +67,6 @@
     <Reference Include="DivMobi Collection Data Layer">
       <HintPath>..\Lib\DivMobi Collection Data Layer.dll</HintPath>
     </Reference>
-    <Reference Include="DivMobi DatabaseConnector">
-      <HintPath>..\Lib\DivMobi DatabaseConnector.dll</HintPath>
-    </Reference>
     <Reference Include="GalaSoft.MvvmLight">
       <HintPath>..\Lib\MVVMLight\Binaries\WPF35SP1\GalaSoft.MvvmLight.dll</HintPath>
     </Reference>
@@ -97,6 +94,10 @@
     <Compile Include="UserOptions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DatabaseConnector\DatabaseConnector.csproj">
+      <Project>{8759A501-27DE-4449-8753-77D115DD72A8}</Project>
+      <Name>DatabaseConnector</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MVVMDiversity.Interface\MVVMDiversity.Common.csproj">
       <Project>{0C7DA1CC-6977-45AC-8595-F538E41EE8B1}</Project>
       <Name>MVVMDiversity.Common</Name>

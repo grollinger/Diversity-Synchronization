@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8759A501-27DE-4449-8753-77D115DD72A8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UBT.AI4.Bio.DivMobi.DatabaseConnector</RootNamespace>
+    <AssemblyName>DatabaseConnector</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>.\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft SQL Server Compact Edition\v3.5\Devices\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\AttributeConstants.cs" />
+    <Compile Include="Attributes\AttributeWorker.cs" />
+    <Compile Include="Attributes\ColumnAttribute.cs" />
+    <Compile Include="Attributes\IDAttribute.cs" />
+    <Compile Include="Attributes\ITarget.cs" />
+    <Compile Include="Attributes\ManyToOneAttribute.cs" />
+    <Compile Include="Attributes\MappingDictionary.cs" />
+    <Compile Include="Attributes\OneToManyAttribute.cs" />
+    <Compile Include="Attributes\OneToOneDefAttribute.cs" />
+    <Compile Include="Attributes\RelationalAttribute.cs" />
+    <Compile Include="Attributes\ResolveAttribute.cs" />
+    <Compile Include="Attributes\RowGuidAttribute.cs" />
+    <Compile Include="Attributes\TableAttribute.cs" />
+    <Compile Include="Attributes\TransparentAttribute.cs" />
+    <Compile Include="Attributes\VirtualKey.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Restrictions\QueryGenerator.cs" />
+    <Compile Include="Restrictions\Restriction.cs" />
+    <Compile Include="Serializable\ISerializableObject.cs" />
+    <Compile Include="Serializer\Cleaner.cs" />
+    <Compile Include="Serializer\Collections\DirectAccessIteratorStrategy.cs" />
+    <Compile Include="Serializer\Collections\IDirectAccessIterator.cs" />
+    <Compile Include="Serializer\Collections\OneToManyStrategy.cs" />
+    <Compile Include="Serializer\Connector.cs" />
+    <Compile Include="Serializer\FieldMapping.cs" />
+    <Compile Include="Serializer\ICleanable.cs" />
+    <Compile Include="Serializer\ISerializableObjectPool.cs" />
+    <Compile Include="Serializer\MS_SqlCeSerializer.cs" />
+    <Compile Include="Serializer\MS_SqlServerIPSerializer.cs" />
+    <Compile Include="Serializer\MS_SqlServerLocalSerializer.cs" />
+    <Compile Include="Serializer\MS_SqlServerWASerializier.cs" />
+    <Compile Include="Serializer\MultipleResultException.cs" />
+    <Compile Include="Serializer\ReaderPositionException.cs" />
+    <Compile Include="Serializer\Relations\RelationResolver.cs" />
+    <Compile Include="Serializer\SerializationMetaData.cs" />
+    <Compile Include="Serializer\SerializationMetaDataManager.cs" />
+    <Compile Include="Serializer\Serializer.cs" />
+    <Compile Include="Serializer\SerializerException.cs" />
+    <Compile Include="Serializer\SerializerTransaction.cs" />
+    <Compile Include="Serializer\SortedSerializableObjectPool.cs" />
+    <Compile Include="Serializer\SQLiteSerializer.cs" />
+    <Compile Include="Serializer\TypeDefException.cs" />
+    <Compile Include="Serializer\UpdateException.cs" />
+    <Compile Include="Serializer\Util\CsvPimaryKey.cs" />
+    <Compile Include="Serializer\Util\CsvPKey.cs" />
+    <Compile Include="Serializer\Util\FastSearchDictionary.cs" />
+    <Compile Include="Serializer\Util\GenericWeakReference.cs" />
+    <Compile Include="Serializer\Util\GenericWeakReferenceSet.cs" />
+    <Compile Include="Serializer\Util\IAdvanceProgress.cs" />
+    <Compile Include="Serializer\Util\IObeservable.cs" />
+    <Compile Include="Serializer\Util\IObeserver.cs" />
+    <Compile Include="Serializer\Util\SqlUtil.cs" />
+    <Compile Include="SyncAttributes\CheckForeingKeyConstraintAttribute.cs" />
+    <Compile Include="SyncAttributes\DirectSyncAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

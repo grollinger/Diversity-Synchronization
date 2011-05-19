@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7F441BB3-A795-45E2-B47D-37222A9B09D1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UBT.AI4.Bio.DivMobi.DataLayer</RootNamespace>
+    <AssemblyName>DataLayer</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataItems\Analysis.cs" />
+    <Compile Include="DataItems\AnalysisResult.cs" />
+    <Compile Include="DataItems\AnalysisTaxonomicGroup.cs" />
+    <Compile Include="DataItems\CollCircumstances_Enum.cs" />
+    <Compile Include="DataItems\Collection.cs" />
+    <Compile Include="DataItems\CollectionAgent.cs" />
+    <Compile Include="DataItems\CollectionEvent.cs" />
+    <Compile Include="DataItems\CollectionEventImage.cs" />
+    <Compile Include="DataItems\CollectionEventLocalisation.cs" />
+    <Compile Include="DataItems\CollectionEventProperty.cs" />
+    <Compile Include="DataItems\CollectionEventSeries.cs" />
+    <Compile Include="DataItems\CollectionEventSeriesImage.cs" />
+    <Compile Include="DataItems\CollectionProject.cs" />
+    <Compile Include="DataItems\CollectionSpecimen.cs" />
+    <Compile Include="DataItems\CollectionSpecimenImage.cs" />
+    <Compile Include="DataItems\CollectionSpecimenPart.cs" />
+    <Compile Include="DataItems\CollEventImageType_Enum.cs" />
+    <Compile Include="DataItems\CollEventSeriesImageType_Enum.cs" />
+    <Compile Include="DataItems\CollIdentificationCategory_Enum.cs" />
+    <Compile Include="DataItems\CollIdentificationQualifier_Enum.cs" />
+    <Compile Include="DataItems\CollLabelTranscriptionState_Enum.cs" />
+    <Compile Include="DataItems\CollLabelType_Enum.cs" />
+    <Compile Include="DataItems\CollMaterialCategory_Enum.cs" />
+    <Compile Include="DataItems\CollSpecimenImageType_Enum.cs" />
+    <Compile Include="DataItems\CollTaxonomicGroup_Enum.cs" />
+    <Compile Include="DataItems\CollTypeStatus_Enum.cs" />
+    <Compile Include="DataItems\CollUnitRelationType_Enum.cs" />
+    <Compile Include="DataItems\ExpandLevel.cs" />
+    <Compile Include="DataItems\Identification.cs" />
+    <Compile Include="DataItems\IdentificationUnit.cs" />
+    <Compile Include="DataItems\IdentificationUnitAnalysis.cs" />
+    <Compile Include="DataItems\IdentificationUnitGeoAnalysis.cs" />
+    <Compile Include="DataItems\IdentSave.cs" />
+    <Compile Include="DataItems\LocalisationSystem.cs" />
+    <Compile Include="DataItems\Property.cs" />
+    <Compile Include="DataItems\PropertyNames.cs" />
+    <Compile Include="DataItems\SamplingPlots.cs" />
+    <Compile Include="DataItems\TaxonListsForUser.cs" />
+    <Compile Include="DataItems\TaxonNames.cs" />
+    <Compile Include="DataItems\UserProfile.cs" />
+    <Compile Include="DataItems\UserProxy.cs" />
+    <Compile Include="DataItems\UserTaxonomicGroupTable.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DatabaseConnector\DatabaseConnector.csproj">
+      <Project>{8759A501-27DE-4449-8753-77D115DD72A8}</Project>
+      <Name>DatabaseConnector</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

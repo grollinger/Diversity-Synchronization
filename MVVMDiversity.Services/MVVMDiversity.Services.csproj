@@ -64,12 +64,6 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DivMobi Collection Data Layer">
-      <HintPath>..\Lib\DivMobi Collection Data Layer.dll</HintPath>
-    </Reference>
-    <Reference Include="DivMobi DatabaseConnector">
-      <HintPath>..\Lib\DivMobi DatabaseConnector.dll</HintPath>
-    </Reference>
     <Reference Include="GalaSoft.MvvmLight">
       <HintPath>..\Lib\MVVMLight\Binaries\WPF35SP1\GalaSoft.MvvmLight.dll</HintPath>
     </Reference>
@@ -78,9 +72,6 @@
     </Reference>
     <Reference Include="Microsoft.Practices.Unity">
       <HintPath>..\Lib\Unity\Microsoft.Practices.Unity.dll</HintPath>
-    </Reference>
-    <Reference Include="SyncBase">
-      <HintPath>..\Lib\SyncBase.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -113,6 +104,14 @@
     <Compile Include="XMLObjectStore.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DatabaseConnector\DatabaseConnector.csproj">
+      <Project>{8759A501-27DE-4449-8753-77D115DD72A8}</Project>
+      <Name>DatabaseConnector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataLayer\DataLayer.csproj">
+      <Project>{7F441BB3-A795-45E2-B47D-37222A9B09D1}</Project>
+      <Name>DataLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ListSynchronizsation\ListSynchronization.csproj">
       <Project>{16E4FAD9-A68C-4C10-BA60-CCE0AABD9A46}</Project>
       <Name>ListSynchronization</Name>
@@ -124,6 +123,10 @@
     <ProjectReference Include="..\MVVMDiversity.Model\MVVMDiversity.Model.csproj">
       <Project>{CB102033-AC1A-44CD-AEBB-DB207CB18713}</Project>
       <Name>MVVMDiversity.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SyncBase\SyncBase.csproj">
+      <Project>{473DA632-40F7-48B4-A947-E8345BC08C7D}</Project>
+      <Name>SyncBase</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

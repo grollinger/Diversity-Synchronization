@@ -1,0 +1,141 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{75FDDB0D-66F7-4023-8475-5FCDFF61DBB3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UBT.AI4.Bio.DivMobi.DatabaseConnector</RootNamespace>
+    <AssemblyName>DivMobi DatabaseConnector</AssemblyName>
+    <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PlatformFamilyName>PocketPC</PlatformFamilyName>
+    <PlatformID>b2c48bd2-963d-4549-9169-1fa021dce484</PlatformID>
+    <OSVersion>5.02</OSVersion>
+    <DeployDirSuffix>DivMobi_DatabaseConnector</DeployDirSuffix>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <NativePlatformName>Windows Mobile 6 Professional SDK</NativePlatformName>
+    <FormFactorID>
+    </FormFactorID>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;PocketPC</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;$(PlatformFamilyName)</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugGui|AnyCPU' ">
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugGui\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;PocketPC</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlClient, Version=3.0.3600.0, Culture=neutral, PublicKeyToken=3be235df1c8d2ad3, processorArchitecture=MSIL" />
+    <Reference Include="System.Data.SQLite, Version=1.0.65.0, Culture=neutral, PublicKeyToken=1fdb50b1b62b4c84, processorArchitecture=MSIL" />
+    <Reference Include="System.Data.SqlServerCe, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3be235df1c8d2ad3, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\AttributeConstants.cs" />
+    <Compile Include="Attributes\AttributeWorker.cs" />
+    <Compile Include="Attributes\ColumnAttribute.cs" />
+    <Compile Include="Attributes\IDAttribute.cs" />
+    <Compile Include="Attributes\ITarget.cs" />
+    <Compile Include="Attributes\ManyToOneAttribute.cs" />
+    <Compile Include="Attributes\MappingDictionary.cs" />
+    <Compile Include="Attributes\OneToManyAttribute.cs" />
+    <Compile Include="Attributes\OneToOneDefAttribute.cs" />
+    <Compile Include="Attributes\RelationalAttribute.cs" />
+    <Compile Include="Attributes\ResolveAttribute.cs" />
+    <Compile Include="Attributes\RowGuidAttribute.cs" />
+    <Compile Include="Attributes\TransparentAttribute.cs" />
+    <Compile Include="Attributes\VirtualKey.cs" />
+    <Compile Include="Restrictions\QueryGenerator.cs" />
+    <Compile Include="Serializer\Collections\DirectAccessIteratorStrategy.cs" />
+    <Compile Include="Serializer\Collections\IDirectAccessIterator.cs" />
+    <Compile Include="Serializer\Collections\OneToManyStrategy.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Attributes\TableAttribute.cs" />
+    <Compile Include="Serializer\Connector.cs" />
+    <Compile Include="Serializer\FieldMapping.cs" />
+    <Compile Include="Serializer\MS_SqlServerIPSerializer.cs" />
+    <Compile Include="Serializer\MS_SqlServerLocalSerializer.cs" />
+    <Compile Include="Serializer\MS_SqlServerWASerializier.cs" />
+    <Compile Include="Serializer\TypeDefException.cs" />
+    <Compile Include="Serializer\UpdateException.cs" />
+    <Compile Include="Serializer\Relations\RelationResolver.cs" />
+    <Compile Include="Serializer\Util\CsvPimaryKey.cs" />
+    <Compile Include="Serializer\Util\IObeservable.cs" />
+    <Compile Include="Serializer\Util\IObeserver.cs" />
+    <Compile Include="Serializer\Cleaner.cs" />
+    <Compile Include="Serializer\Util\FastSearchDictionary.cs" />
+    <Compile Include="Serializer\ICleanable.cs" />
+    <Compile Include="Serializer\Util\GenericWeakReference.cs" />
+    <Compile Include="Restrictions\Restriction.cs" />
+    <Compile Include="Serializer\SortedSerializableObjectPool.cs" />
+    <Compile Include="Serializer\SerializerTransaction.cs" />
+    <Compile Include="Serializer\ISerializableObjectPool.cs" />
+    <Compile Include="Serializer\MultipleResultException.cs" />
+    <Compile Include="Serializer\SerializerException.cs" />
+    <Compile Include="Serializable\ISerializableObject.cs" />
+    <Compile Include="Serializer\Serializer.cs" />
+    <Compile Include="Serializer\MS_SqlCeSerializer.cs" />
+    <Compile Include="Serializer\Util\IAdvanceProgress.cs" />
+    <Compile Include="Serializer\Util\SqlUtil.cs" />
+    <Compile Include="Serializer\Util\GenericWeakReferenceSet.cs" />
+    <Compile Include="SyncAttributes\CheckForeingKeyConstraintAttribute.cs" />
+    <Compile Include="SyncAttributes\DirectSyncAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Serializer\App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}">
+        <HostingProcess disable="1" />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
