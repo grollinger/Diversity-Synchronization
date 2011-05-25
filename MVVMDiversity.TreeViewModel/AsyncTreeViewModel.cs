@@ -63,7 +63,7 @@ namespace MVVMDiversity.ViewModel
         
         private bool _sealed;
 
-        
+        public event Action<int, int> AddRemoveQueueSizeChanged;
         
 
         public AsyncTreeViewModel(IISOViewModelStore store )
@@ -83,7 +83,7 @@ namespace MVVMDiversity.ViewModel
             {
                 if (queue.Count > 0)
                     return queue.Dequeue();
-            }
+            }            
             return null;
         }
 
@@ -99,6 +99,8 @@ namespace MVVMDiversity.ViewModel
                     base.addGenerator(add);
                 if (remove != null)
                     base.removeGenerator(remove);
+
+                notifyQueueSizeCHanged();
             }
             _queuesEmpty.Set();
         }
@@ -112,8 +114,9 @@ namespace MVVMDiversity.ViewModel
                 {
                     
                     _addQueue.Enqueue(vm);
-                    queueForWork(this);
+                    queueForWork(this);                    
                 }
+                notifyQueueSizeCHanged();
             }
 #if DEBUG
             else
@@ -130,6 +133,7 @@ namespace MVVMDiversity.ViewModel
                     _removeQueue.Enqueue(vm);
                     queueForWork(this);
                 }
+                notifyQueueSizeCHanged();
             }
 #if DEBUG
             else
@@ -159,6 +163,10 @@ namespace MVVMDiversity.ViewModel
             return selection;
         }
 
-            
+        private void notifyQueueSizeCHanged()
+        {
+            if (AddRemoveQueueSizeChanged != null)
+                AddRemoveQueueSizeChanged(_addQueue.Count, _removeQueue.Count);
+        }
     }
 }

@@ -110,7 +110,7 @@ namespace MVVMDiversity.ViewModel
             CanNavigateBack = true;
             CanNavigateNext = true;
 
-            QueryDatabase = new RelayCommand(exscuteSearch,
+            QueryDatabase = new RelayCommand(executeSearch,
                 () => ConfiguredSearch != null);
 
             AddToSelection = new RelayCommand<IList>((selection) =>
@@ -153,13 +153,29 @@ namespace MVVMDiversity.ViewModel
                 });
             MessengerInstance.Register<ConnectionStateChanged>(this, (msg) =>
                 {
+                    //Repository Disconnected
+                    if ((msg.Content & ConnectionState.ConnectedToRepository) != ConnectionState.ConnectedToRepository)
+                        clearSelection();
                 });
 
             MessengerInstance.Register<Settings>(this, (msg) => updateFromSettings(msg.Content));
             MessengerInstance.Send<SettingsRequest>(new SettingsRequest());
         }
 
-        void exscuteSearch()
+        private void clearSelection()
+        {
+            ISOStore.Clear();
+
+            _queryResult = null;
+            RaiseQueryResultChanged();
+            QueryResultTree = null;
+
+            _selection = null;
+            RaiseSelectionChanged();
+            SelectionTree = null;
+        }
+
+        void executeSearch()
         {
             if (FieldData != null)
             {
@@ -184,7 +200,7 @@ namespace MVVMDiversity.ViewModel
 
                     QueryResultTree = new AsyncTreeViewModel(ISOStore);
 
-                    queryResultChanged();
+                    RaiseQueryResultChanged();
 
                     CurrentOperation = null;                    
                 });
@@ -230,7 +246,7 @@ namespace MVVMDiversity.ViewModel
             return list;
         }
 
-        private void queryResultChanged()
+        private void RaiseQueryResultChanged()
         {
             // Verify Property Exists
             VerifyPropertyName(QueryResultPropertyName);

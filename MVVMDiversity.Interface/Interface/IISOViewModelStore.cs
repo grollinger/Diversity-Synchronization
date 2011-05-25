@@ -11,5 +11,6 @@ namespace MVVMDiversity.Interface
         bool ContainsKey(Guid key);
         IISOViewModel retrieveVM(Guid key);
         IISOViewModel addOrRetrieveVMForISO(ISerializableObject iso);
+        void Clear();
     }
 }
