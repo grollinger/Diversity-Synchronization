@@ -697,6 +697,7 @@ namespace MVVMDiversity.ViewModel
                 {
                     new Action(() =>
                     {
+                        SessionMgr.endSession();
                         ConnectionManager.disconnectFromRepository();
                     }).BeginInvoke(null,null);
                 });

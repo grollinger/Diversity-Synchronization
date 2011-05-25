@@ -151,6 +151,9 @@ namespace MVVMDiversity.ViewModel
                         }
                     }
                 });
+            MessengerInstance.Register<ConnectionStateChanged>(this, (msg) =>
+                {
+                });
 
             MessengerInstance.Register<Settings>(this, (msg) => updateFromSettings(msg.Content));
             MessengerInstance.Send<SettingsRequest>(new SettingsRequest());
