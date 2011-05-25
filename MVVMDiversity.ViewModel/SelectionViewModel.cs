@@ -61,22 +61,44 @@ namespace MVVMDiversity.ViewModel
             {
                 CanNavigateNext = false;
                 CanNavigateBack = false;
+                BuildingSelection = false;
+                BuildStatus = "Selection_WaitingForTree";
                 SelectionTree = new AsyncTreeViewModel(ISOStore);
+                SelectionTree.TruncateDataItems = msg.TruncateDataItems;
                 foreach (var vm in msg.Content)
                 {
                     SelectionTree.addGenerator(vm);
                 }
+
+
+
+                SelectionTree.SelectionBuildProgressChanged += new SelectionBuildProgressChangedHandler(SelectionTree_SelectionBuildProgressChanged);     
 
                 new Action(() =>
                     {
                         _completeSelection = SelectionTree.buildSelection();
                         DispatcherHelper.CheckBeginInvokeOnUI(()=>
                             {
+                                SelectionTree.SelectionBuildProgressChanged -= SelectionTree_SelectionBuildProgressChanged;
                                 CanNavigateBack = true;
                                 CanNavigateNext = true;
+                                BuildingSelection = false;
+                                BuildStatus = "Selection_Done";
                             });
                     }).BeginInvoke(null, null);
             });
+        }
+
+        void SelectionTree_SelectionBuildProgressChanged(int rootCount, int rootsDone, IISOViewModel currentVM)
+        {
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                {                    
+                    RootCount = rootCount;
+                    CurrentRootNo = rootsDone;
+                    BuildProgress = (rootCount > 0) ? 100*rootsDone / RootCount : 100;
+                    BuildingSelection = true;
+                });
+
         }        
         
         protected override void OnNavigateNext()
@@ -147,6 +169,197 @@ namespace MVVMDiversity.ViewModel
                 // Update bindings, no broadcast
                 RaisePropertyChanged(SelectionTreePropertyName);                            
             }
-        }        
+        }
+
+        /// <summary>
+        /// The <see cref="BuildProgress" /> property's name.
+        /// </summary>
+        public const string BuildProgressPropertyName = "BuildProgress";
+
+        private int _buildProgress = 0;
+
+        /// <summary>
+        /// Gets the BuildProgress property.
+        /// TODO Update documentation:
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// </summary>
+        public int BuildProgress
+        {
+            get
+            {
+                return _buildProgress;
+            }
+
+            set
+            {
+                if (_buildProgress == value)
+                {
+                    return;
+                }
+
+                var oldValue = _buildProgress;
+                _buildProgress = value;                
+
+                // Verify Property Exists
+                VerifyPropertyName(BuildProgressPropertyName);
+
+                // Update bindings, no broadcast
+                RaisePropertyChanged(BuildProgressPropertyName);                
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="RootCount" /> property's name.
+        /// </summary>
+        public const string RootCountPropertyName = "RootCount";
+
+        private int _rootCount = 0;
+
+        /// <summary>
+        /// Gets the RootCount property.
+        /// TODO Update documentation:
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// </summary>
+        public int RootCount
+        {
+            get
+            {
+                return _rootCount;
+            }
+
+            set
+            {
+                if (_rootCount == value)
+                {
+                    return;
+                }
+
+                var oldValue = _rootCount;
+                _rootCount = value;
+
+                // Verify Property Exists
+                VerifyPropertyName(RootCountPropertyName);
+
+                // Update bindings, no broadcast
+                RaisePropertyChanged(RootCountPropertyName);
+
+            }
+        }
+        /// <summary>
+        /// The <see cref="CurrentRootNo" /> property's name.
+        /// </summary>
+        public const string CurrentRootNoPropertyName = "CurrentRootNo";
+
+        private int _currRootNo = 0;
+
+        /// <summary>
+        /// Gets the CurrentRootNo property.
+        /// TODO Update documentation:
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// </summary>
+        public int CurrentRootNo
+        {
+            get
+            {
+                return _currRootNo;
+            }
+
+            set
+            {
+                if (_currRootNo == value)
+                {
+                    return;
+                }
+
+                var oldValue = _currRootNo;
+                _currRootNo = value;               
+
+                // Verify Property Exists
+                VerifyPropertyName(CurrentRootNoPropertyName);
+
+                // Update bindings, no broadcast
+                RaisePropertyChanged(CurrentRootNoPropertyName);
+
+            }
+        }       
+
+        /// <summary>
+        /// The <see cref="SelectionBuilt" /> property's name.
+        /// </summary>
+        public const string BuildingSelectionPropertyName = "BuildingSelection";
+
+        private bool _buildingSelection = false;
+
+        /// <summary>
+        /// Gets the SelectionBuilt property.
+        /// TODO Update documentation:
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// </summary>
+        public bool BuildingSelection
+        {
+            get
+            {
+                return _buildingSelection;
+            }
+
+            set
+            {
+                if (_buildingSelection == value)
+                {
+                    return;
+                }
+
+                var oldValue = _buildingSelection;
+                _buildingSelection = value;                
+
+                // Verify Property Exists
+                VerifyPropertyName(BuildingSelectionPropertyName);
+
+                // Update bindings, no broadcast
+                RaisePropertyChanged(BuildingSelectionPropertyName);             
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="BuildStatus" /> property's name.
+        /// </summary>
+        public const string BuildStatusPropertyName = "BuildStatus";
+
+        private string _buildStats = "";
+
+        /// <summary>
+        /// Gets the BuildStatus property.
+        /// TODO Update documentation:
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// </summary>
+        public string BuildStatus
+        {
+            get
+            {
+                return _buildStats;
+            }
+
+            set
+            {
+                if (_buildStats == value)
+                {
+                    return;
+                }
+
+                var oldValue = _buildStats;
+                _buildStats = value;               
+
+                // Verify Property Exists
+                VerifyPropertyName(BuildStatusPropertyName);
+
+                // Update bindings, no broadcast
+                RaisePropertyChanged(BuildStatusPropertyName);
+            }
+        }
     }
 }

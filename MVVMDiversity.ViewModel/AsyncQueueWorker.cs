@@ -12,6 +12,7 @@ namespace MVVMDiversity.ViewModel
         private Queue<T> _taskQueue = new Queue<T>();
         private AutoResetEvent _hasWork = new AutoResetEvent(false);
 
+        public event Action QueueEmpty;
 
         public AsyncQueueWorker(Action<T> operation)
         {
@@ -26,6 +27,8 @@ namespace MVVMDiversity.ViewModel
                         {
                             _operation(currentTask);
                         }
+                        if (QueueEmpty != null)
+                            QueueEmpty();
                     }
                 });
             worker.IsBackground = true;
@@ -49,6 +52,17 @@ namespace MVVMDiversity.ViewModel
             {
                 _taskQueue.Enqueue(task);
                 _hasWork.Set();
+            }
+        }
+
+        public int WorkItems
+        {
+            get
+            {
+                lock (this)
+                {
+                    return _taskQueue.Count;
+                }
             }
         }
 

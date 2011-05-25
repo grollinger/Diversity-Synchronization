@@ -10,14 +10,11 @@ namespace MVVMDiversity.Messages
 {
     public class Selection : GenericMessage<ICollection<IISOViewModel>>
     {
-        public Selection(ICollection<IISOViewModel> selection)
+        public bool TruncateDataItems { get; private set; }
+        public Selection(ICollection<IISOViewModel> selection, bool truncate)
             : base(selection)
         {
-        }
-
-        public static implicit operator Selection(Collection<IISOViewModel> sel)
-        {
-            return new Selection(sel);
-        }
+            TruncateDataItems = truncate;
+        }        
     }
 }

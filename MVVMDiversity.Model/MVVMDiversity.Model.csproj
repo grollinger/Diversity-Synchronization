@@ -80,7 +80,7 @@
     <Compile Include="DBPaths.cs" />
     <Compile Include="DiversityUserOptions.cs" />
     <Compile Include="MapInfo.cs" />
-    <Compile Include="AsyncOperation.cs" />
+    <Compile Include="AsyncOperationInstance.cs" />
     <Compile Include="OperationState.cs" />
     <Compile Include="ProgressInterval.cs" />
     <Compile Include="Project.cs" />

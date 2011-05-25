@@ -658,33 +658,20 @@ namespace MVVMDiversity.ViewModel
             CanNavigateBack = false;
 
             MessengerInstance.Register<ConnectionStateChanged>(this, (msg) => 
-            {
-                
+            {                
                 updateFromConnectionState(msg.Content);                
             });
             MessengerInstance.Register<Settings>(this, (msg) => { updateFromSettings(msg.Content); });
+            MessengerInstance.Register<ExecuteAction>(this, (msg) =>
+                {
+                    if (msg.Content == Enums.Action.DisconnectRepositories)
+                        disconnectFromRepository();
+                });
             
             _connectRepository = new DelegateCommand(
                 () =>
                 {
-                    this.RepositoryConnecting = true;
-
-                    var uOptions = UserOptions.getOptions();
-                    uOptions.Username = UserName;
-                    UserOptions.setOptions(uOptions);
-
-                    string pass = Password;
-                    new Action(() =>
-                    {
-                        if (uOptions.UseSqlAuthentification)
-                            ConnectionManager.connectRepositorySqlAuth(uOptions.CurrentConnection, UserName, pass);
-                        else
-                            ConnectionManager.connectRepositoryWinAuth(uOptions.CurrentConnection);
-                        RepositoryConnecting = false;
-                    }).BeginInvoke((res) =>
-                    {
-                      
-                    }, null);
+                    connectToRepository();
                 },
                 () =>
                 {
@@ -695,47 +682,19 @@ namespace MVVMDiversity.ViewModel
             DisConnectRepository = new RelayCommand(
                 () =>
                 {
-                    new Action(() =>
-                    {
-                        SessionMgr.endSession();
-                        ConnectionManager.disconnectFromRepository();
-                    }).BeginInvoke(null,null);
+                    disconnectFromRepository();
                 });
 
             ConnectMobile = new RelayCommand(
                 () =>
                 {
-                    if (SessionMgr.canResumeSession())
-                        showYesNoBox("ConnectionsPage_ResumeSession_Title", "ConnectionsPage_ResumeSession_Description", System.Windows.MessageBoxResult.No,
-                            (res) =>
-                            {
-                                if (res == System.Windows.MessageBoxResult.Yes)
-                                {
-                                    new Action<DBPaths>(connectTo).BeginInvoke(SessionMgr.resumeSession(_settings.Paths), null, null);
-                                }
-                                else
-                                {
-                                    SessionMgr.startSession();
-                                    new Action<DBPaths>(connectTo).BeginInvoke(SessionMgr.createWorkingCopies(_settings.Paths), null, null);
-                                }
-                            });
-                    else
-                    {
-                        SessionMgr.startSession();
-                        new Action<DBPaths>(connectTo).BeginInvoke(SessionMgr.createWorkingCopies(_settings.Paths), null, null);
-                    }
-                
-        
-                   
+                    connectToMobile();                  
                 },
                 () => { return !this._mobileConnecting; });
             DisConnectMobile = new RelayCommand(
                 () =>
                 {
-                    new Action(() =>
-                    {
-                        ConnectionManager.disconnectFromMobileDB();
-                    }).BeginInvoke(null, null);
+                    disconnectFromMobile();
                 });
 
             NextPage = Page.ProjectSelection;
@@ -748,6 +707,68 @@ namespace MVVMDiversity.ViewModel
 
             MessengerInstance.Send<SettingsRequest>(new SettingsRequest());
                
+        }
+
+        private void disconnectFromMobile()
+        {
+            new Action(() =>
+            {
+                SessionMgr.endSession();
+                ConnectionManager.disconnectFromMobileDB();
+            }).BeginInvoke(null, null);
+        }
+
+        private void connectToMobile()
+        {
+            if (SessionMgr.canResumeSession())
+                showYesNoBox("ConnectionsPage_ResumeSession_Title", "ConnectionsPage_ResumeSession_Description", System.Windows.MessageBoxResult.No,
+                    (res) =>
+                    {
+                        if (res == System.Windows.MessageBoxResult.Yes)
+                        {
+                            new Action<DBPaths>(connectTo).BeginInvoke(SessionMgr.resumeSession(_settings.Paths), null, null);
+                        }
+                        else
+                        {
+                            SessionMgr.startSession();
+                            new Action<DBPaths>(connectTo).BeginInvoke(SessionMgr.createWorkingCopies(_settings.Paths), null, null);
+                        }
+                    });
+            else
+            {
+                SessionMgr.startSession();
+                new Action<DBPaths>(connectTo).BeginInvoke(SessionMgr.createWorkingCopies(_settings.Paths), null, null);
+            }
+        }
+
+        private void connectToRepository()
+        {
+            this.RepositoryConnecting = true;
+
+            var uOptions = UserOptions.getOptions();
+            uOptions.Username = UserName;
+            UserOptions.setOptions(uOptions);
+
+            string pass = Password;
+            new Action(() =>
+            {
+                if (uOptions.UseSqlAuthentification)
+                    ConnectionManager.connectRepositorySqlAuth(uOptions.CurrentConnection, UserName, pass);
+                else
+                    ConnectionManager.connectRepositoryWinAuth(uOptions.CurrentConnection);
+                RepositoryConnecting = false;
+            }).BeginInvoke((res) =>
+            {
+
+            }, null);
+        }
+
+        private void disconnectFromRepository()
+        {
+            new Action(() =>
+            {                
+                ConnectionManager.disconnectFromRepository();
+            }).BeginInvoke(null, null);
         }
 
         private void connectTo(DBPaths paths)
@@ -841,7 +862,9 @@ namespace MVVMDiversity.ViewModel
                     RepositoryCatalog = settings.CurrentConnection.InitialCatalog;
                     DefinitionsCatalog = settings.CurrentConnection.TaxonNamesInitialCatalog;
                 }
-                UserName = settings.Username;
+                
+                if(!IsRepositoryConnected)
+                    UserName = settings.Username;
                 MobileDBPath = settings.Paths.MobileDB;
                 MobileTaxaPath = settings.Paths.MobileTaxa;
             }

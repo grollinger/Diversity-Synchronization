@@ -646,4 +646,16 @@ You may need additional permissions on the database.</value>
   <data name="Services_Definitions_UpdatingTaxonConfig" xml:space="preserve">
     <value>Updating Taxon Configuration</value>
   </data>
+  <data name="Selection_HasBeenBuilt" xml:space="preserve">
+    <value> Subtrees added to Selection</value>
+  </data>
+  <data name="Selection_Of" xml:space="preserve">
+    <value> Of </value>
+  </data>
+  <data name="Selection_Done" xml:space="preserve">
+    <value>Selection Built!</value>
+  </data>
+  <data name="Selection_WaitingForTree" xml:space="preserve">
+    <value>Waiting for SelectionTree to finish loading.</value>
+  </data>
 </root>

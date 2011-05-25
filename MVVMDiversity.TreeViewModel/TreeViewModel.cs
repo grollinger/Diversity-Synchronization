@@ -28,6 +28,8 @@ using System.Collections.ObjectModel;
 
 namespace MVVMDiversity.ViewModel
 {
+  
+
     public partial class TreeViewModel : ITreeViewModel
     {
         private List<NodeViewModel> _roots;
@@ -64,8 +66,8 @@ namespace MVVMDiversity.ViewModel
                 }
             }
         }
-
-       
+        
+        private bool _updatesSuspended = false;
         
         private IISOViewModelStore _store;
 
@@ -104,17 +106,31 @@ namespace MVVMDiversity.ViewModel
 
         ICollection<ISerializableObject> _selection;
 
+        public event SelectionBuildProgressChangedHandler SelectionBuildProgressChanged;       
+
         public virtual IList<ISerializableObject> buildSelection()
         {
-            _selection = new Collection<ISerializableObject>(); 
+            int rootsCount = _roots.Count;
+            int currentRoot = 0;
+            _selection = new HashSet<ISerializableObject>();
+            progressChanged(rootsCount, currentRoot, null);
             foreach (var root in _roots)
-            {
-                recursiveAddToSelection(root);
+            {               
+                recursiveAddNodeToSelection(root);
+                progressChanged(rootsCount, ++currentRoot, root);
             }
             return _selection.ToList<ISerializableObject>();
         }
 
-        private void recursiveAddToSelection(NodeViewModel node)
+        
+
+        private void progressChanged(int roots, int currentRoot, NodeViewModel root)
+        {
+            if (SelectionBuildProgressChanged != null)
+                SelectionBuildProgressChanged(roots, currentRoot, (root!=null)?root.VM:null);
+        }
+
+        private void recursiveAddNodeToSelection(NodeViewModel node)
         {
             //If this is a Generator, we can add all the ISOs below
             if (node.IsGenerator && !TruncateDataItems)
@@ -124,7 +140,7 @@ namespace MVVMDiversity.ViewModel
                 _selection.Add(node.VM.ISO);
                 addPropertiesToSelection(node.VM);
                 foreach (var childNode in node.Children)
-                    recursiveAddToSelection(childNode);
+                    recursiveAddNodeToSelection(childNode);
             }
         }
 

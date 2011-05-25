@@ -31,6 +31,7 @@ using log4net;
 using GalaSoft.MvvmLight.Threading;
 using System.Threading;
 using System.ComponentModel;
+using System;
 
 namespace MVVMDiversity.ViewModel
 {
@@ -246,6 +247,16 @@ namespace MVVMDiversity.ViewModel
                     setStatus(msg);
                     Thread.Sleep(500); //Delay next Notification                   
                 });
+            _notificationsQueue.QueueEmpty += ()=>
+                {
+                    //Reset Status after 2 seconds
+                    new Action(()=>                    
+                    {
+                        Thread.Sleep(2000);
+                        if(_notificationsQueue.WorkItems == 0)
+                            setStatus("");
+                    }).BeginInvoke(null,null);
+                };
 
             _cancelOperation = new DelegateCommand(
                 () =>
