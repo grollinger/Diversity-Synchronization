@@ -49,5 +49,12 @@ namespace MVVMDiversity.Model
                 return 0;
             return -1;
         }
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !(obj is ConnectionProfile))
+                return false;
+            else
+                return CompareTo(obj as ConnectionProfile) == 0;
+        }
     }
 }

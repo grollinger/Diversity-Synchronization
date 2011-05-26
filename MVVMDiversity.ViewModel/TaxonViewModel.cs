@@ -152,7 +152,7 @@ namespace MVVMDiversity.ViewModel
                         sendLists(finalList);
                     }                   
                 });           
-        }        
+        }       
 
         private void updateTaxonLists()
         {

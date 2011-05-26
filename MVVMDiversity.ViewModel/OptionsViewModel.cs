@@ -27,6 +27,9 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using System.ComponentModel;
 using System.Linq;
+using MVVMDiversity.Messages;
+using MVVMDiversity.Enums;
+using GalaSoft.MvvmLight.Messaging;
 
 
 namespace MVVMDiversity.ViewModel
@@ -211,10 +214,7 @@ namespace MVVMDiversity.ViewModel
                     return;
                 }
                 
-                _selectedP = value;
-
-                if (Options != null)
-                    Options.CurrentConnection = ConnectionProfiles[SelectedProfile];
+                _selectedP = value;               
                        
                 // Verify Property Exists
                 VerifyPropertyName(SelectedProfilePropertyName);
@@ -246,8 +246,9 @@ namespace MVVMDiversity.ViewModel
         /// <summary>
         /// Initializes a new instance of the OptionsViewModel class.
         /// </summary>
-        public OptionsViewModel()
+        public OptionsViewModel(IMessenger msngr)
         {
+            MessengerInstance = msngr;
             SaveOptions = new RelayCommand(
                 () =>
                 {
@@ -255,9 +256,15 @@ namespace MVVMDiversity.ViewModel
                     {
                         if (SelectedCP != null)
                         {
-                            Options.CurrentConnection = SelectedCP;
-                            UserOptions.setOptions(Options);
-                        }                        
+                            if (Options.CurrentConnection != SelectedCP)
+                            {
+                                Options.CurrentConnection = SelectedCP;
+                                MessengerInstance.Send<ExecuteAction>(Action.DisconnectRepositories);
+                                MessengerInstance.Send<NavigateToPage>(Page.Connections);
+                            }
+                            
+                        }
+                        UserOptions.setOptions(Options);
                     }
                 },
                 () =>

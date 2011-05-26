@@ -1228,11 +1228,38 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Selection Built! ähnelt.
+        /// </summary>
+        internal static string Selection_Done {
+            get {
+                return ResourceManager.GetString("Selection_Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  Subtrees added to Selection ähnelt.
+        /// </summary>
+        internal static string Selection_HasBeenBuilt {
+            get {
+                return ResourceManager.GetString("Selection_HasBeenBuilt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Synchronize ähnelt.
         /// </summary>
         internal static string Selection_Next {
             get {
                 return ResourceManager.GetString("Selection_Next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  Of  ähnelt.
+        /// </summary>
+        internal static string Selection_Of {
+            get {
+                return ResourceManager.GetString("Selection_Of", resourceCulture);
             }
         }
         
@@ -1260,6 +1287,15 @@ namespace MVVMDiversity.Properties {
         internal static string Selection_Title {
             get {
                 return ResourceManager.GetString("Selection_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Waiting for SelectionTree to finish loading. ähnelt.
+        /// </summary>
+        internal static string Selection_WaitingForTree {
+            get {
+                return ResourceManager.GetString("Selection_WaitingForTree", resourceCulture);
             }
         }
         

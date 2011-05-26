@@ -110,7 +110,7 @@ namespace MVVMDiversity.ViewModel
             CanNavigateBack = true;
             CanNavigateNext = true;
 
-            QueryDatabase = new RelayCommand(exscuteSearch,
+            QueryDatabase = new RelayCommand(executeSearch,
                 () => ConfiguredSearch != null);
 
             AddToSelection = new RelayCommand<IList>((selection) =>
@@ -151,12 +151,31 @@ namespace MVVMDiversity.ViewModel
                         }
                     }
                 });
+            MessengerInstance.Register<ConnectionStateChanged>(this, (msg) =>
+                {
+                    //Repository Disconnected
+                    if ((msg.Content & ConnectionState.ConnectedToRepository) != ConnectionState.ConnectedToRepository)
+                        clearSelection();
+                });
 
             MessengerInstance.Register<Settings>(this, (msg) => updateFromSettings(msg.Content));
             MessengerInstance.Send<SettingsRequest>(new SettingsRequest());
         }
 
-        void exscuteSearch()
+        private void clearSelection()
+        {
+            ISOStore.Clear();
+
+            _queryResult = null;
+            RaiseQueryResultChanged();
+            QueryResultTree = null;
+
+            _selection = new HashSet<IISOViewModel>();
+            RaiseSelectionChanged();
+            SelectionTree = null;
+        }
+
+        void executeSearch()
         {
             if (FieldData != null)
             {
@@ -181,7 +200,7 @@ namespace MVVMDiversity.ViewModel
 
                     QueryResultTree = new AsyncTreeViewModel(ISOStore);
 
-                    queryResultChanged();
+                    RaiseQueryResultChanged();
 
                     CurrentOperation = null;                    
                 });
@@ -227,7 +246,7 @@ namespace MVVMDiversity.ViewModel
             return list;
         }
 
-        private void queryResultChanged()
+        private void RaiseQueryResultChanged()
         {
             // Verify Property Exists
             VerifyPropertyName(QueryResultPropertyName);
@@ -342,7 +361,7 @@ namespace MVVMDiversity.ViewModel
         /// </summary>
         public const string QueryResultTreePropertyName = "QueryResultTree";
 
-        private ITreeViewModel _qrTree = null;
+        private AsyncTreeViewModel _qrTree = null;
 
         /// <summary>
         /// Gets the QueryResultTree property.
@@ -350,7 +369,7 @@ namespace MVVMDiversity.ViewModel
         /// Changes to that property's value raise the PropertyChanged event. 
         /// This property's value is broadcasted by the Messenger's default instance when it changes.
         /// </summary>
-        public ITreeViewModel QueryResultTree
+        public AsyncTreeViewModel QueryResultTree
         {
             get
             {
@@ -382,7 +401,7 @@ namespace MVVMDiversity.ViewModel
         /// </summary>
         public const string SelectionPropertyName = "Selection";
 
-        private Collection<IISOViewModel> _selection = new Collection<IISOViewModel>();
+        private ICollection<IISOViewModel> _selection = new HashSet<IISOViewModel>();
 
         /// <summary>
         /// Gets the Selection property.
@@ -394,8 +413,9 @@ namespace MVVMDiversity.ViewModel
         {
             get
             {
-                foreach (var gen in _selection)
-                    yield return gen;
+                if(_selection != null)
+                    foreach (var gen in _selection)
+                        yield return gen;
             }           
         }
 
@@ -404,7 +424,7 @@ namespace MVVMDiversity.ViewModel
         /// </summary>
         public const string SelectionTreePropertyName = "SelectionTree";
 
-        private ITreeViewModel _selectionTree = null;
+        private AsyncTreeViewModel _selectionTree = null;
 
         /// <summary>
         /// Gets the SelectionTree property.
@@ -412,7 +432,7 @@ namespace MVVMDiversity.ViewModel
         /// Changes to that property's value raise the PropertyChanged event. 
         /// This property's value is broadcasted by the Messenger's default instance when it changes.
         /// </summary>
-        public ITreeViewModel SelectionTree
+        public AsyncTreeViewModel SelectionTree
         {
             get
             {
@@ -426,7 +446,9 @@ namespace MVVMDiversity.ViewModel
                     return;
                 }
 
-                var oldValue = _selectionTree;
+                if (_selectionTree != null)
+                    _selectionTree.SuspendUpdates = true;
+
                 _selectionTree = value;                
 
                 // Verify Property Exists
@@ -500,7 +522,10 @@ namespace MVVMDiversity.ViewModel
 
         protected override void OnNavigateNext()
         {
-            MessengerInstance.Send<Messages.Selection>(_selection);
+            QueryResultTree.SuspendUpdates = true;
+            SelectionTree.SuspendUpdates = true;
+
+            MessengerInstance.Send<Messages.Selection>(new Selection(_selection,TruncateDataItems));
 
             base.OnNavigateNext();
         }

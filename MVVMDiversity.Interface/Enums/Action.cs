@@ -7,6 +7,7 @@ namespace MVVMDiversity.Enums
 {
     public enum Action
     {
-        CleanDB
+        CleanDB,
+        DisconnectRepositories
     }
 }
