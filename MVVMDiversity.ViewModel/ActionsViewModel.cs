@@ -165,10 +165,7 @@ namespace MVVMDiversity.ViewModel
         private bool _taxDLed = false;
 
         /// <summary>
-        /// Gets the AreTaxaDownloaded property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        ///
         /// </summary>
         public bool AreTaxaDownloaded
         {
@@ -203,10 +200,7 @@ namespace MVVMDiversity.ViewModel
         private bool _fdLoaded = false;
 
         /// <summary>
-        /// Gets the IsFieldDataLoaded property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public bool IsFieldDataLoaded
         {
@@ -242,10 +236,7 @@ namespace MVVMDiversity.ViewModel
         private bool _propsLoaded = false;
 
         /// <summary>
-        /// Gets the ArePropertiesLoaded property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public bool ArePropertiesLoaded
         {
@@ -284,10 +275,7 @@ namespace MVVMDiversity.ViewModel
         private bool _dataUploaded = false;
 
         /// <summary>
-        /// Gets the IsDataUploaded property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public bool IsDataUploaded
         {
@@ -323,10 +311,7 @@ namespace MVVMDiversity.ViewModel
         private bool _dbCleaned = false;
 
         /// <summary>
-        /// Gets the IsDBCleaned property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public bool IsDBCleaned
         {

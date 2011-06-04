@@ -79,10 +79,7 @@ namespace MVVMDiversity.ViewModel
         private double _latitude = 0d;
 
         /// <summary>
-        /// Gets the Latitude property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public double Latitude
         {
@@ -117,10 +114,7 @@ namespace MVVMDiversity.ViewModel
         private double _longitude = 0d;
 
         /// <summary>
-        /// Gets the Longitude property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public double Longitude
         {
@@ -153,10 +147,7 @@ namespace MVVMDiversity.ViewModel
         public const string MapNamePropertyName = "MapName";      
 
         /// <summary>
-        /// Gets the MapName property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        ///
         /// </summary>
         public string MapName
         {
@@ -191,10 +182,7 @@ namespace MVVMDiversity.ViewModel
         public const string MapDescriptionPropertyName = "MapDescription";       
 
         /// <summary>
-        /// Gets the MapDescription property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        ///
         /// </summary>
         public string MapDescription
         {
@@ -229,10 +217,8 @@ namespace MVVMDiversity.ViewModel
         private bool _devSize = true;
 
         /// <summary>
-        /// Gets the UseDeviceSize property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// Determines, if the downloaded Maps should use the entered device screen resolution.
+        /// Otherwise the default Google tile size is used.
         /// </summary>
         public bool UseDeviceSize
         {
@@ -265,10 +251,7 @@ namespace MVVMDiversity.ViewModel
         private int _dHeight = 0;
 
         /// <summary>
-        /// Gets the DeviceHeight property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public int DeviceHeight
         {
@@ -303,10 +286,7 @@ namespace MVVMDiversity.ViewModel
         private int _dWidth = 0;
 
         /// <summary>
-        /// Gets the DeviceWidth property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        ///
         /// </summary>
         public int DeviceWidth
         {

@@ -82,10 +82,7 @@ namespace MVVMDiversity.ViewModel
         private IList<TaxonList> _taxonLists = null;
 
         /// <summary>
-        /// Gets the TaxonLists property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// Available Taxon Lists
         /// </summary>
         public IList<TaxonList> TaxonLists
         {

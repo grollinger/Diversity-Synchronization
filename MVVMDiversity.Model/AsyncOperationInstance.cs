@@ -71,10 +71,7 @@ namespace MVVMDiversity.Model
         private OperationState _state = OperationState.Running;
 
         /// <summary>
-        /// Gets the State property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// Represents the current Status of this Operation
         /// </summary>
         public OperationState State
         {
@@ -109,12 +106,9 @@ namespace MVVMDiversity.Model
 
         private int _progress = 0;
 
-        /// <summary>
-        /// Gets the Progress property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
-        /// </summary>
+       /// <summary>
+       /// The Progress of this Operation in Percent
+       /// </summary>
         public int Progress
         {
             get
@@ -146,10 +140,8 @@ namespace MVVMDiversity.Model
         private string _status = "";
 
         /// <summary>
-        /// Gets the Status property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// A Localization index string used to display a 
+        /// description of the current operation to the user
         /// </summary>
         public string StatusDescription
         {
@@ -184,10 +176,8 @@ namespace MVVMDiversity.Model
         private string _statusOut = "";
 
         /// <summary>
-        /// Gets the StatusOutput property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// An additional String that is displayed as is without localization
+        /// Should be used, to provide additional Progress information to the user.
         /// </summary>
         public string StatusOutput
         {
@@ -218,10 +208,8 @@ namespace MVVMDiversity.Model
         private bool _indet = true;
 
         /// <summary>
-        /// Gets the IsProgressIndeterminate property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// Indicates, whether the Progress can be accurately determined (Percentage) 
+        /// or an indeterminate Progress bar should be displayed
         /// </summary>
         public bool IsProgressIndeterminate
         {

@@ -277,10 +277,7 @@ namespace MVVMDiversity.ViewModel
         public const string SearchTypesPropertyName = "SearchTypes";       
 
         /// <summary>
-        /// Gets the SearchTypes property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// Available Search types
         /// </summary>
         public IEnumerable<SearchSpecification> SearchTypes
         {
@@ -298,10 +295,7 @@ namespace MVVMDiversity.ViewModel
         private SearchSpecification _configuredSearch = null;
 
         /// <summary>
-        /// Gets the ConfiguredSearch property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public SearchSpecification ConfiguredSearch
         {
@@ -339,10 +333,7 @@ namespace MVVMDiversity.ViewModel
         private List<IISOViewModel> _queryResult = null;
 
         /// <summary>
-        /// Gets the QueryResult property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public IEnumerable<IISOViewModel> QueryResult
         {
@@ -364,10 +355,7 @@ namespace MVVMDiversity.ViewModel
         private AsyncTreeViewModel _qrTree = null;
 
         /// <summary>
-        /// Gets the QueryResultTree property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public AsyncTreeViewModel QueryResultTree
         {
@@ -404,10 +392,7 @@ namespace MVVMDiversity.ViewModel
         private ICollection<IISOViewModel> _selection = new HashSet<IISOViewModel>();
 
         /// <summary>
-        /// Gets the Selection property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public IEnumerable<IISOViewModel> Selection
         {
@@ -427,10 +412,7 @@ namespace MVVMDiversity.ViewModel
         private AsyncTreeViewModel _selectionTree = null;
 
         /// <summary>
-        /// Gets the SelectionTree property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public AsyncTreeViewModel SelectionTree
         {
@@ -467,10 +449,7 @@ namespace MVVMDiversity.ViewModel
         private bool _truncate = false;
 
         /// <summary>
-        /// Gets the TruncateDataItems property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// Determines, whether adding an ISO to the selection also adds all ISOs below this one in the tree.
         /// </summary>
         public bool TruncateDataItems
         {

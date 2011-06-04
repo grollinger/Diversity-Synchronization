@@ -36,10 +36,7 @@ namespace MVVMDiversity.Model
         private string _mDB = "";
 
         /// <summary>
-        /// Gets the MobileDB property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// The path to the Mobile database file
         /// </summary>
         public string MobileDB
         {
@@ -73,10 +70,7 @@ namespace MVVMDiversity.Model
         private string _mTax = "";
 
         /// <summary>
-        /// Gets the MobileTaxa property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// The Path to the Taxon database file
         /// </summary>
         public string MobileTaxa
         {

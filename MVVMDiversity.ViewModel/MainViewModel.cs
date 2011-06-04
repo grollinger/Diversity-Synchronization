@@ -88,10 +88,7 @@ namespace MVVMDiversity.ViewModel
         private Page _currentPage = Page.Connections;
 
         /// <summary>
-        /// Gets the CurrentPage property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// Provides a reference to the currently displaying Page object
         /// </summary>
         public Page CurrentPage
         {
@@ -205,10 +202,7 @@ namespace MVVMDiversity.ViewModel
         private string _status = "";
 
         /// <summary>
-        /// Gets the Status property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// Localization index string used to display a notification to the user
         /// </summary>
         public string Status
         {

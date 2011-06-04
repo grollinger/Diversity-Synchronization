@@ -83,10 +83,7 @@ namespace MVVMDiversity.ViewModel
         }      
         
         /// <summary>
-        /// Gets the SaveOptions property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public ICommand SaveOptions
         {
@@ -113,10 +110,7 @@ namespace MVVMDiversity.ViewModel
         }
 
         /// <summary>
-        /// Gets the Options property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public DiversityUserOptions Options
         {
@@ -158,10 +152,7 @@ namespace MVVMDiversity.ViewModel
                 
 
         /// <summary>
-        /// Gets the ConnectionProfiles property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// Available connection profiles
         /// </summary>
         public IList<ConnectionProfile> ConnectionProfiles
         {
@@ -195,10 +186,7 @@ namespace MVVMDiversity.ViewModel
         private int _selectedP = 0;
 
         /// <summary>
-        /// Gets the SelectedProfile property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public int SelectedProfile
         {

@@ -67,10 +67,7 @@ namespace MVVMDiversity.ViewModel
             private bool _isExpanded = false;
         
             /// <summary>
-            /// Gets the IsExpanded property.
-            /// TODO Update documentation:
-            /// Changes to that property's value raise the PropertyChanged event. 
-            /// This property's value is broadcasted by the Messenger's default instance when it changes.
+            /// Whether the Node is shown expanded in the TreeView
             /// </summary>
             public bool IsExpanded
             {
@@ -94,40 +91,7 @@ namespace MVVMDiversity.ViewModel
                     // Update bindings, no broadcast
                     RaisePropertyChanged(IsExpandedPropertyName);
                 }
-            }        
-
-            /// <summary>
-            /// The <see cref="IsBusy" /> property's name.
-            /// </summary>
-            public const string IsBusyPropertyName = "IsBusy";
-
-            private bool _isBusy = false;
-
-            /// <summary>
-            /// Gets the IsBusy property.
-            /// TODO Update documentation:
-            /// Changes to that property's value raise the PropertyChanged event.
-            /// </summary>
-            public bool IsBusy
-            {
-                get
-                {
-                    return _isBusy;
-                }
-
-                protected set
-                {
-                    if (_isBusy == value)
-                    {
-                        return;
-                    }                
-
-                    _isBusy = value;           
-
-                    // Update bindings, no broadcast
-                    RaisePropertyChanged(IsBusyPropertyName);            
-                }
-            }
+            }         
 
             /// <summary>
             /// The <see cref="IsGenerator" /> property's name.
@@ -137,9 +101,8 @@ namespace MVVMDiversity.ViewModel
             private bool _isGen = false;
 
             /// <summary>
-            /// Gets the IsGenerator property.
-            /// TODO Update documentation:
-            /// Changes to that property's value raise the PropertyChanged event.        
+            /// Whether the Object represented in this Node was explicitly added to the selection.
+            /// Determines how its dependent Objects should be treated.
             /// </summary>
             public bool IsGenerator
             {
@@ -175,10 +138,7 @@ namespace MVVMDiversity.ViewModel
             private IList<NodeViewModel> _childNodes = new List<NodeViewModel>(){DUMMY};     
 
             /// <summary>
-            /// Gets the ChildVMs property.
-            /// TODO Update documentation:
-            /// Changes to that property's value raise the PropertyChanged event. 
-            /// This property's value is broadcasted by the Messenger's default instance when it changes.
+            /// 
             /// </summary>
             public IEnumerable<NodeViewModel> Children
             {

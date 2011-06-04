@@ -142,10 +142,7 @@ namespace MVVMDiversity.ViewModel
         private ITreeViewModel _selTree = null;
 
         /// <summary>
-        /// Gets the SelectionTree property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public ITreeViewModel SelectionTree
         {
@@ -179,10 +176,7 @@ namespace MVVMDiversity.ViewModel
         private int _buildProgress = 0;
 
         /// <summary>
-        /// Gets the BuildProgress property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public int BuildProgress
         {
@@ -217,10 +211,7 @@ namespace MVVMDiversity.ViewModel
         private int _rootCount = 0;
 
         /// <summary>
-        /// Gets the RootCount property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// How Many root ISOs are part of the Selection
         /// </summary>
         public int RootCount
         {
@@ -255,10 +246,7 @@ namespace MVVMDiversity.ViewModel
         private int _currRootNo = 0;
 
         /// <summary>
-        /// Gets the CurrentRootNo property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public int CurrentRootNo
         {
@@ -294,10 +282,7 @@ namespace MVVMDiversity.ViewModel
         private bool _buildingSelection = false;
 
         /// <summary>
-        /// Gets the SelectionBuilt property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public bool BuildingSelection
         {
@@ -332,10 +317,7 @@ namespace MVVMDiversity.ViewModel
         private string _buildStats = "";
 
         /// <summary>
-        /// Gets the BuildStatus property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public string BuildStatus
         {

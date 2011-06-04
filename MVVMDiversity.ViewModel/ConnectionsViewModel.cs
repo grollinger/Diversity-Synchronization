@@ -78,10 +78,7 @@ namespace MVVMDiversity.ViewModel
         private bool _isRepConnected = false;
 
         /// <summary>
-        /// Gets the IsRepositoryConnected property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public bool IsRepositoryConnected
         {
@@ -118,10 +115,7 @@ namespace MVVMDiversity.ViewModel
         private bool _isDefConnected = false;
 
         /// <summary>
-        /// Gets the IsDefinitionsConnected property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public bool IsDefinitionsConnected
         {
@@ -156,10 +150,7 @@ namespace MVVMDiversity.ViewModel
         private bool _IsMobileConnected = false;
 
         /// <summary>
-        /// Gets the IsMobileConnected property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public bool IsMobileConnected
         {
@@ -194,10 +185,7 @@ namespace MVVMDiversity.ViewModel
         private bool _isMobTaxConnected = false;
 
         /// <summary>
-        /// Gets the IsMobileTaxaConnected property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public bool IsMobileTaxaConnected
         {
@@ -232,10 +220,7 @@ namespace MVVMDiversity.ViewModel
         private string _repCat = "Repository Catalog";
 
         /// <summary>
-        /// Gets the RepositoryCatalog property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public string RepositoryCatalog
         {
@@ -270,10 +255,7 @@ namespace MVVMDiversity.ViewModel
         private string _defCat = "Definitions Catalog";
 
         /// <summary>
-        /// Gets the DefinitionsCatalog property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public string DefinitionsCatalog
         {
@@ -309,10 +291,7 @@ namespace MVVMDiversity.ViewModel
         private string _user = "";
 
         /// <summary>
-        /// Gets the Username property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public string UserName
         {
@@ -350,10 +329,7 @@ namespace MVVMDiversity.ViewModel
         private string _pass = "";
 
         /// <summary>
-        /// Gets the Password property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public string Password
         {
@@ -391,10 +367,7 @@ namespace MVVMDiversity.ViewModel
         private bool _isPasswordVisible = false;
 
         /// <summary>
-        /// Gets the IsPasswordVisible property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public bool IsPasswordVisible
         {
@@ -424,10 +397,7 @@ namespace MVVMDiversity.ViewModel
         private bool _credsRequired = false;
 
         /// <summary>
-        /// Gets the UserCredentialsRequired property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         private bool UserCredentialsRequired
         {
@@ -457,10 +427,7 @@ namespace MVVMDiversity.ViewModel
         private bool _canChangeCreds = true;
 
         /// <summary>
-        /// Gets the CanChangeCredentials property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public bool CanChangeCredentials
         {
@@ -495,10 +462,7 @@ namespace MVVMDiversity.ViewModel
         private string _connProfile = "Profile Name";
 
         /// <summary>
-        /// Gets the ConnectionsProfile property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public string ConnectionsProfile
         {
@@ -533,10 +497,7 @@ namespace MVVMDiversity.ViewModel
         private string _mobDB = "Mobile DB";
 
         /// <summary>
-        /// Gets the MobileDBPath property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        ///
         /// </summary>
         public string MobileDBPath
         {
@@ -571,10 +532,7 @@ namespace MVVMDiversity.ViewModel
         private string _mobTax = "Mobile Taxa";
 
         /// <summary>
-        /// Gets the MobileTaxaPath property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public string MobileTaxaPath
         {

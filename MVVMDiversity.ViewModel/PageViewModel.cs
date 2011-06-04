@@ -169,7 +169,8 @@ namespace MVVMDiversity.ViewModel
                 if (_currOp != null)
                 {
                     showProgress();
-                    _currOp.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(_currOp_PropertyChanged);
+                    _currOp.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(OperationStateChanged);
+                    OperationStateChanged(_currOp, new System.ComponentModel.PropertyChangedEventArgs(AsyncOperationInstance.StatePropertyName));
                 }
 
                 else
@@ -180,11 +181,14 @@ namespace MVVMDiversity.ViewModel
             }
         }
 
-        void  _currOp_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        void  OperationStateChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == AsyncOperationInstance.StatePropertyName)
             {
-
+                var op = (sender as AsyncOperationInstance);
+                if (op != null && op.State != OperationState.Running)
+                    CurrentOperation = null;
+                    
             }
         }
         

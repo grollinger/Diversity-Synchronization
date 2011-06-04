@@ -102,10 +102,7 @@ namespace MVVMDiversity.ViewModel
         private IList<Project> _Projects = null;
 
         /// <summary>
-        /// Gets the Projects property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// Available Projects
         /// </summary>
         public IList<Project> Projects
         {
@@ -141,10 +138,7 @@ namespace MVVMDiversity.ViewModel
         private Project _selection = null;
 
         /// <summary>
-        /// Gets the Selection property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public Project Selection
         {

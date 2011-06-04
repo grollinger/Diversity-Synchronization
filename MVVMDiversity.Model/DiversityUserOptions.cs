@@ -43,10 +43,7 @@ namespace MVVMDiversity.Model
         private bool _useSql = true;
 
         /// <summary>
-        /// Gets the UseSqlAuthentification property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public bool UseSqlAuthentification
         {
@@ -84,10 +81,7 @@ namespace MVVMDiversity.Model
         private ConnectionProfile _connection = null;
 
         /// <summary>
-        /// Gets the CurrentConnection property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public ConnectionProfile CurrentConnection
         {
@@ -134,10 +128,7 @@ namespace MVVMDiversity.Model
         private bool _useDevDim = false;
 
         /// <summary>
-        /// Gets the UseDeviceDimensions property.
-        /// TODO Update documentation:
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// This property's value is broadcasted by the Messenger's default instance when it changes.
+        /// 
         /// </summary>
         public bool UseDeviceDimensions
         {
