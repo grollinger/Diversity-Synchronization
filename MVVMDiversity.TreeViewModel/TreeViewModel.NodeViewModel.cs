@@ -32,13 +32,15 @@ namespace MVVMDiversity.ViewModel
     {
         private class NodeViewModel : INodeViewModel
         {
+            private static readonly NodeViewModel DUMMY = new NodeViewModel(null, null);
+
             IISOViewModel _vm;
             TreeViewModel _owner;
             public NodeViewModel(IISOViewModel vm, TreeViewModel owner)
             {
                 _vm = vm;
                 _owner = owner;
-                if(_vm.Properties != null)
+                if(_vm != null && _vm.Properties != null)
                     foreach (var property in _vm.Properties)
                     {
                         _propertyVMs.Add(_owner.addOrRetrieveISOVM(property));
@@ -170,7 +172,7 @@ namespace MVVMDiversity.ViewModel
             /// </summary>
             public const string ChildrenPropertyName = "Children";
 
-            private IList<NodeViewModel> _childNodes = new List<NodeViewModel>();     
+            private IList<NodeViewModel> _childNodes = new List<NodeViewModel>(){DUMMY};     
 
             /// <summary>
             /// Gets the ChildVMs property.
@@ -282,7 +284,7 @@ namespace MVVMDiversity.ViewModel
 
             protected void performExpansion()
             {
-                bool childrenChanged = false;
+                bool childrenChanged = _childNodes.Remove(DUMMY);
                 if (BelowOrIsGenerator() && !_owner.TruncateDataItems)
                 {
                     foreach (var iso in _vm.Children)

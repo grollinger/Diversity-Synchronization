@@ -165,13 +165,26 @@ namespace MVVMDiversity.ViewModel
             {
                 if(_currOp != value)
                     _currOp = value;
+
                 if (_currOp != null)
+                {
                     showProgress();
+                    _currOp.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(_currOp_PropertyChanged);
+                }
+
                 else
                     hideProgress();
 
                 RaiseCanNavigateBackChanged();
                 RaiseCanNavigateNextChanged();
+            }
+        }
+
+        void  _currOp_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == AsyncOperationInstance.StatePropertyName)
+            {
+
             }
         }
         
