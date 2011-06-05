@@ -58,7 +58,7 @@ namespace MVVMDiversity.Services
             public void uploadFieldDataWorker(string userNr, int projectID)
             {
                 _operation.IsProgressIndeterminate = true;
-                _operation.StatusDescription = "Services_FieldData_Uploading";
+                _operation.StatusDescription = "Services_FieldData_CalculatingDifferences";
 
                 getSerializers();
 
@@ -72,7 +72,9 @@ namespace MVVMDiversity.Services
 
                     try
                     {
+                        analyzeData();
                         syncData();
+                        _operation.success();
                     }
                     catch (Exception ex)
                     {
@@ -91,7 +93,7 @@ namespace MVVMDiversity.Services
             public void downloadFieldDataWorker(IList<ISerializableObject> selection)
             {
                 _operation.IsProgressIndeterminate = true;
-                _operation.StatusDescription = "Services_FieldData_Downloading";
+                _operation.StatusDescription = "Services_FieldData_CalculatingDifferences";
 
                 getSerializers();
 
@@ -102,11 +104,13 @@ namespace MVVMDiversity.Services
                     configureDownloadANSL(selection);
                     try
                     {
+                        analyzeData();
                         syncData();
+                        _operation.success();
                     }
                     catch (Exception ex)
                     {
-                        _Log.ErrorFormat("Excpetion downloading data: [{0}]", ex);
+                        _Log.ErrorFormat("Exception downloading data: [{0}]", ex);
                         _operation.failure("Services_Definitions_Error_ErrorDownloading", "");
                     }
                     
@@ -152,8 +156,9 @@ namespace MVVMDiversity.Services
                 _ansl = new AnalyzeSyncObjectList(syncList, _mobileDB, _repository, _sync, snsb);
             }
 
-            private void syncData()
+            private void analyzeData()
             {
+
                 _ansl.analyzeAll();
 
                 var ignoredStates = new List<SyncStates_Enum>() 
@@ -172,11 +177,13 @@ namespace MVVMDiversity.Services
                     var objectsOfState = _ansl.getObjectsOfState(state);
                     foreach (var objectOfState in objectsOfState)
                         objectOfState.State = SyncStates_Enum.IgnoreState;
-                }
-
+                }                
+            }
+            private void syncData()
+            {
                 _ansl.synchronizeAll();
 
-                _operation.success();
+                
             }
 
             private IList<Type> uploadTypes()

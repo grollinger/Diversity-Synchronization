@@ -1399,6 +1399,15 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Calculating Differences ähnelt.
+        /// </summary>
+        internal static string Services_FieldData_CalculatingDifferences {
+            get {
+                return ResourceManager.GetString("Services_FieldData_CalculatingDifferences", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Downloading Field Data ähnelt.
         /// </summary>
         internal static string Services_FieldData_Downloading {
