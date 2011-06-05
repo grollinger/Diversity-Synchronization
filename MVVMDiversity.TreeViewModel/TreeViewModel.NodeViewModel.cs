@@ -32,7 +32,7 @@ namespace MVVMDiversity.ViewModel
     {
         private class NodeViewModel : INodeViewModel
         {
-            private static readonly NodeViewModel DUMMY = new NodeViewModel(null, null);
+            
 
             IISOViewModel _vm;
             TreeViewModel _owner;
@@ -45,6 +45,15 @@ namespace MVVMDiversity.ViewModel
                     {
                         _propertyVMs.Add(_owner.addOrRetrieveISOVM(property));
                     }
+
+                _childNodes = new List<NodeViewModel>(); 
+                var firstChilld = _vm.Children.FirstOrDefault();
+                if (firstChilld != null)
+                {
+                    var childVM = _owner.addOrRetrieveISOVM(firstChilld);
+                    var node = _owner.addOrRetrieveNode(childVM);
+                    _childNodes.Add(node);
+                }
             }
 
             #region Properties
@@ -135,7 +144,7 @@ namespace MVVMDiversity.ViewModel
             /// </summary>
             public const string ChildrenPropertyName = "Children";
 
-            private IList<NodeViewModel> _childNodes = new List<NodeViewModel>(){DUMMY};     
+            private IList<NodeViewModel> _childNodes;    
 
             /// <summary>
             /// 
@@ -203,7 +212,7 @@ namespace MVVMDiversity.ViewModel
             }
 
             /// <summary>
-            /// Removes every unnecessary Node in this Subtree recursively
+            /// 
             /// </summary>
             /// <returns>wheter this Node is still necessary</returns>
             internal bool isNecessary()
@@ -244,7 +253,7 @@ namespace MVVMDiversity.ViewModel
 
             protected void performExpansion()
             {
-                bool childrenChanged = _childNodes.Remove(DUMMY);
+                bool childrenChanged = false;
                 if (BelowOrIsGenerator() && !_owner.TruncateDataItems)
                 {
                     foreach (var iso in _vm.Children)

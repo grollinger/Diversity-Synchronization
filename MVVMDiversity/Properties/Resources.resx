@@ -658,4 +658,10 @@ You may need additional permissions on the database.</value>
   <data name="Selection_WaitingForTree" xml:space="preserve">
     <value>Waiting for SelectionTree to finish loading.</value>
   </data>
+  <data name="Services_Definitions_Error_ErrorDownloading" xml:space="preserve">
+    <value>An error occurred while downloading data. Please contact your administrator for assistance.</value>
+  </data>
+  <data name="Services_FieldData_Error_ErrorUploading" xml:space="preserve">
+    <value>An error occurred while uploading data. Please contact your administrator for assistance.</value>
+  </data>
 </root>

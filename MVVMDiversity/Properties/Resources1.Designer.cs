@@ -1309,6 +1309,15 @@ namespace MVVMDiversity.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die An error occurred while downloading data. Please contact your administrator for assistance. ähnelt.
+        /// </summary>
+        internal static string Services_Definitions_Error_ErrorDownloading {
+            get {
+                return ResourceManager.GetString("Services_Definitions_Error_ErrorDownloading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die An Error occured, while downloading Taxon Data. ähnelt.
         /// </summary>
         internal static string Services_Definitions_Error_LoadingTaxa {
@@ -1395,6 +1404,15 @@ namespace MVVMDiversity.Properties {
         internal static string Services_FieldData_Downloading {
             get {
                 return ResourceManager.GetString("Services_FieldData_Downloading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die An error occurred while uploading data. Please contact your administrator for assistance. ähnelt.
+        /// </summary>
+        internal static string Services_FieldData_Error_ErrorUploading {
+            get {
+                return ResourceManager.GetString("Services_FieldData_Error_ErrorUploading", resourceCulture);
             }
         }
         

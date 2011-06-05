@@ -68,9 +68,18 @@ namespace MVVMDiversity.Services
 
                 if (_mobileDB != null && _repository != null && _sync != null)
                 {
-                    configureUploadANSL();                   
+                    configureUploadANSL();
 
-                    syncData();
+                    try
+                    {
+                        syncData();
+                    }
+                    catch (Exception ex)
+                    {
+                        _Log.ErrorFormat("Exception while updloading Data: [%0]", ex);
+                        _operation.failure("Services_FieldData_Error_ErrorUploading", "");
+                    }
+                   
                 }
                 else
                     _Log.Error("At least one Serializer is missing!");
@@ -91,8 +100,16 @@ namespace MVVMDiversity.Services
                 if (_mobileDB != null && _repository != null && _sync != null)
                 {
                     configureDownloadANSL(selection);
+                    try
+                    {
+                        syncData();
+                    }
+                    catch (Exception ex)
+                    {
+                        _Log.ErrorFormat("Excpetion downloading data: [%0]", ex);
+                        _operation.failure("Services_Definitions_Error_ErrorDownloading", "");
+                    }
                     
-                    syncData();
                 }
                 else
                     _Log.Error("At least one Serializer is missing!");
