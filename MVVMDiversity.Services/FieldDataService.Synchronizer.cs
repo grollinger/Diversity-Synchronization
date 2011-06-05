@@ -76,7 +76,7 @@ namespace MVVMDiversity.Services
                     }
                     catch (Exception ex)
                     {
-                        _Log.ErrorFormat("Exception while updloading Data: [%0]", ex);
+                        _Log.ErrorFormat("Exception while updloading Data: [{0}]", ex);
                         _operation.failure("Services_FieldData_Error_ErrorUploading", "");
                     }
                    
@@ -106,7 +106,7 @@ namespace MVVMDiversity.Services
                     }
                     catch (Exception ex)
                     {
-                        _Log.ErrorFormat("Excpetion downloading data: [%0]", ex);
+                        _Log.ErrorFormat("Excpetion downloading data: [{0}]", ex);
                         _operation.failure("Services_Definitions_Error_ErrorDownloading", "");
                     }
                     

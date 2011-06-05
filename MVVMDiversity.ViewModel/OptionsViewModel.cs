@@ -258,7 +258,7 @@ namespace MVVMDiversity.ViewModel
                 () =>
                 {
                     return Options.Error == null;
-                });
+                }); 
             
         }
 
