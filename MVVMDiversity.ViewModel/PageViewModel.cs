@@ -292,6 +292,12 @@ namespace MVVMDiversity.ViewModel
                });
         }
         
+        /// <summary>
+        /// Displays a message box to the user
+        /// </summary>
+        /// <param name="caption">the String id of the localized caption string</param>
+        /// <param name="content">the String id of the localized content string</param>
+        /// <param name="callback">callback function that will be called, when the dialog is closed</param>
         protected void showMessageBox(string caption, string content, Action<MessageBoxResult> callback)
         {
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
@@ -306,6 +312,14 @@ namespace MVVMDiversity.ViewModel
                 });
         }
 
+
+        /// <summary>
+        /// Displays a yes/no Message Box to the user
+        /// </summary>
+        /// <param name="caption">the String id of the localized caption string</param>
+        /// <param name="content">the String id of the localized content string</param>
+        /// <param name="defaultResult">Result that will be returned, if the user closes the dialog by any method other than the yes or no buttons</param>
+        /// <param name="callback">callback function that will be called, when the dialog is closed</param>
         protected void showYesNoBox(string caption, string content, MessageBoxResult defaultResult, Action<MessageBoxResult> callback)
         {
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
